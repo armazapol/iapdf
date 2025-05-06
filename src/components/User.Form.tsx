@@ -19,7 +19,7 @@ export default function UserForm({evento, userId}: Props) {
 
     
     const goBack = () =>{
-        router.push('/users');
+        router.push('/home/usermanagement');
     }
 
     const handleSaveChanges = (e:React.MouseEvent<HTMLButtonElement>) => {

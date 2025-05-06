@@ -1,19 +1,16 @@
-.tableContainer{
+  .tableUserContainer{
     position: relative;
-    width: 1110px;
+    padding: 0 25px;
     height: 504px;
-    top: 112px;
-    left: 282px;
     border-radius: 15px;
     background-color: #FFFFFF;
     box-shadow: 0 4px 8.8px 0 #00000021;
     & .header{
         display: flex;
         justify-content: space-between;
-        left: 21px;
         top: 26px;
         position: relative;
-        width: 1063.5px;
+        width: auto;
         & p{
             font-weight: 700;
             font-size: 24px;
@@ -37,11 +34,10 @@
         }
     }
     & .tableUser{
-       
-        width: 1063.5px;
+        width: 100%;
         top: 56.5px;
-        left: 21px;
         position: relative;
+        
         & thead{
             text-align: left;
             font-weight: 700;
