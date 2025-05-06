@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import "./globals.css";
+=======
+import './globals.css'; 
+>>>>>>> 741634173226c2ed36b9b943f2cf8782f98dd5cc
 
 export const metadata = {
   title: "Mandy Lí",
