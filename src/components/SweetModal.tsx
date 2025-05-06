@@ -33,7 +33,7 @@ export default function SweetModal({ evento, show = false, onClose }: Props) {
       };
   
       showModal(); // Ejecutamos la función asíncrona
-    }, [show, evento, onClose]); // Dependencias para que se ejecute correctamente
+    }, [show, evento, onClose]); // Dependencia para que se ejecute correctamente
   
-    return null; // No renderiza nada en la UI directamente
+    return null; 
   }

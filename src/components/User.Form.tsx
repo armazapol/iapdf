@@ -30,7 +30,7 @@ export default function UserForm({evento, userId}: Props) {
   return (
     <div className={style.formContainer}>
         <div className={style.div}>
-            <form action="">
+            <form action="" className={style.form}>
                 <div className={style.backArrow}>
                     <Image 
                     src="/arrow-right.png"

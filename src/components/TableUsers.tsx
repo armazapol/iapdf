@@ -70,11 +70,11 @@ export default function TableUsers() {
     );
   };
   
-  const handleEdit = (id:string) => {
-    router.push(`/users/edit/${id}`)
+  const handleEdit = () => {
+    router.push(`/home/usermanagement/edit`)
   }
   const handleNewUser = () => {
-    router.push('/users/new')
+    router.push('/home/usermanagement/new')
   }
 
 //   useEffect(() => {
@@ -140,7 +140,7 @@ export default function TableUsers() {
                 </label>
             </td>
             <td className={style.rowEdit}>
-              <button onClick={()=> handleEdit(user.id)} >
+              <button onClick={()=> handleEdit()} >
                 Edit
               </button>
             </td>
