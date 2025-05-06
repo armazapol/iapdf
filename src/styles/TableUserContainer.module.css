@@ -59,7 +59,6 @@
                 letter-spacing: 0%;
                 color: #2D3748;
                 border-top: 1px solid #E2E8F0;
-               
                 & td{
                    padding-top: 20px;
                    
@@ -78,6 +77,10 @@
                     line-height: 140%;
                     letter-spacing: 0%;
                     color: #718096;
+                }
+                & .tdSwich{
+                    padding-left: 8px;
+                    
                 }
             }
         }

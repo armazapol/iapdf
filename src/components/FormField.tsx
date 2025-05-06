@@ -10,19 +10,18 @@ type Props = {
     label: string;
     name: string;
     type?: string;
-    value?: string;
-    onChange?: React.ChangeEventHandler<HTMLSelectElement | HTMLInputElement>;
+    // onChange?: React.ChangeEventHandler<HTMLSelectElement | HTMLInputElement>;
     options?: Option[]
   };
 
 
-export default function FormField({label, name, type, value, onChange, options=[]}: Props){
+export default function FormField({label, name, type, options=[]}: Props){
     return(
         <div className={style.inputField}>
             <label htmlFor={name}>{label}</label>
             {type=='select' ? (
                 <div className={style.selectWrapper}>
-                    <select name={name} className={`${style.input} ${style.select}`} value={value} onChange={onChange} >
+                    <select name={name} className={`${style.input} ${style.select}`}>
                         <option value="" hidden >Choose a role</option>
                         {options.map( (ops) => (
                             <option key={ops.value} value={ops.value}>
@@ -43,10 +42,8 @@ export default function FormField({label, name, type, value, onChange, options=[
                     type={type}
                     id={name}
                     name={name}
-                    value={value}
                     placeholder={label}
                     className={style.input}
-                    onChange={onChange}
                     />
                     {type === 'password' && (
                         <Image 

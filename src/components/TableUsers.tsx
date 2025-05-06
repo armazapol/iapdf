@@ -133,7 +133,7 @@ export default function TableUsers() {
             <td>{user.function}</td>
             <td>{user.fechaInicio}</td>
             <td>{user.fechaModification}</td>
-            <td>
+            <td className={style.tdSwich}>
                <label className="switch">
                   <input type="checkbox" id="toggle" checked={user.active} onChange={() => toggleUserActive(user.id)}  />
                   <span className="slider"></span>

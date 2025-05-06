@@ -15,13 +15,23 @@ type Props = {
 export default function UserForm({evento, userId}: Props) {
     const router = useRouter()
     const [showModal, setShowModal] = useState(false)
-    const [name, setName] = useState("");
+    const [formData, setFormData] = useState({
+        name: '',
+        lastName: '',
+        email: '',
+        role: '',
+        username: '',
+        password: '',
+        repeatPassword: ''
+    })
 
+    const isCompleteForm = Object.values(formData).every(value => value.trim() !== '')
     
     const goBack = () =>{
         router.push('/home/usermanagement');
     }
-
+    
+    //Manejador de modal
     const handleSaveChanges = (e:React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault(); 
         setShowModal(true);  
@@ -51,22 +61,16 @@ export default function UserForm({evento, userId}: Props) {
                             label="Name"
                             name="name"
                             type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}  
                             />
                             <FormField 
                             label="Last name"
                             name="last name"
                             type="input"
-                            value=""
-                            onChange={(e) => setName(e.target.value)}  
                             />
                             <FormField 
                             label="Email"
                             name="email"
                             type="email"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}  
                             />
                             <FormField 
                             label="Role"
@@ -75,9 +79,7 @@ export default function UserForm({evento, userId}: Props) {
                             options=
                             {[  { value: 'admin', label: 'Admin' },
                                 { value: 'editor', label: 'Editor' },
-                            ]}
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}  
+                            ]} 
                             />
                         </div>
                     </div>
@@ -101,7 +103,7 @@ export default function UserForm({evento, userId}: Props) {
                             />
                         </div>
                     </div>
-                    <button type="submit" className={style.saveBtn} onClick={handleSaveChanges}>Save changes</button>
+                    <button type="submit" className={style.saveBtn} onClick={handleSaveChanges} disabled={isCompleteForm}>Save changes</button>
                 </div>
             </form>
         </div>
