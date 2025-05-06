@@ -1,3 +1,5 @@
+import "./globals.css";
+
 export const metadata = {
   title: "Mandy Lí",
   description: "Sistema de autenticación",

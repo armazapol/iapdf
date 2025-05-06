@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+/* 
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -23,4 +23,78 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+} */
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins-Regular.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+body{
+  font-family: 'Poppins', sans-serif;
+}
+
+/* swicht */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+/* Oculta el checkbox para que no se vea, pero siga funcionando */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  border: 1px solid ;
+}
+
+/* El slider (la parte que se desliza) */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #D1D1D6;
+  transition: 0.4s;
+  border-radius: 34px;
+  width: 50px;
+  height: 24px;
+}
+
+/* El círculo dentro del switch */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  bottom: 4px;
+  background-color: #FFFFFF;
+  transition: 0.4s;
+}
+
+/* Estilo cuando el switch está activado */
+input:checked + .slider {
+  background-color: #B32646;
+ 
+}
+
+/* Mueve el círculo hacia la derecha cuando está activado */
+input:checked + .slider:before {
+  transform: translateX(26px);
 }
