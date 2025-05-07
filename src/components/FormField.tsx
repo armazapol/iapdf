@@ -1,5 +1,8 @@
+"use client";
+
 import style from "../styles/UserForm.module.css"
 import Image from "next/image";
+import { useState } from "react";
 
 type Option = {
     value: string;
@@ -10,18 +13,28 @@ type Props = {
     label: string;
     name: string;
     type?: string;
-    // onChange?: React.ChangeEventHandler<HTMLSelectElement | HTMLInputElement>;
+    value: string
+    required?: boolean
+    onChange?: React.ChangeEventHandler<HTMLSelectElement | HTMLInputElement>;
     options?: Option[]
   };
 
 
-export default function FormField({label, name, type, options=[]}: Props){
+export default function FormField({label, name, type, value, onChange, options=[]}: Props){
+
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const togglePasswordVisibility = () => {
+        setIsPasswordVisible(!isPasswordVisible);
+      };
+
+    const inputType = type === 'password' && isPasswordVisible ? 'text' : type;
+
     return(
         <div className={style.inputField}>
             <label htmlFor={name}>{label}</label>
             {type=='select' ? (
                 <div className={style.selectWrapper}>
-                    <select name={name} className={`${style.input} ${style.select}`}>
+                    <select name={name} value={value} onChange={onChange} className={`${style.input} ${style.select}`}>
                         <option value="" hidden >Choose a role</option>
                         {options.map( (ops) => (
                             <option key={ops.value} value={ops.value}>
@@ -39,10 +52,13 @@ export default function FormField({label, name, type, options=[]}: Props){
             ) : (
                 <div className={style.inputWrapper}>
                     <input
-                    type={type}
                     id={name}
                     name={name}
+                    type={inputType}
+                    required
+                    value={value}
                     placeholder={label}
+                    onChange={onChange}
                     className={style.input}
                     />
                     {type === 'password' && (
@@ -52,6 +68,7 @@ export default function FormField({label, name, type, options=[]}: Props){
                         width={18}
                         height={18}
                         className={style.eye}
+                        onClick={togglePasswordVisibility}
                        />
                     )}
               </div>
