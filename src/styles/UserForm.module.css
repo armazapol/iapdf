@@ -98,6 +98,24 @@
     cursor: pointer;
 }
 
+.btnTrue{
+    width: 923px;
+    max-width: 1225px;
+    height: 44px;
+    color: #EDEEEF;
+    background-color: #2E3A59;
+    border: 1px solid #B2B2B2;
+    padding: 5px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding: 10px 16px 10px 16px;
+    position: relative;
+    top: 60px;
+    cursor: pointer;
+}
 
 
 
@@ -150,6 +168,7 @@
     }
 }
 
+
 .select{
     color: #B2B2B2;
     outline: none;
@@ -158,8 +177,12 @@
     line-height: 100%;
     letter-spacing: 0%;
     appearance: none;
-}
+    option{
+        color: #000000;
+    }
 
+
+}
 
 /* Estilos de modal personalizados */
 

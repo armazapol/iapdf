@@ -1,0 +1,62 @@
+'use-client'
+
+import style from '@/styles/TableIncidents.module.css'
+import LoadingButton from '@/components/LoadingButton'
+
+export default function TableIncidents() {
+
+  const infos = [
+    { 
+        No: 1,
+        Service: "AWS Infrastructure",
+        Title: "[#199999] AWS Heidtui Event Us-east-1EBS:AWS_EBS_VOLUME_LOST",
+        Time: "AT 7:34 pm",
+        Activity: "Jessica Tuter for 30 minutes through the Api"
+    },
+    { 
+        No: 2,
+        Service: "AWS Infrastructure",
+        Title: "[#199999] AWS Heidtui Event Us-east-1EBS:AWS_EBS_VOLUME_LOSsT",
+        Time: "AT 7:34 pm",
+        Activity: "Jessica Tuter for 30 minutes through the Api"
+    },
+    { 
+        No: 3,
+        Service: "AWS Infrastructure",
+        Title: "[#199999] AWS Heidtui Event Us-east-1EBS:AWS_EBS_VOLUME_LOST",
+        Time: "AT 7:34 pm",
+        Activity: "Jessica Tuter for 30 minutes through the Api"
+    }
+  ]
+
+  return (
+    <div className={style.container}>
+        <table className={style.TableIncidents}>
+            <thead className={style.thead}>
+                <tr>
+                    <th>No.</th>
+                    <th>Service</th>
+                    <th>Title</th>
+                    <th>Time</th>
+                    <th>Activity</th>
+                    <th className={style.action}>Action</th>
+                </tr>
+            </thead>
+            <tbody className={style.tbody}>
+                {infos.map( info => ( 
+                    <tr key={info.No}>
+                        <td>{info.No}</td>
+                        <td className={style.service}>{info.Service}</td>
+                        <td  className={style.titleColumn}>{info.Title}</td>
+                        <td>{info.Time}</td>
+                        <td>{info.Activity}</td>
+                        <td>
+                            <LoadingButton />
+                        </td>
+                    </tr>)
+                )}
+            </tbody>
+        </table>
+    </div>
+  )
+}
