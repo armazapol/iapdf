@@ -1,7 +1,11 @@
+import FileUploadBox from "@/components/FileUploadBox";
+
+
 export default function PDFToExcelPage() {
   return (
       <main className="h-[100%] w-[100%] p-10 over">
 
+      <FileUploadBox />
         <section className="space-y-6 ">
           <div>
             <h2 className="text-lg font-semibold">1. Upload your PDF.</h2>
