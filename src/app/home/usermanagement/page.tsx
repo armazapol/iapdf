@@ -4,7 +4,7 @@ import TableUsers from '@/components/TableUsers';
 export default function usermanagement() {
     return (
       <div className={style.tableContainer}>
-        <TableUsers />
+        <TableUsers entity="user"/>
       </div>
     );
   }

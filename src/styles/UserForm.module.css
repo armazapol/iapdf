@@ -95,7 +95,7 @@
     padding: 10px 16px 10px 16px;
     position: relative;
     top: 60px;
-    cursor: pointer;
+    cursor: not-allowed;
 }
 
 .btnTrue{

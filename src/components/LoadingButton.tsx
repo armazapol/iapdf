@@ -4,9 +4,12 @@ import { useState } from 'react';
 import styles from '@/styles/LoadingButton.module.css'
 import Image from 'next/image';
 
-export default function MyButton () {
+//import { useRouter } from 'next/navigation';
+
+export default function LoadingButton () {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  // const router = useRouter()
 
   const handleClick = async () => {
     setIsLoading(true);  // Inicia el estado de carga
@@ -14,7 +17,9 @@ export default function MyButton () {
     // Tiempo
     setTimeout(() => {
       setIsLoading(false);  
-      setIsSuccess(true);   
+      setIsSuccess(true);
+      
+      // router.push('/home');
     }, 1000);
   };
 
@@ -24,7 +29,7 @@ export default function MyButton () {
     onClick={handleClick}
     disabled={isLoading || isSuccess }  // Deshabilita el botón mientras carga
     >
-        {!isLoading && (
+        {(isLoading || !isSuccess) && (
         <Image 
           src="/img/btnRetry.png" 
           alt="Retry" 
@@ -35,7 +40,10 @@ export default function MyButton () {
         {isLoading ? (
         <div className={styles.spinner}></div> // Muestra el spinner cuando está cargando
         ) : isSuccess ? (
-        <span className={styles.Success}>Success</span> // Muestra "Success" cuando el proceso termina
+          <div className={styles.succesContainer}>
+            <span className={styles.Success}>Success</span> 
+            <a href=""></a>
+          </div>
         ) : (
         'Retry'
         )}

@@ -11,21 +11,36 @@ export default function TableIncidents() {
         Service: "AWS Infrastructure",
         Title: "[#199999] AWS Heidtui Event Us-east-1EBS:AWS_EBS_VOLUME_LOST",
         Time: "AT 7:34 pm",
-        Activity: "Jessica Tuter for 30 minutes through the Api"
+        Activity: {
+            name: "Jessica Tuter",
+            for: "for",
+            duration: "30 minutes",
+            source: "through the API"
+          }
     },
     { 
         No: 2,
         Service: "AWS Infrastructure",
         Title: "[#199999] AWS Heidtui Event Us-east-1EBS:AWS_EBS_VOLUME_LOSsT",
         Time: "AT 7:34 pm",
-        Activity: "Jessica Tuter for 30 minutes through the Api"
+        Activity: {
+            name: "Jessica Tuter",
+            for: "for",
+            duration: "30 minutes",
+            source: "through the API"
+          }
     },
     { 
         No: 3,
         Service: "AWS Infrastructure",
         Title: "[#199999] AWS Heidtui Event Us-east-1EBS:AWS_EBS_VOLUME_LOST",
         Time: "AT 7:34 pm",
-        Activity: "Jessica Tuter for 30 minutes through the Api"
+        Activity: {
+            name: "Jessica Tuter",
+            for: "for",
+            duration: "30 minutes",
+            source: "through the API"
+          }
     }
   ]
 
@@ -49,7 +64,12 @@ export default function TableIncidents() {
                         <td className={style.service}>{info.Service}</td>
                         <td  className={style.titleColumn}>{info.Title}</td>
                         <td>{info.Time}</td>
-                        <td>{info.Activity}</td>
+                        <td>
+                            <span className={style.tdName}>{info.Activity.name}</span>
+                            <span> {info.Activity.for} </span>
+                            <span className={style.tdDuration}>{info.Activity.duration} </span>
+                            <span>{info.Activity.source}</span>
+                        </td>
                         <td>
                             <LoadingButton />
                         </td>

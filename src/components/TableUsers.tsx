@@ -4,9 +4,14 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import style from '@/styles/TableUserContainer.module.css'
+import ButtonAddUser from './ButtonAddUser';
+import ButtonSwicth from '@/components/ButtonSwitch '
 
+type prop = {
+  entity: string
+}
 
-export default function TableUsers() {
+export default function TableUsers({entity}:prop) {
   //const [users, setUsers] = useState([]);
   const router = useRouter();
   
@@ -92,15 +97,13 @@ export default function TableUsers() {
     <div className={style.tableUserContainer}>
       <div className={style.header}>
         <p>User table</p>
-        <button onClick={handleNewUser} > 
-          <Image 
-          src="/user-profile-add.png" 
+        <ButtonAddUser 
+          onClick={handleNewUser}
+          src={'/user-profile-add.png'}
           alt='Add user'
-          width={18}
-          height={18}
-          /> 
-          New Users
-        </button>
+          iconSize={18}
+          > New {entity}
+        </ButtonAddUser>
       </div>
       <table className={style.tableUser}>
         <thead>
@@ -133,11 +136,11 @@ export default function TableUsers() {
             <td>{user.function}</td>
             <td>{user.fechaInicio}</td>
             <td>{user.fechaModification}</td>
-            <td className={style.tdSwich}>
-               <label className="switch">
-                  <input type="checkbox" id="toggle" checked={user.active} onChange={() => toggleUserActive(user.id)}  />
-                  <span className="slider"></span>
-                </label>
+            <td  className={style.tdSwich}>
+              <ButtonSwicth
+                checked={user.active}
+                onChange={() => toggleUserActive(user.id)}
+              />
             </td>
             <td className={style.rowEdit}>
               <button onClick={()=> handleEdit()} >
