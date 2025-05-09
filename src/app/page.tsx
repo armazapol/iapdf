@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 
+
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -23,6 +24,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300 p-4">
+
       <div className="bg-white shadow-xl rounded-2xl p-8 max-w-md w-full space-y-6">
         <h1 className="text-2xl font-bold text-center text-blue-700">Subir Documento</h1>
         
