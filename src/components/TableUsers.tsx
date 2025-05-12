@@ -1,11 +1,12 @@
 'use client'; 
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import style from '@/styles/TableUserContainer.module.css'
 import ButtonAddUser from './ButtonAddUser';
 import ButtonSwicth from '@/components/ButtonSwitch '
+
 
 type prop = {
   entity: string
@@ -14,7 +15,7 @@ type prop = {
 export default function TableUsers({entity}:prop) {
   //const [users, setUsers] = useState([]);
   const router = useRouter();
-  
+ 
   const [users, setUsers] = useState([
     {
       id: "1",
