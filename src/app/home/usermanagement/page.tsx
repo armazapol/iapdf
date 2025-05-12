@@ -1,10 +1,39 @@
-import style from '@/styles/TableUserContainer.module.css'
-import TableUsers from '@/components/TableUsers';
+'use client';
 
-export default function usermanagement() {
+import TableUsers from '@/components/TableUsers';
+import { useLoading } from '@/components/providers/LoadingProvider';
+import { useEffect } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
+export default function Usermanagement() {
+    
+
+      // const res = await fetch('https://tu-api.com/roles', {
+      //   cache: 'no-store' //
+      // });
+
+      // if (!res.ok) {
+      //   throw new Error('Error al cargar roles');
+      // }
+
+      // const users = await res.json();
+
+    const { loading, setLoading } = useLoading();
+      useEffect(() => {
+        setLoading(true);
+          // Simula carga
+        setTimeout(() => setLoading(false), 1000);
+    },[]);
+
     return (
-      <div className={style.tableContainer}>
-        <TableUsers entity="user"/>
-      </div>
+      ( loading ? (
+          <Skeleton height="504px" width="100%" /> 
+          ) : (
+            <div>
+              <TableUsers  entity="rol" />
+            </div>
+          )
+      )
     );
   }

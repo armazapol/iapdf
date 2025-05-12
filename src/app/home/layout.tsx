@@ -29,6 +29,10 @@ export default function HomeLayout({
       href: "/home/usermanagement",
       label: "User management",
       icon: "/svg/icons/configicon.svg",
+      children: [
+         { href: "/home/usermanagement/user", label: "User" },
+         { href: "/home/usermanagement/view", label: "View" },
+      ]
     },
     { href: "/login", label: "Logout", icon: "/svg/icons/logouticon.svg" },
   ];

@@ -4,7 +4,6 @@ import styles from '@/styles/TableUserContainer.module.css';
 type Props = {
   checked: boolean;
   onChange: () => void;
-  className?: string;
 };
 
 export default function ToggleSwitch ({ checked, onChange}: Props)  {

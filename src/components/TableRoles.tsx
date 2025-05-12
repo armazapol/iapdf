@@ -15,7 +15,7 @@ export default function TableRoles({entity}:prop) {
   const router = useRouter()
 
   const handleNewUser = () => {
-    router.push('/home')
+    router.push('/home/')
   }  
 
   const [infos, setInfos] = useState( [
