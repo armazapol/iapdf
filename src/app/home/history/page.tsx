@@ -1,7 +1,6 @@
 'use client'
 
-import TableRoles from "@/components/TableRoles";
-import RolForm from "@/components/RolForm";
+import TableHistory from "@/components/TableHistory";
 import { useLoading } from '@/components/providers/LoadingProvider';
 import { useEffect } from "react";
 import Skeleton from 'react-loading-skeleton';
@@ -22,7 +21,7 @@ export default function HistoryPage() {
     <Skeleton height={200} width="100%" /> 
     ) : (
       <div>
-        
+        <TableHistory></TableHistory>
       </div>
     )
     );

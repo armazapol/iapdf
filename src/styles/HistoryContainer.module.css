@@ -1,0 +1,99 @@
+.historyContainer{
+    width: 901px;
+    height: 562px;
+ 
+    & .TableHistory{
+       
+        width: 100%;
+        margin-bottom: 20px;
+        background-color: #FFFFFF;
+        & thead{
+            background-color: #2E3A59;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 14px;
+            letter-spacing: 0%;
+            color: #FFFFFF;
+            height: 46px;
+            & tr{
+                text-align: left;
+                & th{
+                    padding: 0 31px;
+                }
+            }
+             & th:first-child {
+                border-top-left-radius: 10px;
+            }
+            & th:last-child {
+                border-top-right-radius: 10px;
+            }
+            
+        }
+        & tbody{
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0%;
+            color: #1D2129;
+            & .vectorOn{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            & tr{
+                border-top: 1px solid #D0D5DD;
+                & td{
+                    padding: 0 31px;
+                    height: 65px;
+                }
+            }
+            & .btnContainer{
+              
+            
+                & button{
+                    width: 134px;
+                    height: 35px;
+                    background-color: #2E3A59;
+                    color: #FFFFFF;
+                    border-radius: 6px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    & .paginationContainer{
+        width: 235px;
+        height: 30px;
+        display: flex;
+        justify-content: space-between;
+        & button:first-child {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            color: #FFFFFF;
+            background-color: #2E3A59;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 14px;
+            letter-spacing: 0%;
+            cursor: pointer;
+           
+        }
+          & button {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            color: #1D2129;
+            background-color: #FFFFFF;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 14px;
+            letter-spacing: 0%;
+            cursor: pointer;
+        }
+    }
+}
