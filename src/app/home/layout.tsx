@@ -29,10 +29,10 @@ export default function HomeLayout({
       href: "/home/usermanagement",
       label: "User management",
       icon: "/svg/icons/configicon.svg",
-      children: [
-         { href: "/home/usermanagement/user", label: "User" },
-         { href: "/home/usermanagement/view", label: "View" },
-      ]
+      // children: [
+      //   {href: "", label: "users", icon: "/svg/icons/logouticon.svg" },
+      //   {href: "*", label: "view", icon: "/svg/icons/logouticon.svg" }
+      // ]
     },
     { href: "/login", label: "Logout", icon: "/svg/icons/logouticon.svg" },
   ];
@@ -95,48 +95,54 @@ export default function HomeLayout({
               ))}
             </ul>
 
-            <p className="text-xs font-semibold text-[#686868] mb-2 text-[14px]">
-              OTHER
-            </p>
-            <ul className="mb-6 space-y-2">
-              {routesother.map(({ href, label, icon }) => (
-                <li
-                  key={href}
-                  className={`font-medium flex items-center h-[50px] ${
-                    pathname === href
-                      ? "bg-[#B32646] text-white rounded-md"
-                      : ""
+        <p className="text-xs font-semibold text-[#686868] mb-2 text-[14px]">
+          OTHER
+        </p>
+        <ul className="mb-6 space-y-2">
+          {routesother.map(({ href, label, icon, children }) => (
+            <li key={href}>
+              {/* Ruta principal */}
+              <Link
+                href={href}
+                className={`font-medium flex items-center h-[50px] ${
+                  pathname === href ? "bg-[#B32646] text-white rounded-md" : ""
+                }`}
+              >
+                <img
+                  src={icon}
+                  alt={label}
+                  className={`w-4 h-4 mr-2 ${
+                    pathname === href ? "invert brightness-200" : ""
                   }`}
-                >
-                  <Link
-                    href={href}
-                    className={`flex items-center space-x-2 px-5 py-1 ${
-                      pathname === href ? "text-white" : "text-gray-600"
-                    }`}
-                  >
-                    <img
-                      src={icon}
-                      alt={label}
-                      className={`w-4 h-4 mr-2 ${
-                        pathname === href ? "invert brightness-200" : ""
-                      }`}
-                    />
-                    <span>{label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
+                />
+                <span>{label}</span>
+              </Link>
 
-        <div className="bg-pink-200 p-4 rounded-md text-sm">
-          <p className="font-semibold">Need help?</p>
-          <p className="mb-2">Please contact us</p>
-          <button className="w-full bg-[#B32646] text-white rounded-md py-1 text-sm hover:bg-pink-700">
-            Send email
-          </button>
-        </div>
-      </aside>
+              {/* Subrutas (children) si existen */}
+              {children && (
+                <ul className="ml-4 mt-1 space-y-1">
+                  {children.map((child) => (
+                    <li key={child.href}>
+                      <Link
+                        href={child.href}
+                        className={`block text-sm px-3 py-1 rounded-md ${
+                          pathname === child.href
+                            ? "bg-[#B32646] text-white"
+                            : ""
+                        }`}
+                      >
+                        {child.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </aside>
 
       <div className="flex-1 flex flex-col h-full">
         {/* Header fijo */}
