@@ -29,10 +29,10 @@ export default function HomeLayout({
       href: "/home/usermanagement",
       label: "User management",
       icon: "/svg/icons/configicon.svg",
-      children: [
-        {href: "/login", label: "users", icon: "/svg/icons/logouticon.svg" },
-        {href: "/login", label: "view", icon: "/svg/icons/logouticon.svg" }
-      ]
+      // children: [
+      //   {href: "", label: "users", icon: "/svg/icons/logouticon.svg" },
+      //   {href: "*", label: "view", icon: "/svg/icons/logouticon.svg" }
+      // ]
     },
     { href: "/login", label: "Logout", icon: "/svg/icons/logouticon.svg" },
   ];
