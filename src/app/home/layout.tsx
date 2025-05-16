@@ -1,5 +1,6 @@
 "use client";
 
+import NeedHelp from "@/components/NeedHelp";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -95,54 +96,57 @@ export default function HomeLayout({
               ))}
             </ul>
 
-        <p className="text-xs font-semibold text-[#686868] mb-2 text-[14px]">
-          OTHER
-        </p>
-        <ul className="mb-6 space-y-2">
-          {routesother.map(({ href, label, icon, children }) => (
-            <li key={href}>
-              {/* Ruta principal */}
-              <Link
-                href={href}
-                className={`font-medium flex items-center h-[50px] ${
-                  pathname === href ? "bg-[#B32646] text-white rounded-md" : ""
-                }`}
-              >
-                <img
-                  src={icon}
-                  alt={label}
-                  className={`w-4 h-4 mr-2 ${
-                    pathname === href ? "invert brightness-200" : ""
-                  }`}
-                />
-                <span>{label}</span>
-              </Link>
+            <p className="text-xs font-semibold text-[#686868] mb-2 text-[14px]">
+              OTHER
+            </p>
+            <ul className="mb-6 space-y-2">
+              {routesother.map(({ href, label, icon, children }) => (
+                <li key={href}>
+                  {/* Ruta principal */}
+                  <Link
+                    href={href}
+                    className={`font-medium flex items-center h-[50px] ${
+                      pathname === href
+                        ? "bg-[#B32646] text-white rounded-md"
+                        : ""
+                    }`}
+                  >
+                    <img
+                      src={icon}
+                      alt={label}
+                      className={`w-4 h-4 mr-2 ${
+                        pathname === href ? "invert brightness-200" : ""
+                      }`}
+                    />
+                    <span>{label}</span>
+                  </Link>
 
-              {/* Subrutas (children) si existen */}
-              {children && (
-                <ul className="ml-4 mt-1 space-y-1">
-                  {children.map((child) => (
-                    <li key={child.href}>
-                      <Link
-                        href={child.href}
-                        className={`block text-sm px-3 py-1 rounded-md ${
-                          pathname === child.href
-                            ? "bg-[#B32646] text-white"
-                            : ""
-                        }`}
-                      >
-                        {child.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </div>
-  </aside>
+                  {/* Subrutas (children) si existen */}
+                  {children && (
+                    <ul className="ml-4 mt-1 space-y-1">
+                      {children.map((child) => (
+                        <li key={child.href}>
+                          <Link
+                            href={child.href}
+                            className={`block text-sm px-3 py-1 rounded-md ${
+                              pathname === child.href
+                                ? "bg-[#B32646] text-white"
+                                : ""
+                            }`}
+                          >
+                            {child.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+        <NeedHelp />
+      </aside>
 
       <div className="flex-1 flex flex-col h-full">
         {/* Header fijo */}

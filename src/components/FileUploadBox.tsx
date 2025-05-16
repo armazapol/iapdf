@@ -1,9 +1,14 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Eye, Trash2, UploadCloud } from "lucide-react";
 
-export default function FileUploadBox() {
+interface FileUploadBoxProps {
+  setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  files: File[];
+}
+
+export default function FileUploadBox({ setFiles:setFilesProps, files: filesProps}: FileUploadBoxProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -11,6 +16,7 @@ export default function FileUploadBox() {
   const handleFiles = (newFiles: FileList | null) => {
     if (!newFiles) return;
     setFiles((prev) => [...prev, ...Array.from(newFiles)]);
+    setFilesProps((prev) => [...prev, ...Array.from(newFiles)])
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -28,11 +34,16 @@ export default function FileUploadBox() {
 
   const removeFile = (index: number) => {
     setFiles((prev) => prev.filter((_, i) => i !== index));
+    setFilesProps((prev) => prev.filter((_, i) => i !== index))
   };
 
   const openFileDialog = () => {
     inputRef.current?.click();
   };
+  
+  useEffect(() => {
+    setFiles(filesProps);
+  }, [filesProps]);
 
   return (
     <div

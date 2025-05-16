@@ -38,3 +38,9 @@ body{
   font-family: 'Poppins', sans-serif;
 }
 
+@layer components {
+  .btn-primary {
+    @apply bg-[#2E3A59] text-white py-2 px-6 rounded-md disabled:opacity-50 cursor-pointer;
+  }
+}
+
