@@ -24,7 +24,7 @@
   }
   .succesContainer{
     display: flex;
-  
+    flex-direction: column;
   }
   
   .buttonSuccess {
@@ -45,6 +45,15 @@
     line-height: 15px;
     letter-spacing: 0%;
     color: #FEFEFE;
+  }
+  .convert{
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 100%;
+    color: #0066FF;
+    text-decoration: underline;
+    margin-top: 7px;
+    cursor: pointer;
   }
   @keyframes spin {
     0% { transform: rotate(0deg); }

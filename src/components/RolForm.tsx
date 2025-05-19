@@ -6,11 +6,20 @@ import style from '@/styles/RolForm.module.css'
 import { useState } from "react";
 import SweetModal from "./SweetModal"
 import "../styles/UserForm.module.css"
+import { useRouter } from "next/navigation";
+import { useForm, SubmitHandler  } from "react-hook-form";
+import { rolInputs, rolSchema } from "@/schemas/rolSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export default function RolForm() {
+type props = {
+  entity: string
+}
 
-   const [showModal, setShowModal] = useState(false) 
-   const [switches, setSwitches] = useState<{ [key: string]: boolean }>({
+export default function RolForm({entity}: props) {
+
+  const router = useRouter()
+  const [showModal, setShowModal] = useState(false) 
+  const [switches, setSwitches] = useState<{ [key: string]: boolean }>({
     switch1: false,
     switch2: false,
     switch3: false,
@@ -24,27 +33,51 @@ export default function RolForm() {
     }));
   };
 
-  const handleClick = () =>{
-    setShowModal(true)
+  const goBack = () =>{
+      router.push('/home/usermanagement/roles');
   }
+
+  const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting, isValid },
+        reset
+  } = useForm<rolInputs>({
+     resolver: zodResolver(rolSchema),
+      mode: "onChange",
+      defaultValues: {
+          rol: ""
+      },
+  })
+
+  const onSubmit: SubmitHandler<rolInputs> = () => {
+      // Simular una llamada a la API
+      //router.push('/home');
+      setShowModal(true);
+      reset();
+  };  
 
   return (
     <div className={style.rolContainer}>
-         <div className={style.backArrow}>
+          <div className={style.backArrow}>
               <Image 
                 src="/arrow-right.png"
                 alt="back arrox"
                 width={24}
                 height={24}
+                onClick={goBack}
                 />
             <p>Back to user list</p>
           </div>
-          <div className={style.subContainer}>
-            <h2>New Role</h2>
+          <form className={style.subContainer} onSubmit={handleSubmit(onSubmit)} >
+            <h2>{entity} Role</h2>
             <div className={style.linea}></div>
             <div className={style.inputContainer}>
-                <label htmlFor="">Role name</label>
-                <input type="text" placeholder="Role name" id="rol" name="rol" />
+                <label htmlFor="rol">Role name</label>
+                <input type="text" placeholder="Role name" id="rol" {...register('rol')}/>
+                  {errors.rol && (
+                    <p className="text-xs pt-1 text-red-500">{errors.rol.message}</p>
+                  )}
             </div>
             <div className={style.linea}></div>
             <p>Role permissions</p>
@@ -78,8 +111,14 @@ export default function RolForm() {
                 />
               </div>  
             </div>
-            <button className={style.btnSave} onClick={handleClick} >Save changes</button>
-          </div>
+            <button 
+              className={isValid ? style.btnTrue : style.btnSave} 
+              type="submit"
+              // className={isValid ? style2.btnTrue : style2.saveBtn}
+              disabled={!isValid || isSubmitting}
+              >Save changes
+            </button>
+          </form>
           <SweetModal
             evento="Role"
             show={showModal}

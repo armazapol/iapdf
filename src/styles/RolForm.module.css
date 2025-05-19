@@ -10,6 +10,7 @@
         gap: 5px;
         top: 27px;
         left: 24px;
+        cursor: pointer;
         & p {
             color: #2E3A59;
             font-weight: 500;
@@ -88,23 +89,41 @@
                 border-bottom: none;
             }
         }
-         & .btnSave{
-                width: 100%;
-                max-width: 1525px;
-                height: 44px;
-                color: #EDEEEF;
-                background-color: #B2B2B2;
-                border: 1px solid #B2B2B2;
-                padding: 5px;
-                border-radius: 8px;
-                font-weight: 600;
-                font-size: 16px;
-                line-height: 24px;
-                letter-spacing: 0%;
-                padding: 10px 16px 10px 16px;
-                position: relative;
-                top: 35px;
-                cursor: not-allowed;
-            }
+        & .btnSave{
+            width: 100%;
+            max-width: 1525px;
+            height: 44px;
+            color: #EDEEEF;
+            background-color: #B2B2B2;
+            border: 1px solid #B2B2B2;
+            padding: 5px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            letter-spacing: 0%;
+            padding: 10px 16px 10px 16px;
+            position: relative;
+            top: 35px;
+            cursor: not-allowed;
+        }
+        & .btnTrue{
+              width: 100%;
+            max-width: 1525px;
+            height: 44px;
+            color: #EDEEEF;
+            background-color: #B2B2B2;
+            border: 1px solid #B2B2B2;
+            padding: 5px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            letter-spacing: 0%;
+            padding: 10px 16px 10px 16px;
+            position: relative;
+            top: 35px;
+            background-color: #2E3A59;
+        }    
     }
 }

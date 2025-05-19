@@ -53,11 +53,7 @@ const CustomInput = forwardRef<any, any>((props, ref) => {
 
 // Componente CustomHeader
 const CustomHeader = ({
-  date,
-  decreaseMonth,
-  increaseMonth,
-  prevMonthButtonDisabled,
-  nextMonthButtonDisabled,
+ 
 }: any) => {
   return (
     <Stack direction="row" pb={1} alignItems="center" textAlign="left" pl={4} pr={6}>

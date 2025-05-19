@@ -4,62 +4,51 @@ import FormField from "./FormField"
 import style from "../styles/UserForm.module.css"
 import Image from "next/image"
 import SweetModal from "./SweetModal"
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from "next/navigation";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { newUserFormInputs, newUserSchema } from "@/schemas/newUserSchema";
 
 type Props = {
     evento: string,
     userId?: string
 }
 
-export default function UserForm({evento, userId}: Props) {
+export default function UserForm({ evento }: Props) {
     const router = useRouter()
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting, isValid },
+        reset
+      } = useForm<newUserFormInputs>({
+        resolver: zodResolver(newUserSchema),
+        mode: "onChange",
+        defaultValues: {
+          email: "",
+          password: "",
+          repeatPassword: ""
+        },
+      });
     const [showModal, setShowModal] = useState(false)
-    const [formData, setFormData] = useState({
-        name: '',
-        lastName: '',
-        email: '',
-        rol: '',
-        username: '',
-        password: '',
-        repeatPassword: ''
-    })
-
-    // const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-     //const isCompleteForm = Object.values(formData).every(value => value.trim() !== '') && emailRegex.test(formData.email)
-    const isCompleteForm = Object.values(formData).every(value => value.trim() !== '');
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> ) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
+    const onSubmit: SubmitHandler<newUserFormInputs> = () => {
+        // Simular una llamada a la API
+        //router.push('/home');
+         setShowModal(true);
+         reset();
+    };  
+ 
     const goBack = () =>{
-        router.push('/home/usermanagement');
+        router.push('/home/usermanagement/users');
     }
     
-    //Envia form y maneja estado modal
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); 
-
-        // limpiar el formulario 
-        setFormData({
-            name: "",
-            lastName: "",
-            email: "",
-            rol: "",
-            username: "",
-            password: "",
-            repeatPassword: "",
-          });
-
-        setShowModal(true); 
-    };
-
+   
   return (
     <div className={style.formContainer}>
         <div className={style.div}>
-            <form action="" className={style.form} onSubmit={handleSubmit}>
+            <form action="" className={style.form} onSubmit={handleSubmit(onSubmit)} >
                 <div className={style.backArrow}>
                     <Image 
                     src="/arrow-right.png"
@@ -76,34 +65,34 @@ export default function UserForm({evento, userId}: Props) {
                     <div className={style.inputFieldContainer}>
                         <p className={style.info}>Personal data</p>
                         <div className={style.field}>
-                            <FormField 
+                            <FormField<newUserFormInputs>
                             label="Name"
                             name="name"
                             type="text"
-                            value={formData.name}
-                            onChange={handleChange}
+                            register={register}
+                            error={errors.name?.message}
                             />
-                            <FormField 
+                            <FormField<newUserFormInputs> 
                             label="Last name"
                             name="lastName"
                             type="input"
-                            value={formData.lastName}
-                            onChange={handleChange}
+                            register={register}
+                            error={errors.lastName?.message}
                             />
-                            <FormField 
+                            <FormField<newUserFormInputs> 
                             label="Email"
                             name="email"
                             type="email"
                             required
-                            value={formData.email}
-                            onChange={handleChange}
+                            register={register}
+                            error={errors.email?.message}
                             />
-                            <FormField 
+                            <FormField<newUserFormInputs> 
                             label="Role"
                             name="rol"
                             type="select"
-                            value={formData.rol}
-                            onChange={handleChange}
+                            register={register}
+                            error={errors.rol?.message}
                             options=
                             {[  { value: 'Administrador', label: 'Administrador' },
                                 { value: 'Worker', label: 'Worker' },
@@ -114,35 +103,42 @@ export default function UserForm({evento, userId}: Props) {
                     <div className={style.inputFieldContainer}>
                         <p className={style.info}>Authentication</p>
                         <div className={style.field}>
-                            <FormField 
+                            <FormField<newUserFormInputs> 
                             label="Username"
                             name="username"
                             type="text"
-                            value={formData.username}
-                            onChange={handleChange}
+                            register={register}
+                            error={errors.username?.message}
                             />
-                            <FormField 
+                            <FormField<newUserFormInputs> 
                             label="Password"
                             name="password"
                             type="password"
-                            value={formData.password}
-                            onChange={handleChange}
+                            register={register}
+                            error={errors.password?.message}
                             />
-                            <FormField 
+                            <FormField<newUserFormInputs> 
                             label="Repeat password"
                             name="repeatPassword"
                             type="password"
-                            value={formData.repeatPassword}
-                            onChange={handleChange}
+                            register={register}
+                            error={errors.repeatPassword?.message}
                             />
                         </div>
                     </div>
-                    <button type="submit" className={isCompleteForm ? style.btnTrue : style.saveBtn} disabled={!isCompleteForm}>Save changes</button>
+                    {/* <button type="submit" className={isCompleteForm ? style.btnTrue : style.saveBtn} disabled={!isCompleteForm}>Save changes</button> */}
+                    <button
+                        type="submit"
+                        className={isValid ? style.btnTrue : style.saveBtn}
+                        disabled={!isValid || isSubmitting}
+                        >
+                        {isSubmitting ? 'Saving...' : 'Save changes'}
+                    </button>        
                 </div>
             </form>
         </div>
         <SweetModal
-        evento="Employeed"
+        evento="Employee"
         show={showModal}
         onClose={() => setShowModal(false)}
         />

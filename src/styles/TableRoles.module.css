@@ -74,8 +74,11 @@
                 & .rowEdit{
                     line-height: 150%;
                     color: #2E3A59;
-                    cursor: pointer ;
+                  
                     text-align: end;
+                    & button{
+                        cursor: pointer;
+                    }
                 }
             }
         }

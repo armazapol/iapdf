@@ -3,6 +3,7 @@
 import NeedHelp from "@/components/NeedHelp";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function HomeLayout({
   children,
@@ -27,13 +28,13 @@ export default function HomeLayout({
 
   const routesother = [
     {
-      href: "/home/usermanagement",
+      href: "/home/usermanagement/users",
       label: "User management",
       icon: "/svg/icons/configicon.svg",
-      // children: [
-      //   {href: "", label: "users", icon: "/svg/icons/logouticon.svg" },
-      //   {href: "*", label: "view", icon: "/svg/icons/logouticon.svg" }
-      // ]
+      children: [
+        {href: "/home/usermanagement/users", label: "View users", icon: "/img/arrow2.png" },
+        {href: "/home/usermanagement/roles", label: "View roles", icon: "/img/arrow2.png" }
+      ]
     },
     { href: "/login", label: "Logout", icon: "/svg/icons/logouticon.svg" },
   ];
@@ -99,48 +100,74 @@ export default function HomeLayout({
             <p className="text-xs font-semibold text-[#686868] mb-2 text-[14px]">
               OTHER
             </p>
-            <ul className="mb-6 space-y-2">
-              {routesother.map(({ href, label, icon, children }) => (
-                <li key={href}>
-                  {/* Ruta principal */}
-                  <Link
-                    href={href}
-                    className={`font-medium flex items-center h-[50px] ${
-                      pathname === href
-                        ? "bg-[#B32646] text-white rounded-md"
-                        : ""
-                    }`}
+            <ul className="mb-6 mt-5 space-y-2">
+             {routesother.map(({ href, label, icon, children }) => (
+                children ? (
+                  <details
+                    key={href}
+                    open={children.some((child) => pathname === child.href)}
+                    className="group flex flex-col gap-4"
                   >
-                    <img
-                      src={icon}
-                      alt={label}
-                      className={`w-4 h-4 mr-2 ${
-                        pathname === href ? "invert brightness-200" : ""
-                      }`}
-                    />
-                    <span>{label}</span>
-                  </Link>
+                    <summary className={`font-medium flex items-center h-[50px] cursor-pointer px-2 py-1 rounded-md gap-3 group-open:text-[#B32646] text-[16px] w-[194px] 
+                    `}>
+                        <img 
+                        src={icon}
+                        alt={label}
+                        className="w-4 h-4 mr-2 group-open:hidden"
+                        />
+                        <img
+                          src="/img/ajuste.png"
+                          alt={label}
+                          className="w-4 h-4 mr-2 hidden group-open:block"
+                        />
 
-                  {/* Subrutas (children) si existen */}
-                  {children && (
-                    <ul className="ml-4 mt-1 space-y-1">
+                      <span>{label}</span>
+                       <Image 
+                        src="/img/desplegable.png" 
+                        alt="Desplegable"
+                        width={10} 
+                        height={10}
+                        className=" opacity-0 group-open:opacity-100"
+                      />
+                    </summary>
+                    <ul className="mt-1 space-y-1">
+
                       {children.map((child) => (
                         <li key={child.href}>
                           <Link
                             href={child.href}
-                            className={`block text-sm px-3 py-1 rounded-md ${
-                              pathname === child.href
-                                ? "bg-[#B32646] text-white"
-                                : ""
+                            className={`text-sm px-3 py-1 rounded-md flex h-[40px] items-center gap-2 w-[156px] ${
+                              pathname === child.href ? "bg-[#B32646] text-white" : ""
                             }`}
                           >
+                            <img
+                              src={pathname === child.href ? child.icon : "/img/arrow.png"}
+                              alt={child.label}
+                              className="w-4 h-4 mr-2"
+                            />
                             {child.label}
                           </Link>
                         </li>
                       ))}
                     </ul>
-                  )}
-                </li>
+                  </details>
+                ) : (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      className={`font-medium flex items-center h-[50px] px-5 py-1 rounded-md ${
+                        pathname === href ? "bg-[#B32646] text-white" : "text-gray-600"
+                      }`}
+                    >
+                      <img
+                        src={icon}
+                        alt={label}
+                        className="w-4 h-4 mr-2"
+                      />
+                      <span>{label}</span>
+                    </Link>
+                  </li>
+                )
               ))}
             </ul>
           </nav>
@@ -155,8 +182,22 @@ export default function HomeLayout({
             <h1 className="text-2xl font-bold">{pageTitle}</h1>
             <p className="text-gray-500">{pageDescription}</p>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="text-xl"></div>
+          <div className="flex items-center space-x-4  ">
+            <div>
+              <Image
+                src="/img/notification.png"
+                alt=""
+                width={30}
+                height={30} />
+            </div>
+            <div className="text-xl">
+              <Image 
+                src="/img/userLogo.png"
+                alt=""
+                width={48}
+                height={48}
+              />
+            </div>
             <div className="text-right">
               <strong>Angelica Jones</strong>
               <br />

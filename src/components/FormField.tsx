@@ -3,24 +3,25 @@
 import style from "../styles/UserForm.module.css"
 import Image from "next/image";
 import { useState } from "react";
+import { FieldValues, Path, UseFormRegister, } from "react-hook-form";
 
 type Option = {
     value: string;
     label: string;
 };
 
-type Props = {
+type Props<T extends FieldValues> = {
     label: string;
-    name: string;
+    name: Path<T>;
     type?: string;
-    value: string
     required?: boolean
-    onChange?: React.ChangeEventHandler<HTMLSelectElement | HTMLInputElement>;
+    register: UseFormRegister<T>
     options?: Option[]
+    error?: string
   };
 
 
-export default function FormField({label, name, type, value, onChange, options=[]}: Props){
+export default function FormField<T extends FieldValues>({label, name, type, register, options=[], error}: Props<T>){
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const togglePasswordVisibility = () => {
@@ -34,7 +35,7 @@ export default function FormField({label, name, type, value, onChange, options=[
             <label htmlFor={name}>{label}</label>
             {type=='select' ? (
                 <div className={style.selectWrapper}>
-                    <select name={name} value={value} onChange={onChange} className={`${style.input} ${style.select}`}>
+                    <select {...register(name)} className={`${style.input} ${style.select}`}>
                         <option value="" hidden >Choose a role</option>
                         {options.map( (ops) => (
                             <option key={ops.value} value={ops.value}>
@@ -50,28 +51,29 @@ export default function FormField({label, name, type, value, onChange, options=[
                     />
                 </div>
             ) : (
-                <div className={style.inputWrapper}>
-                    <input
-                    id={name}
-                    name={name}
-                    type={inputType}
-                    required
-                    value={value}
-                    placeholder={label}
-                    onChange={onChange}
-                    className={style.input}
-                    />
-                    {type === 'password' && (
-                        <Image 
-                        src="/fi-ss-eye.png"
-                        alt="back arrox"
-                        width={18}
-                        height={18}
-                        className={style.eye}
-                        onClick={togglePasswordVisibility}
-                       />
-                    )}
-              </div>
+                <div className="flex flex-col">
+                    <div className={`${style.inputWrapper}`}>
+                        <input
+                        id={name}
+                        type={inputType}
+                        required
+                        placeholder={label}
+                        {...register(name)}
+                        className={style.input}
+                        />
+                        {type === 'password' && (
+                            <Image 
+                            src="/fi-ss-eye.png"
+                            alt="back arrox"
+                            width={18}
+                            height={18}
+                            className={style.eye}
+                            onClick={togglePasswordVisibility}
+                        />
+                        )}
+                    </div>
+                    {error && <p className=" text-xs pt-1 text-red-500">{error}</p>}
+                </div>
             )}
        </div>
     )
