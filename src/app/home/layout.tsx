@@ -4,6 +4,8 @@ import NeedHelp from "@/components/NeedHelp";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import Notifications from "@/components/Notifications";
+import { useState } from 'react';
 
 export default function HomeLayout({
   children,
@@ -51,6 +53,11 @@ export default function HomeLayout({
   const currentRoute = allRoutes.find((r) => r.href === pathname);
   const pageTitle = currentRoute?.label || "Dashboard";
   const pageDescription = descriptions[pathname] || "";
+
+  const [showNotifications, setShowNotifications] = useState(false);
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications);
+  };
 
   return (
     <div className="flex h-screen font-sans text-gray-800 overflow-hidden">
@@ -177,18 +184,32 @@ export default function HomeLayout({
 
       <div className="flex-1 flex flex-col h-full">
         {/* Header fijo */}
-        <header className="flex justify-between items-center bg-white h-[80px] px-[40px] shrink-0 ">
+        <header className="flex justify-between items-center bg-white h-[80px] px-[40px] shrink-0">
           <div>
             <h1 className="text-2xl font-bold">{pageTitle}</h1>
             <p className="text-gray-500">{pageDescription}</p>
           </div>
-          <div className="flex items-center space-x-4  ">
+          <div className="flex items-center space-x-4 pr-[20px] ">
             <div>
-              <Image
-                src="/img/notification.png"
+              {showNotifications ? (
+                <Image
+                src="/img/notification-open.png"
                 alt=""
                 width={30}
-                height={30} />
+                height={30} 
+                onClick={toggleNotifications} 
+                className="cursor-pointer"
+                />): (
+                  <Image
+                    src="/img/notification.png" // imagen cuando está cerrado
+                    alt="Notificaciones cerradas"
+                    width={30}
+                    height={30}
+                    onClick={toggleNotifications}
+                    className="cursor-pointer"
+                  />
+                )
+              }
             </div>
             <div className="text-xl">
               <Image 
@@ -198,7 +219,7 @@ export default function HomeLayout({
                 height={48}
               />
             </div>
-            <div className="text-right">
+            <div className="">
               <strong>Angelica Jones</strong>
               <br />
               <span className="text-sm text-gray-500">Administrator</span>
@@ -209,6 +230,9 @@ export default function HomeLayout({
         {/* Contenido con scroll interno */}
         <main className="flex-1 overflow-y-auto bg-[#F9F6F2] px-10 py-6">
           {children}
+          {showNotifications && (
+            <Notifications onClose={() => setShowNotifications(false)} />
+          )}
         </main>
       </div>
     </div>
