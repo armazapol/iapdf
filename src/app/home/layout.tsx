@@ -1,5 +1,6 @@
 "use client";
 
+import Logout from "@/components/Logout";
 import NeedHelp from "@/components/NeedHelp";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -35,7 +36,7 @@ export default function HomeLayout({
       //   {href: "*", label: "view", icon: "/svg/icons/logouticon.svg" }
       // ]
     },
-    { href: "/login", label: "Logout", icon: "/svg/icons/logouticon.svg" },
+    // { href: "/login", label: "Logout", icon: "/svg/icons/logouticon.svg" },
   ];
 
   const descriptions: Record<string, string> = {
@@ -43,7 +44,7 @@ export default function HomeLayout({
     "/home/history": "View previous conversions.",
     "/home/incidents": "Track and manage issues.",
     "/home/usermanagement": "Manage user permissions and roles.",
-    "/login": "Sign out of your account.",
+    // "/login": "Sign out of your account.",
   };
 
   const allRoutes = [...routes, ...routesother];
@@ -142,6 +143,7 @@ export default function HomeLayout({
                   )}
                 </li>
               ))}
+              <Logout/>
             </ul>
           </nav>
         </div>

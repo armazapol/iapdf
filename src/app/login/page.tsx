@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginFormInputs, loginSchema } from "@/schemas/loginSchema";
 import { useLogin } from "@/services/apis";
+import { handleLogin } from "../actions";
 
 export default function LoginPage() {
-  const router = useRouter();
+
   const [passwordVisible, setPasswordVisible] = useState(false);
+  // const queryClient = new QueryClient();
 
   const login = useLogin();
-
 
   const {
     register,
@@ -37,13 +37,15 @@ export default function LoginPage() {
     const payload = {
       username: data.email,
       password: data.password,
-    }
+    };
     try {
-      await login.mutateAsync(payload);
-      router.push('/home');
+      const response = await login.mutateAsync(payload);
+      await handleLogin(response.data)
+      // router.push('/home');
     } catch (error) {
       console.log(error)
     }
+    // await handleLogin(payload);
   };
 
   return (
@@ -131,12 +133,10 @@ export default function LoginPage() {
           )}
           <button
             type="submit"
-             disabled={isSubmitting || login.isPending} 
+            disabled={isSubmitting || login.isPending}
             className="w-full p-2 mt-6 bg-[#B32646] text-white rounded cursor-pointer hover:pointer"
           >
-            {
-              login.isPending ? "Loading..." : "Login"
-            }
+            {login.isPending ? "Loading..." : "Login"}
           </button>
         </form>
       </div>
