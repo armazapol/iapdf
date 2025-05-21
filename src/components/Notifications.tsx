@@ -12,12 +12,12 @@ export default function Notifications({onClose}:NotificationsProps) {
     { id: "1", estado:"/img/circle-noti.png", file: "/img/file-notification.png", title: "File converted", description: "You file has been sucessfuly converted" },
     { id: "2", estado:"/img/circle-noti2.png",  file: "/img/file-notification2.png", title: "File converted", description: "You file has been sucessfuly converted" },
     { id: "3", estado:"/img/circle-noti2.png",  file: "/img/file-notification3.png", title: "File converted", description: "There was an error uploading your files, please try again." },
-    { id: "3", estado:"/img/circle-noti2.png",  file: "/img/file-notification3.png", title: "File converted", description: "You file has been sucessfuly converted" }
+    { id: "4", estado:"/img/circle-noti2.png",  file: "/img/file-notification3.png", title: "File converted", description: "You file has been sucessfuly converted" }
   ]  
 
   
   return (
-    <div className="w-[460px] h-[420px] rounded-[8px]  bg-[#FFFFFF] absolute top-[80px] right-[109px] border border-[#E1E4EA]" style={{ boxShadow: '2px 8px 24px 1px #0000001F' }} >
+    <div className="w-[260px] md:w-[460px] right-[20px] lg:right-[190px]  h-[420px] rounded-[8px]  bg-[#FFFFFF] absolute top-[0px] border border-[#E1E4EA]" style={{ boxShadow: '2px 8px 24px 1px #0000001F' }} >
         <div className="flex justify-between items-center bg-[#FBFBFB] h-[44px] p-[18px] px-[22px] mb-3 rounded-[8px]">
             <p className="text-[16px] font-medium leading-[24px] tracking-[-0.011em]">Notifications</p>
             <Image
@@ -64,7 +64,7 @@ export default function Notifications({onClose}:NotificationsProps) {
             </div>
         </div>
         
-        <div className="left-[110px] relative mt-[18px] pb-3" >
+        <div className="left-[89px]  md:left-[110px] relative mt-[18px] pb-3" >
             <button className="w-[129px] h-[28px] rounded-[6px] bg-[#2E3A59] text-[#FFFFFF] font-medium text-[14px] leading-[20px] tracking-[-0.006em] cursor-pointer">
             Go to incidents
             </button>
