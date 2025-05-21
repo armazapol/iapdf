@@ -5,13 +5,7 @@ import FileUploadBox from "@/components/FileUploadBox";
 import Step from "@/components/Step";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
-const fieldsInit = [
-  { id: 1, name: "Custom field 1", checked: true },
-  { id: 2, name: "Custom field 2", checked: true },
-  { id: 3, name: "Custom field 3", checked: true },
-  { id: 4, name: "Custom field 4", checked: true },
-];
+import {fieldsInit} from "@/utils";
 
 const listReadyFiles = [
   {
@@ -192,7 +186,7 @@ export default function PDFToExcelPage() {
                 Unselect all
               </button>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 overflow-y-auto  max-h-[250px]">
               {fields.map((field) => (
                 <label
                   key={field.id}

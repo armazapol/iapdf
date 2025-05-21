@@ -29,7 +29,7 @@ export default function ScrollDate() {
     >
       {/* Líneas horizontales como en la imagen */}
       <div className="absolute top-1/2 w-full border-t border-gray-300" style={{ transform: 'translateY(-1.2rem)' }} />
-      <div className="absolute top-1/2 w-full border-t border-gray-300" style={{ transform: 'translateY(1.2rem)' }} />
+      <div className="absolute top-1/2 w-full border-t border-gray-300" style={{ transform: 'translateY(0.9rem)' }} />
 
       <div className="flex flex-col items-center space-y-[-5px]">
         {/* {months.map((month, i) => {

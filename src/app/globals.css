@@ -38,6 +38,44 @@ body{
   font-family: 'Poppins', sans-serif;
 }
 
+/* Estilos de modal personalizados */
+
+.swal2-icon.no-default-icon {
+    background: none;
+    border: none;
+}
+.custom-modal-size{
+    width: 517px !important;  
+    max-width: 100% !important; 
+    height: 275px !important; 
+    border-radius: 5px; 
+}
+.swal2-confirm.custom-ok-button{
+    width: 99px;
+    height: 37px;
+    border-radius: 5px;
+    padding: 10px 22px 10px 22px;
+    background-color: #185ABD;
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0.4px;
+}
+.swal2-title.custom-title{
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: 0px;
+}
+.swal2-close {
+    color:#4B4B4B;
+}
+.swal2-close:hover {
+    color: #4B4B4B !important;
+}
+
+
 @layer components {
   .btn-primary {
     @apply bg-[#2E3A59] text-white py-2 px-6 rounded-md disabled:opacity-50 cursor-pointer;

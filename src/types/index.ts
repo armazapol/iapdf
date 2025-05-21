@@ -15,3 +15,10 @@ export interface LoginResponse {
     refresh_token: string;
     scope: string;
 }
+
+export interface userProfile{
+    idUser:number,
+    email:string,
+    username:string,
+    role:string,
+}

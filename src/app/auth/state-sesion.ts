@@ -56,7 +56,7 @@ export async function verifySession() {
     redirect("/login");
   }
 
-  return { isAuth: true, access_token: Number(session.access_token) };
+  return { isAuth: true, access_token: session.access_token };
 }
 
 export async function updateSession() {

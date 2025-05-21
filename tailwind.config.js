@@ -8,7 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-
+      boxShadow: {
+        'custom-noti': '0px 8px 6px 0px #00000014',
+      },
     },
   },
   plugins: [],

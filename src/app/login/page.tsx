@@ -49,16 +49,16 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex items-center min-w-screen min-h-screen bg-gray-100">
-      <div className="bg-white h-[100vh] w-[60vw]">
+    <main className="flex items-center min-w-screen min-h-screen bg-gray-100 justify-center">
+      <div className="bg-white h-[100vh] w-[60vw] hidden md:block">
         <img
           src="/img/PortadaLogin.png"
           alt="Portada Login"
           className="object-cover w-full h-full"
         />
       </div>
-      <div className=" h-[100vh] w-[600px]  text-center flex flex-col items-center justify-center ">
-        <div className="w-[400px] mb-[30px]">
+      <div className=" h-[100vh] w-[600px]  text-center flex flex-col items-center justify-start md:justify-center  mt-32 md:mt-0">
+        <div className="w-[300px] md:w-[400px] mb-[30px]">
           <img
             src="/img/logoLogin.png"
             alt="Portada Login"
@@ -66,7 +66,7 @@ export default function LoginPage() {
           />
         </div>
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className="mb-4 w-[400px] flex items-center">
+          <div className="mb-4 w-[90vw] max-w-[400px] md:w-[400px] flex items-center">
             <div className="flex items-center justify-center">
               <img
                 src="/img/user.png"

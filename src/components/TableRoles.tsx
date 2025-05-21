@@ -14,9 +14,12 @@ export default function TableRoles({entity}:prop) {
 
   const router = useRouter()
 
-  const handleNewUser = () => {
-    router.push('/home/')
-  }  
+  const handleNewRol = () => {
+    router.push('/home/usermanagement/roles/new')
+  }
+  const handleEditRol = () => {
+    router.push('/home/usermanagement/roles/edit')
+  }    
 
   const [infos, setInfos] = useState( [
     {
@@ -48,7 +51,7 @@ export default function TableRoles({entity}:prop) {
         <div className={style.headerRol}>
             <p>Roles Table</p>
             <ButtonAddUser 
-                onClick={handleNewUser}
+                onClick={handleNewRol}
                 src={'/user-profile-add.png'}
                 alt='Add rol'
                 iconSize={18}
@@ -76,7 +79,7 @@ export default function TableRoles({entity}:prop) {
                             onChange={() => toggleUserActive(info.id)}
                         />
                     </td>
-                    <td className={style.rowEdit}>edit</td>
+                    <td className={style.rowEdit} ><button onClick={handleEditRol} >edit</button></td>
                    </tr>
                 ))}
             </tbody>
