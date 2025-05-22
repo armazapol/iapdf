@@ -10,11 +10,12 @@ type props = {
   alt: string;
   iconSize?: number;
   children: ReactNode;
+  className?: string;
 }
 
-export default function ButtonAddUser({ onClick, src, alt, iconSize, children }: props) {
+export default function ButtonAddUser({ onClick, src, alt, iconSize, children, className }: props) {
   return (
-    <button onClick={onClick} className={`${style.btnAddUser} ${style2.btnAddRol} `}>
+    <button onClick={onClick} className={className}>
       <Image 
         src={src} 
         alt={alt} 

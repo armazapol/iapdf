@@ -162,6 +162,7 @@
     background-color: #FFFFFF;
     padding: 12px 16px 12px 16px;
     outline: none;
+    height: 40px;
     &::placeholder{
         color: #B2B2B2;
         font-size: 16px;

@@ -319,7 +319,7 @@ export default function HomeLayout({
         </header>
 
         {/* Contenido con scroll interno */}
-        <main className="relative top-[70px] md:top-0 md:flex-1 overflow-y-auto bg-[#F9F6F2] px-10 py-6">
+        <main className="relative top-[70px] md:top-0 md:flex-1 overflow-y-auto bg-[#F9F6F2] px-2 md:px-10 py-6">
           {children}
           {showNotifications && (
             <Notifications onClose={() => setShowNotifications(false)} />
