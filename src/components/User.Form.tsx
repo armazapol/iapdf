@@ -1,7 +1,6 @@
 "use client";
 
 import FormField from "./FormField";
-import style from "../styles/UserForm.module.css";
 import Image from "next/image";
 import SweetModal from "./SweetModal";
 import { useState } from "react";
@@ -46,8 +45,8 @@ export default function UserForm({ evento }: Props) {
 
   return (
     <div className="w-full h-100 ">
-      <div className="w-full sm:h-[625px] lg:bg-[#FFFFFF] rounded-[15px] lg:shadow-[0px_3.5px_8.8px_0px_rgba(0,0,0,0.13)]">
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
+      <div className="w-full  lg:bg-[#FFFFFF] rounded-[15px] lg:shadow-[0px_3.5px_8.8px_0px_rgba(0,0,0,0.13)]">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="flex items-center relative gap-[5px] top-[27px]  left-[10px] lg:left-[24px] w-fit h-[24px]">
             <Image
               src="/arrow-right.png"
@@ -62,19 +61,19 @@ export default function UserForm({ evento }: Props) {
             </p>
           </div>
 
-          <div className="relative top-[51px] px-4 lg:px-[53px] w-full">
+          <div className="relative mt-[51px] px-4 lg:px-[53px] ">
             <h2 className="text-[24px] leading-[140%] font-bold text-[#2E3A59]">
               {evento} User
             </h2>
 
             <div className="w-full  max-w-full sm:max-w-[1225px] relative top-[10px] border-[#ddd0dc]" />
-            
+            <div className="border border-[#D0D5DD] w-full lg:w-[85%] relative top-[10px]"></div>
             {/* Personal data */}
             <div className="mb-[20px] w-full sm:pr-[20px]">
               <p className="text-[16px] font-medium leading-[100%] tracking-[-0.11px] text-[#B32646] underline relative top-[32px]">
                 Personal data
               </p>
-              <div className="flex flex-wrap gap-y-[5px] gap-x-[20px] relative top-[28px]">
+              <div className="flex flex-wrap gap-y-[5px] gap-x-[20px] relative top-[28px] ">
                 <FormField<newUserFormInputs>
                   label="Name"
                   name="name"
@@ -140,22 +139,22 @@ export default function UserForm({ evento }: Props) {
                 />
               </div>
             </div>
-
-            <button
-              type="submit"
-              disabled={!isValid || isSubmitting}
-              className={`w-full sm:w-[923px] sm:max-w-[1225px] h-[44px] text-[#EDEEEF] border border-[#B2B2B2] py-[10px] px-[16px] rounded-[8px] font-semibold text-[16px] leading-[24px] relative top-[60px] ${
-                isValid
-                  ? "bg-[#2E3A59] cursor-pointer"
-                  : "bg-[#B2B2B2] cursor-not-allowed"
-              }`}
-            >
-              {isSubmitting ? "Saving..." : "Save changes"}
-            </button>
+            <div className="mt-16 mb-7 sm:w-[600px] xl:w-[902px] xl:max-w-[1225px]">
+              <button
+                type="submit"
+                disabled={!isValid || isSubmitting}
+                className={` mb-7 w-full sm:w-full xl:w-[918px] sm:max-w-[1225px] h-[44px] text-[#EDEEEF] border border-[#B2B2B2] py-[10px] px-[16px] rounded-[8px] font-semibold text-[16px] leading-[24px] ${
+                  isValid
+                    ? "bg-[#2E3A59] cursor-pointer"
+                    : "bg-[#B2B2B2] cursor-not-allowed"
+                }`}
+              >
+                Save changes
+              </button>
+            </div>
           </div>
         </form>
       </div>
-
       <SweetModal
         evento="Employee"
         show={showModal}

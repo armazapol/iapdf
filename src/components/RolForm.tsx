@@ -2,10 +2,8 @@
 
 import Image from "next/image";
 import ButtonSwitch from "@/components/ButtonSwitch ";
-import style from "@/styles/RolForm.module.css";
 import { useState } from "react";
 import SweetModal from "./SweetModal";
-import "../styles/UserForm.module.css";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { rolInputs, rolSchema } from "@/schemas/rolSchema";

@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Notifications from "@/components/Notifications";
 import { useState } from "react";
-import HeaderMobile from "@/components/HeaderMobile";
 
 export default function HomeLayout({
   children,

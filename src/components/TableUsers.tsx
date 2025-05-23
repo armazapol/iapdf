@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import style from "@/styles/TableUserContainer.module.css";
 import ButtonAddUser from "./ButtonAddUser";
 import ButtonSwicth from "@/components/ButtonSwitch ";
 
