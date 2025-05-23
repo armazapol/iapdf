@@ -1,13 +1,20 @@
-import Sidebar from "@/components/Sidebar";
-import { getUser } from "../actions";
-import Header from "@/components/Header";
-export default async function HomeLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const profile = await getUser();
+"use client";
+import React, { useState } from "react";
+import Sidebar from "./Sidebar";
+import Header from "./Header";
 
+interface Props {
+  children: React.ReactNode;
+  profile: {
+    idUser: number;
+    email: string;
+    username: string;
+    role: string;
+  };
+}
+
+const Dashboard = ({ children, profile }: Props) => {
+  const [showSidebar, setShowSidebar] = useState(true);
   const routes = [
     { href: "/home", label: "PDF to Excel", icon: "/svg/icons/pdficon.svg" },
     {
@@ -50,19 +57,21 @@ export default async function HomeLayout({
     "/home/usermanagement": "Manage user permissions and roles.",
     // "/login": "Sign out of your account.",
   };
-
   return (
-    <div className="flex h-screen font-sans text-gray-800 overflow-hidden">
-      <Sidebar routes={routes} routesother={routesother} />
+    <>
+      <Sidebar routes={routes} routesother={routesother} showSidebar={showSidebar} />
       <Header
         routes={routes}
         routesother={routesother}
-          profile={profile}
+        profile={profile}
         descriptions={descriptions}
+        setShowSidebar={setShowSidebar}
+        showSidebar={showSidebar}
       >
         {children}
       </Header>
-      {/* <div className="flex-1 overflow-y-auto">{children}</div> */}
-    </div>
+    </>
   );
-}
+};
+
+export default Dashboard;

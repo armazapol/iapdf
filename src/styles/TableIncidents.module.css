@@ -1,6 +1,6 @@
 .container{
     width: 100%;
-    background-color: #FFFFFF;
+    
     .TableIncidents{
         width: 100%;
         border-top-left-radius: 10px;
@@ -35,6 +35,7 @@
             font-size: 14px;
             letter-spacing: 0%;
             color: #1D2129;
+            background-color: #FFFFFF;
             & td{
                 padding: 0 34px;
                 height: 110px;

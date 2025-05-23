@@ -17,6 +17,9 @@ const customStyles = {
     padding: 0,
     backgroundColor: "#fff",
   },
+    overlay: {
+    zIndex: 1000,
+  },
 };
 
 const EmailModal = ({ showModal, onClose }: emailProdalProps) => {

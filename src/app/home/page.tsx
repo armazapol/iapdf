@@ -141,7 +141,7 @@ export default function PDFToExcelPage() {
   }, [steps]);
 
   return (
-    <main className="h-[100%] w-[100%] p-10 over ">
+    <main className=" pb-10  md:p-10 flex flex-col ">
       <Step
         title="1. Upload your PDF."
         description="Please upload files in PDF, ZIP or RAR format only, as other formats
@@ -303,10 +303,10 @@ export default function PDFToExcelPage() {
           </div>
         </div>
         <div className="flex justify-center mt-4">
-          <div className="flex  w-[60%]  gap-6">
+          <div className="flex w-full  md:w-[60%] gap-2 md:gap-6">
             <button
               onClick={handleSendEmail}
-              className={`bg-white text-[#2E3A59] py-2 px-6 rounded-md  disabled:opacity-50 cursor-pointer flex-1 flex items-center gap-2 justify-center`}
+              className={`bg-white text-[#2E3A59] py-2 px-2 md:px-6 rounded-md  disabled:opacity-50 cursor-pointer flex-1 flex items-center gap-2 justify-center`}
             >
               <Image
                 src={"/svg/icons/send.svg"}
@@ -319,7 +319,7 @@ export default function PDFToExcelPage() {
             </button>
             <button
               // onClick={handleContinueStep2}
-              className={`bg-[#2E3A59] text-white py-2 px-6 rounded-md  disabled:opacity-50 cursor-pointer flex-1 flex items-center gap-2 justify-center`}
+              className={`bg-[#2E3A59] text-white py-2 px-2 md:px-6 rounded-md  disabled:opacity-50 cursor-pointer flex-1 flex items-center gap-2 justify-center`}
             >
               <Image
                 src={"/svg/icons/download.svg"}
@@ -332,7 +332,7 @@ export default function PDFToExcelPage() {
             </button>
           </div>
         </div>
-        <div className="flex my-8">
+        <div className="flex my-4 md:my-8">
           <button
             onClick={handleConvertAnotherFile}
             className={`bg-[#2E3A59] text-white py-2 px-6 rounded-md  disabled:opacity-50 cursor-pointer flex-1`}

@@ -18,6 +18,10 @@ const customStyles = {
     inset: "auto",
     padding: 0,
     backgroundColor: "#fff",
+    zIndex: 1000,
+  },
+  overlay: {
+    zIndex: 1000,
   },
 };
 

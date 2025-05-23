@@ -4,13 +4,16 @@ import React from 'react'
 import style from '@/styles/HistoryContainer.module.css'
 import Image from 'next/image'
 import { useState } from 'react';
-import DatePicker from '@/components/DatePicker';
+import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
 import { useRouter } from 'next/navigation';
 
 export default function TableHistory() {
 
   const router = useRouter()
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+    const [value, setValue] = useState<DateValueType | null>({ 
+        startDate: null, 
+        endDate: null
+    });
   const viewConversions = () => {
     router.push(`/home/history/files`)
   }
@@ -53,10 +56,12 @@ export default function TableHistory() {
     <div className={style.historyContainer}>
       <div className={style.selectDateContainer}>
         <div className={style.datePicker}>
-          <DatePicker 
-          value={selectedDate ?? ""}
-          onChange={(date: Date | null) => setSelectedDate(date)}
-          />
+          <Datepicker 
+            useRange={false}
+            asSingle={true}
+            value={value} 
+            onChange={newValue => setValue(newValue)}
+           /> 
         </div>
         <div className={style.filterContainer}>
           <Image src='/img/userHistory.png' width={16} height={16} alt='eye' className={style.icon}/>
