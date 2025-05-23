@@ -29,7 +29,7 @@
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.11.3",
-    "jose": "file:C:/Users/Usuario/Desktop/jose-6.0.11.tgz",
+    "jose": "^6.0.11",
     "lucide-react": "^0.508.0",
     "next": "15.3.0",
     "postcss": "^8.5.3",
