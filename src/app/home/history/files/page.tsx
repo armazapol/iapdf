@@ -20,7 +20,7 @@ export default function Page() {
     { img: "/img/File-history.png", info: {title:'Brainly Design System Privacy Policy.xls', peso: '200 MB'} }
   ]
   return (
-    <div className={style.container}>
+    <div className={`${style.container} mt-5 lg:mt-0`}>
         <div className={style.backArrow}>
             <Image 
                 src="/arrow-right.png"
