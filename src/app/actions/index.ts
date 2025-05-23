@@ -19,6 +19,7 @@ export const handleLogout = async () => {
 export const getUser = cache(async () => {
   const dataVerify = await verifySession()
   const {access_token} = dataVerify
+  
   const payload = decodeJwt(access_token.toString())
   const {idUser} = payload
   const response = await fetch(`${API_URL_BASE}/users/${idUser}`, {
@@ -32,3 +33,19 @@ export const getUser = cache(async () => {
   return result
 
 })
+
+export const getUsers = async () => {
+  
+  const dataVerify = await verifySession()
+  const {access_token} = dataVerify
+  
+  const response = await fetch(`${API_URL_BASE}/users`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Bearer ${access_token}`,
+    },
+  })
+  const result = await response.json()
+  return result
+}

@@ -36,7 +36,7 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
     <aside
       className={`${
         showSidebar ? "flex" : "hidden"
-      } relative top-[70px] lg:top-0 w-[242px] mr-[7px] bg-white p-6 flex flex-col justify-between h-full md:shadow-[7px_0_5px_-5px_rgba(0,0,0,0.3)] pb-24 md:pb-0`}
+      } lg:flex relative top-[70px] lg:top-0 w-[242px] mr-[7px] bg-white p-6 flex flex-col justify-between h-full md:shadow-[7px_0_5px_-5px_rgba(0,0,0,0.3)] pb-24 md:pb-0`}
     >
       <div className="fixed inset-0 z-10 flex bg-black/40 lg:hidden top-[70px] left-[242px] "></div>
       {/* Logo y navegación */}

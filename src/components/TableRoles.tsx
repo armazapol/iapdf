@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import ButtonAddUser from "./ButtonAddUser";
 import { useRouter } from "next/navigation";
 import ButtonSwitch from "./ButtonSwitch ";
-import style from "@/styles/TableRoles.module.css";
 
 type prop = {
   entity: string;
@@ -47,7 +46,7 @@ export default function TableRoles({ entity }: prop) {
   };
 
   return (
-    <div className="">
+    <div className="pt-5 lg:p-0 px-3 lg:pl-0">
       <div className="flex  gap-[75px] mb-[20px] md:hidden">
         <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">Roles Table</p>
         <ButtonAddUser

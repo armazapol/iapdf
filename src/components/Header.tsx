@@ -54,7 +54,7 @@ const Header = ({
   return (
     <>
       <div className="absolute w-full lg:hidden">
-        <div className=" lg:w-full h-[70px] flex items-center p-6 justify-between bg-[#FFFFFF]  ">
+        <div className=" lg:w-full h-[70px] flex items-center p-5 justify-between bg-[#FFFFFF]  ">
           <div className="flex gap-2 items-center">
             <button
               className="items-center lg:hidden"
@@ -124,9 +124,9 @@ const Header = ({
       </div>
       <div className="flex-1 flex flex-col h-full w-full">
         {/* Header fijo */}
-        <header className="hidden md:flex justify-between items-center bg-white h-[80px] px-[40px] shrink-0 ">
+        <header className="hidden md:flex justify-between items-center bg-white h-[80px] px-[20px] shrink-0 ">
           <div>
-            <h1 className="text-2xl font-bold text-[#B32646]">{pageTitle}</h1>
+            <h1 className="text-2xl font-bold text-[#B32646] ">{pageTitle}</h1>
             <p className="text-gray-500">{pageDescription}</p>
           </div>
           <div className="flex items-center space-x-4 pr-[20px] ">
@@ -154,12 +154,12 @@ const Header = ({
             <User profile={profile} />
           </div>
         </header>
-        <div className="block md:hidden bg-white mt-[70px] p-5">
+        <div className="block md:hidden bg-white mt-[70px] p-5 ">
           <h1 className="text-2xl font-bold text-[#B32646] ">{pageTitle}</h1>
           <p className="text-gray-500">{pageDescription}</p>
         </div>
         {/* Contenido con scroll interno */}
-        <main className="relative top-[10px] md:top-0 md:flex-1 overflow-y-auto bg-[#F9F6F2] px-5 md:px-10 py-6 h-full">
+        <main className="relative md:flex-1 overflow-y-auto bg-[#F9F6F2] px-2 lg:px-5 md:px-10 lg:py-6 h-full">
           {children}
           {showNotifications && (
             <Notifications onClose={() => setShowNotifications(false)} />
