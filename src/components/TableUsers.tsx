@@ -114,7 +114,7 @@ export default function TableUsers({ entity, data }: prop) {
                   </div>
                 </td>
                 <td className="pt-[10px] pb-[10px] min-w-[100px]  break-words">
-                  {"Administrador"}
+                  {user.role}
                 </td>
                 <td className="pt-[10px] pb-[10px] min-w-[100px]">
                   {"07/01/24"}
