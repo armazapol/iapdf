@@ -45,7 +45,7 @@ export default function TableIncidents() {
   ]
 
   return (
-    <div className={style.container}>
+    <div className={`${style.container} mt-4 lg:mt-0`}>
         <table className={style.TableIncidents}>
             <thead className={style.thead}>
                 <tr>

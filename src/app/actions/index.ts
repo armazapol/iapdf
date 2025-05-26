@@ -90,3 +90,19 @@ export const getHistory = async () => {
     throw error;
   }
 };
+
+export const getUsers = async () => {
+  
+  const dataVerify = await verifySession()
+  const {access_token} = dataVerify
+  
+  const response = await fetch(`${API_URL_BASE}/users`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Bearer ${access_token}`,
+    },
+  })
+  const result = await response.json()
+  return result
+}

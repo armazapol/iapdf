@@ -45,8 +45,8 @@ export default function UserForm({ evento }: Props) {
 
   return (
     <div className="w-full h-100 ">
-      <div className="w-full  lg:bg-[#FFFFFF] rounded-[15px] lg:shadow-[0px_3.5px_8.8px_0px_rgba(0,0,0,0.13)]">
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+      <div className="w-full  lg:bg-[#FFFFFF] rounded-[15px] lg:shadow-[0px_3.5px_8.8px_0px_rgba(0,0,0,0.13)] ">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
           <div className="flex items-center relative gap-[5px] top-[27px]  left-[10px] lg:left-[24px] w-fit h-[24px]">
             <Image
               src="/arrow-right.png"
