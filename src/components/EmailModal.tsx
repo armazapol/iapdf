@@ -54,8 +54,8 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
       contentLabel="Send Email"
       style={customStyles}
     >
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 ">
-        <div className="bg-white rounded-xl w-full max-w-2xl p-6 relative shadow-xl">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4 md:p-0">
+        <div className="bg-white rounded-xl w-full max-w-2xl p-6 relative shadow-xl ">
           {/* Close button */}
           <button
             className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 cursor-pointer"

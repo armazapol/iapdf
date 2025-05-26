@@ -22,3 +22,10 @@ export interface userProfile{
     username:string,
     role:string,
 }
+
+export interface responseHistory{
+    idRecord: number,
+    idUser: number,
+    namefile: string,
+    state: string
+}

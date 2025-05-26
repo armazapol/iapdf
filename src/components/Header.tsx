@@ -159,7 +159,9 @@ const Header = ({
           <p className="text-gray-500">{pageDescription}</p>
         </div>
         {/* Contenido con scroll interno */}
-        <main className="relative top-[10px] md:top-0 md:flex-1 overflow-y-auto bg-[#F9F6F2] px-5 md:px-10 py-6 h-full">
+        <main 
+        className="relative md:flex-1 overflow-y-auto bg-[#F9F6F2] px-5 md:px-10 py-6 h-full
+        ">
           {children}
           {showNotifications && (
             <Notifications onClose={() => setShowNotifications(false)} />

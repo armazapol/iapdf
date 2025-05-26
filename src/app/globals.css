@@ -25,60 +25,65 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 } */
 
-
-
 @font-face {
-  font-family: 'Poppins';
-  src: url('/fonts/Poppins-Regular.ttf');
+  font-family: "Poppins";
+  src: url("/fonts/Poppins-Regular.ttf");
   font-weight: 400;
   font-style: normal;
 }
 
-body{
-  font-family: 'Poppins', sans-serif;
+body {
+  font-family: "Poppins", sans-serif;
 }
 
 /* Estilos de modal personalizados */
 
 .swal2-icon.no-default-icon {
-    background: none;
-    border: none;
+  background: none;
+  border: none;
 }
-.custom-modal-size{
-    width: 517px !important;  
-    max-width: 100% !important; 
-    height: 275px !important; 
-    border-radius: 5px; 
+.custom-modal-size {
+  width: 517px !important;
+  max-width: 100% !important;
+  height: 275px !important;
+  border-radius: 5px;
 }
-.swal2-confirm.custom-ok-button{
-    width: 99px;
-    height: 37px;
-    border-radius: 5px;
-    padding: 10px 22px 10px 22px;
-    background-color: #185ABD;
-    color: #FFFFFF;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 100%;
-    letter-spacing: 0.4px;
+.swal2-confirm.custom-ok-button {
+  width: 99px;
+  height: 37px;
+  border-radius: 5px;
+  padding: 10px 22px 10px 22px;
+  background-color: #185abd;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0.4px;
 }
-.swal2-title.custom-title{
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 22px;
-    letter-spacing: 0px;
+.swal2-title.custom-title {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: 0px;
 }
 .swal2-close {
-    color:#4B4B4B;
+  color: #4b4b4b;
 }
 .swal2-close:hover {
-    color: #4B4B4B !important;
+  color: #4b4b4b !important;
 }
-
 
 @layer components {
   .btn-primary {
     @apply bg-[#2E3A59] text-white py-2 px-6 rounded-md disabled:opacity-50 cursor-pointer;
   }
+  .react-date-picker {
+    background-color: #fff;
+  }
+  .react-date-picker .react-date-picker__wrapper{
+    border: 1px solid #B2B2B2 !important;
+    border-radius: 6px;
+    padding: 0px 12px;
+    height: 40px;
+  }
 }
-

@@ -1,6 +1,9 @@
 .subContainer{
-
-    width: 715px;
+    width: 100%;
+    @media (width >= 48rem){
+         width: 715px;
+         margin-left: 27px;
+    }
 }
 .backArrow{
     display: flex;
@@ -34,15 +37,15 @@
         }
     }
 }
-.subContainer{
-    margin-left: 27px;
-}
 .fileContainer{
     display: flex;
     justify-content: center;
     align-items: center;
     justify-content: space-between;
-    width: 715px;
+    width: 100%;
+    @media (width >= 48rem){
+         width: 715px;
+    }
     
     & .files{
         display: flex;
@@ -80,10 +83,9 @@
 
     & .btnDownload{
         border: none;
-        width: 128px;
         height: 44px;
-        border-radius: 12px;
-        padding: 12px, 16px, 12px, 16px;
+        border-radius: 100%;
+        padding: 12px;
         background-color: #F4F4F5;
         font-weight: 600;
         font-size: 14px;
@@ -93,13 +95,22 @@
         justify-content: center;
         gap: 10px;
         cursor: pointer;
+        @media (width >= 48rem){
+            width: 128px;
+           padding: 12px 16px 12px 16px;
+           border-radius: 12px;
+        }
     }
 }
 .sendContainer{
-    width: 460px;
+    width: 100%;
     margin-top: 25px;
     display: flex;
     justify-content: space-between;
+    gap:1rem;
+     @media (width >= 48rem){
+         width: 460px;
+    }
     & .btnSend{
         width: 220px;
         height: 44px;

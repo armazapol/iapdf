@@ -5,7 +5,8 @@ import FileUploadBox from "@/components/FileUploadBox";
 import Step from "@/components/Step";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import {fieldsInit} from "@/utils";
+import { fieldsInit } from "@/utils";
+import { uploadFiles } from "../actions";
 
 const listReadyFiles = [
   {
@@ -125,6 +126,14 @@ export default function PDFToExcelPage() {
     setShowModalSendEmail(true);
   };
 
+  const handleUploadFiles = async (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    // handleContinueStep2();
+    console.log(files)
+    const response = await uploadFiles(files);
+    console.log("response", response);
+  };
+
   useEffect(() => {
     const simulateLoading = async () => {
       if (steps.step3.isShow && !steps.step3.isCompleted) {
@@ -213,7 +222,7 @@ export default function PDFToExcelPage() {
 
           <div className=" my-8 flex gap-6 ">
             <button
-              onClick={handleContinueStep2}
+              onClick={(e) => handleUploadFiles(e)}
               className={`bg-[#B32646] btn-primary flex-1`}
             >
               Skip

@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { SessionPayload } from "@/schemas/loginSchema";
-import { SignJWT, jwtVerify } from "jose";
+import { SignJWT, decodeJwt, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -32,7 +32,7 @@ export async function decrypt(session: string | undefined = "") {
 
 export async function createSession(token: SessionPayload) {
   const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
-  
+
   const encryptedSession = await encrypt(token);
 
   const cookieStore = await cookies();
@@ -55,8 +55,9 @@ export async function verifySession() {
   if (!session?.access_token) {
     redirect("/login");
   }
-
-  return { isAuth: true, access_token: session.access_token };
+  const payload = decodeJwt(session.access_token.toString());
+  const { idUser } = payload;
+  return { isAuth: true, access_token: session.access_token, idUser };
 }
 
 export async function updateSession() {

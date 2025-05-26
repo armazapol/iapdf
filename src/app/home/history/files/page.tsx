@@ -49,8 +49,8 @@ export default function Page() {
                                 <p className={style.peso}>{file.info.peso}</p>
                                 </div>
                             </div>
-                                <button className={style.btnDownload}><Image src="/img/download.png" alt="download" width={20}
-                                height={20} /> Download</button>
+                                <button className={style.btnDownload}><Image className='' src="/img/download.png" alt="download" width={20}
+                                height={20} /> <span className='hidden md:block'>Download</span> </button>
                         </div>
                     </div>
                 ))}
