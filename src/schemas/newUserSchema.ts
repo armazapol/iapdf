@@ -4,14 +4,14 @@ export const newUserSchema = z.object({
   name: z
     .string()
     .min(1, "Name requerido"),
-  lastName: z
+  last_name: z
     .string()
     .min(1, "Last name requerido"),
   email: z
     .string()
     .min(1, { message: "El correo electrónico es obligatorio." })
     .email({ message: "Debe ser un correo electrónico válido." }),
-  rol: z
+  role: z
     .string()
     .min(1, "Rol requerido"),
   username: z

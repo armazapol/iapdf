@@ -165,14 +165,13 @@ export const updateUser = async ( idUser: number, data: newUserFormInputs) => {
   console.log("idUser: ", idUser)
   console.log("data: ", data)
 
- 
   const response = await fetch(`${API_URL_BASE}/users/${idUser}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${access_token}`,
     },
-     body: data,
+     body: JSON.stringify(data)
   })
   console.log("Response: ", response)
   const result = await response.json()

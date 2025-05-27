@@ -1,15 +1,14 @@
-import UserForm from '@/components/User.Form'
+import UserForm from "@/components/User.Form";
 
 type Params = {
-  params: { id: string }; 
+  params: Promise<{ id: string }>;
 };
 
 export default async function editUserPage({ params }: Params) {
-
-  const id = parseInt(params.id, 10)
+  const { id } = await params;
   return (
     <div>
-        <UserForm evento="Edit" idUser={id} ></UserForm>
+      <UserForm evento="Edit" idUser={Number(id)}></UserForm>
     </div>
-  )
+  );
 }

@@ -46,10 +46,10 @@ export default function UserForm({ evento, idUser }: Props) {
           const userData = await getUserEdit(idUser);
           reset({
             name: userData.name,
-            lastName: userData.last_name,
+            last_name: userData.last_name,
             email: userData.email,
             username: userData.username,
-            rol: userData.role,
+            role: userData.role,
             password: "", 
             repeatPassword: "",
           });
@@ -65,7 +65,7 @@ export default function UserForm({ evento, idUser }: Props) {
 
   const onSubmit: SubmitHandler<newUserFormInputs> = async (formData) => {
 
-    const formData2 = {...formData, "isActive": false}
+    const formData2 = {...formData, isActive: false}
 
     if(evento === "Edit" && idUser){
       console.log("Entre en if edit")
@@ -125,10 +125,10 @@ export default function UserForm({ evento, idUser }: Props) {
                 />
                 <FormField<newUserFormInputs>
                   label="Last name"
-                  name="lastName"
+                  name="last_name"
                   type="input"
                   register={register}
-                  error={errors.lastName?.message}
+                  error={errors.last_name?.message}
                 />
                 <FormField<newUserFormInputs>
                   label="Email"
@@ -140,10 +140,10 @@ export default function UserForm({ evento, idUser }: Props) {
                 />
                 <FormField<newUserFormInputs>
                   label="Role"
-                  name="rol"
+                  name="role"
                   type="select"
                   register={register}
-                  error={errors.rol?.message}
+                  error={errors.role?.message}
                   options={[
                     { value: "Administrador", label: "Administrador" },
                     { value: "Worker", label: "Worker" },
