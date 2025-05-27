@@ -102,7 +102,7 @@ export default function TableRoles({ entity }: prop) {
                     />
                   </td>
                   <td className="py-5 text-right text-[#2E3A59] leading-[150%]">
-                    <button onClick={handleEditRol} className="hover:underline">
+                    <button onClick={handleEditRol} className="hover:underline cursor-pointer ">
                       edit
                     </button>
                   </td>

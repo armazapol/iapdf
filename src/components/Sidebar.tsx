@@ -41,7 +41,7 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
       <div className="fixed inset-0 z-10 flex bg-black/40 lg:hidden top-[70px] left-[242px] "></div>
       {/* Logo y navegación */}
       <div className="">
-        <div className="hidden lg:w-[400px] mb-[30px] lg:block">
+        <div className="hidden lg:w-[400px] mb-[30px] lg:block ">
           <Image
             src="/img/logoLogin.png"
             alt="Portada Login"
@@ -64,7 +64,7 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
               >
                 <Link
                   href={href}
-                  className={`flex items-center space-x-2 px-5 py-1 ${
+                  className={`flex items-center space-x-2 py-1 ${
                     pathname === href ? "text-white" : "text-gray-600"
                   }`}
                 >

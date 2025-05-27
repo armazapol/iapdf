@@ -3,18 +3,20 @@
 import FormField from "./FormField";
 import Image from "next/image";
 import SweetModal from "./SweetModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newUserFormInputs, newUserSchema } from "@/schemas/newUserSchema";
+import { createUser, getUserEdit, updateUser } from "@/app/actions";
+import { useLoading } from "./providers/LoadingProvider";
 
 type Props = {
   evento: string;
-  userId?: string;
+  idUser?: number;
 };
 
-export default function UserForm({ evento }: Props) {
+export default function UserForm({ evento, idUser }: Props) {
   const router = useRouter();
 
   const {
@@ -32,9 +34,48 @@ export default function UserForm({ evento }: Props) {
     },
   });
   const [showModal, setShowModal] = useState(false);
-  const onSubmit: SubmitHandler<newUserFormInputs> = () => {
-    // Simular una llamada a la API
-    //router.push('/home');
+  const { loading, setLoading } = useLoading();
+
+  // Si es vista edit
+
+  useEffect(() => {
+    if (idUser) {
+      const fetchUser = async () => {
+        try {
+          setLoading(true)
+          const userData = await getUserEdit(idUser);
+          reset({
+            name: userData.name,
+            lastName: userData.last_name,
+            email: userData.email,
+            username: userData.username,
+            rol: userData.role,
+            password: "", 
+            repeatPassword: "",
+          });
+        } catch (error) {
+          console.error("Error loading user data:", error);
+        } finally {
+          setLoading(false)
+        }
+      };
+      fetchUser();
+    }
+  }, [idUser, reset, setLoading]);
+
+  const onSubmit: SubmitHandler<newUserFormInputs> = async (formData) => {
+
+    const formData2 = {...formData, "isActive": false}
+
+    if(evento === "Edit" && idUser){
+      console.log("Entre en if edit")
+      console.log("idUser", idUser)
+      console.log("Data:", formData)
+      await updateUser(idUser, formData2)
+    } else {
+      await createUser(formData)
+    }
+
     setShowModal(true);
     reset();
   };
@@ -45,6 +86,7 @@ export default function UserForm({ evento }: Props) {
 
   return (
     <div className="w-full h-100 ">
+      {loading}
       <div className="w-full  lg:bg-[#FFFFFF] rounded-[15px] lg:shadow-[0px_3.5px_8.8px_0px_rgba(0,0,0,0.13)] ">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
           <div className="flex items-center relative gap-[5px] top-[27px]  left-[10px] lg:left-[24px] w-fit h-[24px]">
@@ -105,6 +147,7 @@ export default function UserForm({ evento }: Props) {
                   options={[
                     { value: "Administrador", label: "Administrador" },
                     { value: "Worker", label: "Worker" },
+                    { value: "user", label: "user" },
                   ]}
                 />
               </div>

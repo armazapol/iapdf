@@ -39,8 +39,8 @@ export default function TableUsers({ entity, data }: prop) {
     );
   };
 
-  const handleEdit = () => {
-    router.push(`/home/usermanagement/edit`);
+  const handleEdit = (idUser: number) => {
+    router.push(`/home/usermanagement/edit/${idUser}`);
   };
   const handleNewUser = () => {
     router.push("/home/usermanagement/new");
@@ -130,7 +130,7 @@ export default function TableUsers({ entity, data }: prop) {
                 </td>
                 <td className="text-end text-[#2E3A59] font-bold text-[14px] leading-[150%] pt-[10px] pb-[10px] w-[200px]">
                   <button
-                    onClick={() => handleEdit()}
+                    onClick={() => handleEdit(user.idUser)}
                     className="cursor-pointer"
                   >
                     Edit
