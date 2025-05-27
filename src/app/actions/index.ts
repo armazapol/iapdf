@@ -8,6 +8,7 @@ import {
   deleteSession,
   verifySession,
 } from "../auth/state-sesion";
+import { verifyCaptchaToken } from "@/utils/captcha";
 const API_URL_BASE = process.env.NEXT_PUBLIC_API_URL;
 
 export const handleLogin = async (token: LoginResponse) => {
@@ -57,16 +58,6 @@ export const uploadFiles = async (files: File[]) => {
     console.error("Error uploading files:", error);
     throw error;
   }
-
-  // const response = await fetch(`${API_URL_BASE}/pdf/upload-pdf-template`, {
-  //   method: "POST",
-  //   headers: {
-  //     Authorization: `Bearer ${access_token}`,
-  //   },
-  //   body: formData
-  // });
-  // const result = await response.json();
-  // return result;
 };
 
 export const getHistory = async () => {
@@ -105,4 +96,36 @@ export const getUsers = async () => {
   })
   const result = await response.json()
   return result
+}
+
+export const loginCaptchaAction = async(token: string | null) => {
+  if (!token) {
+    return {
+      success: false,
+      messager: "Token not found"
+    }
+  }
+
+  // Verify the token
+  const captchaData = await verifyCaptchaToken(token);
+
+  if (!captchaData) {
+    return {
+      success: false,
+      message: "Captcha Failed",
+    };
+  }
+
+  if (!captchaData.success || captchaData.score < 0.5) {
+    return {
+      success: false,
+      message: "Captcha Failed",
+      errors: !captchaData.success ? captchaData["error-codes"] : undefined,
+    };
+  }
+
+  return {
+    success:true,
+    message: "Message ssent successfully",
+  }
 }

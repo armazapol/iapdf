@@ -5,11 +5,13 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginFormInputs, loginSchema } from "@/schemas/loginSchema";
 import { useLogin } from "@/services/apis";
-import { handleLogin } from "../actions";
+import { handleLogin, loginCaptchaAction } from "../actions";
+import { getCaptchaToken } from "@/utils/captcha";
+import { showPasswordError } from "@/components/alerts";
 
 export default function LoginPage() {
-
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [captchaLoading, setCaptchaLoading] = useState(false);
   // const queryClient = new QueryClient();
 
   const login = useLogin();
@@ -32,20 +34,26 @@ export default function LoginPage() {
   };
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
-    // Simular una llamada a la API
-
     const payload = {
       username: data.email,
       password: data.password,
     };
-    try {
-      const response = await login.mutateAsync(payload);
-      await handleLogin(response.data)
-      // router.push('/home');
-    } catch (error) {
-      console.log(error)
+    setCaptchaLoading(true);
+    const token = await getCaptchaToken();
+    const res = await loginCaptchaAction(token);
+
+    if (res.success) {
+      try {
+        const response = await login.mutateAsync(payload);
+        await handleLogin(response.data);
+      } catch (error) {
+        console.log(error);
+        setCaptchaLoading(false);
+      }
+    } else {
+      showPasswordError(res.message || "Captcha verification failed");
+      setCaptchaLoading(false);
     }
-    // await handleLogin(payload);
   };
 
   return (
@@ -133,10 +141,10 @@ export default function LoginPage() {
           )}
           <button
             type="submit"
-            disabled={isSubmitting || login.isPending}
+            disabled={isSubmitting || login.isPending || captchaLoading}
             className="w-full p-2 mt-6 bg-[#B32646] text-white rounded cursor-pointer hover:pointer"
           >
-            {login.isPending ? "Loading..." : "Login"}
+            {login.isPending || captchaLoading ? "Loading..." : "Login"}
           </button>
         </form>
       </div>

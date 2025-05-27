@@ -2,7 +2,7 @@ import "./globals.css";
 import { LoadingProvider } from "@/components/providers/LoadingProvider";
 import { Loader } from "@/components/Loader";
 import { TanstackProvider } from "@/components/providers/tanstack-provider";
-// import Script from 'next/script';
+import Script from "next/script";
 
 export const metadata = {
   title: "Mandy Lí",
@@ -25,10 +25,10 @@ export default function RootLayout({
             </LoadingProvider>
           </TanstackProvider>
         </div>
-          {/* <Script
+        <Script
           src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-          strategy="lazyOnload"
-        /> */}
+          strategy="beforeInteractive"
+        />
       </body>
     </html>
   );
