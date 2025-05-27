@@ -96,7 +96,7 @@ export const getHistory = async () => {
 //   return result
 // }
 
-export const getUserEdit = async (idUser: number) => {
+export const getUser2 = async (idUser: number) => {
   const dataVerify = await verifySession()
   const {access_token} = dataVerify
 
@@ -150,7 +150,7 @@ export const createUser = async (data: newUserFormInputs) => {
   const response = await fetch(`${API_URL_BASE}/register`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${access_token}`,
     },
      body: JSON.stringify(data)
@@ -162,8 +162,6 @@ export const createUser = async (data: newUserFormInputs) => {
 export const updateUser = async ( idUser: number, data: newUserFormInputs) => {
   const dataVerify = await verifySession()
   const {access_token} = dataVerify
-  console.log("idUser: ", idUser)
-  console.log("data: ", data)
 
   const response = await fetch(`${API_URL_BASE}/users/${idUser}`, {
     method: 'PUT',
@@ -173,8 +171,6 @@ export const updateUser = async ( idUser: number, data: newUserFormInputs) => {
     },
      body: JSON.stringify(data)
   })
-  console.log("Response: ", response)
   const result = await response.json()
-  console.log("result: ", result)
   return result
 }

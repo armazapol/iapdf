@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newUserFormInputs, newUserSchema } from "@/schemas/newUserSchema";
-import { createUser, getUserEdit, updateUser } from "@/app/actions";
+import { createUser, getUser2, updateUser } from "@/app/actions";
 import { useLoading } from "./providers/LoadingProvider";
 
 type Props = {
@@ -43,7 +43,7 @@ export default function UserForm({ evento, idUser }: Props) {
       const fetchUser = async () => {
         try {
           setLoading(true)
-          const userData = await getUserEdit(idUser);
+          const userData = await getUser2(idUser);
           reset({
             name: userData.name,
             last_name: userData.last_name,
@@ -68,14 +68,11 @@ export default function UserForm({ evento, idUser }: Props) {
     const formData2 = {...formData, isActive: false}
 
     if(evento === "Edit" && idUser){
-      console.log("Entre en if edit")
-      console.log("idUser", idUser)
-      console.log("Data:", formData)
       await updateUser(idUser, formData2)
     } else {
-      await createUser(formData)
+      await createUser(formData2)
     }
-
+    router.push("/home/usermanagement/users");
     setShowModal(true);
     reset();
   };
