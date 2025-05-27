@@ -1,6 +1,8 @@
-import { getUsers } from "@/app/actions";
-import TableUsers from "@/components/TableUsers";
+
 import "react-loading-skeleton/dist/skeleton.css";
+import { Suspense } from "react";
+import TableUsersAsync from "@/components/TableUsersAsync";
+import Skeleton from "react-loading-skeleton";
 
 export default async function Users() {
   // const { loading, setLoading } = useLoading();
@@ -10,11 +12,13 @@ export default async function Users() {
   //     setTimeout(() => setLoading(false), 1000);
   // },[]);
   //<Skeleton height="504px" width="100%" />
-  const users = await getUsers()
+  // const users = await getUsers()
   
   return (
     <div>
-      <TableUsers entity="user" data={users} />
+      <Suspense fallback={<Skeleton height="504px" width="100%" />} >
+        <TableUsersAsync />
+      </Suspense>
     </div>  
   );
 }
