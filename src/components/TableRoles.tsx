@@ -5,12 +5,22 @@ import ButtonAddUser from "./ButtonAddUser";
 import { useRouter } from "next/navigation";
 import ButtonSwitch from "./ButtonSwitch ";
 
-type prop = {
+type Props = {
   entity: string;
+  roles: Role[]
 };
 
-export default function TableRoles({ entity }: prop) {
+type Role = {
+  _id: string;
+  id: number;
+  rol: string;
+  creationDate: string;
+  isActive: boolean;
+};
+
+export default function TableRoles({ entity, roles }: Props) {
   const router = useRouter();
+  const [roleList, setRoleList] = useState<Role[]>(roles);
 
   const handleNewRol = () => {
     router.push("/home/usermanagement/roles/new");
@@ -19,28 +29,10 @@ export default function TableRoles({ entity }: prop) {
     router.push("/home/usermanagement/roles/edit");
   };
 
-  const [infos, setInfos] = useState([
-    {
-      id: "1",
-      rol: "Administrador",
-      creation_date: "06/14/25",
-      modification_date: "07/13/25",
-      active: true,
-    },
-    {
-      id: "2",
-      rol: "Worker",
-      creation_date: "06/14/25",
-      modification_date: "07/13/25",
-      active: true,
-    },
-    
-  ]);
-
-  const toggleUserActive = (id: string) => {
-    setInfos((prevUsers) =>
-      prevUsers.map((info) =>
-        info.id === id ? { ...info, active: !info.active } : info
+  const toggleUserActive = (id: number) => {
+    setRoleList((prevRoles) =>
+      prevRoles.map((info) =>
+        info.id === id ? { ...info, isActive: !info.isActive } : info
       )
     );
   };
@@ -87,21 +79,21 @@ export default function TableRoles({ entity }: prop) {
               </tr>
             </thead>
             <tbody>
-              {infos.map((info) => (
+              {roleList.map((item) => (
                 <tr
-                  key={info.id}
+                  key={item.id}
                   className="font-bold text-[14px] text-[#2D3748] border-t border-[#E2E8F0]"
                 >
-                  <td className="py-5">{info.rol}</td>
-                  <td className="py-5 font-medium">{info.creation_date}</td>
-                  <td className="py-5 font-medium">{info.modification_date}</td>
+                  <td className="py-5">{item.rol}</td>
+                  <td className="py-5 font-medium">{item.creationDate}</td>
+                  <td className="py-5 font-medium">{""}</td>
                   <td className="py-5 pl-2">
                     <ButtonSwitch
-                      checked={info.active}
-                      onChange={() => toggleUserActive(info.id)}
+                      checked={item.isActive}
+                      onChange={() => toggleUserActive(item.id)}
                     />
                   </td>
-                  <td className="py-5 text-right text-[#2E3A59] leading-[150%]">
+                  <td className="py-5 text-right text-[#2E3A59] leading-[150%] lg:w-[300px]">
                     <button onClick={handleEditRol} className="hover:underline cursor-pointer ">
                       edit
                     </button>

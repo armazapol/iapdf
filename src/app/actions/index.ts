@@ -174,3 +174,38 @@ export const updateUser = async ( idUser: number, data: newUserFormInputs) => {
   const result = await response.json()
   return result
 }
+
+
+export const getRoles = async () => {
+  const dataVerify = await verifySession()
+  const {access_token} = dataVerify
+
+  const response = await fetch(`${API_URL_BASE}/roles`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`,
+    }
+  })
+   console.log("Response roles: ", response)
+  const result = await response.json()
+   console.log("Result roles: ", result)
+  return result
+ 
+}
+
+export const createRol = async (rol:string) =>{
+   const dataVerify = await verifySession()
+  const {access_token} = dataVerify
+
+  const response = await fetch(`${API_URL_BASE}/roles`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`,
+    },
+    body: JSON.stringify({rol})
+  })
+  const result = await response.json()
+  return result
+}
