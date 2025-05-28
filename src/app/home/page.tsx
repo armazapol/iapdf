@@ -4,9 +4,10 @@ import EmailModal from "@/components/EmailModal";
 import FileUploadBox from "@/components/FileUploadBox";
 import Step from "@/components/Step";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { fieldsInit } from "@/utils";
 import { uploadFiles } from "../actions";
+import { showPasswordError } from "@/components/alerts";
 
 const listReadyFiles = [
   {
@@ -128,26 +129,56 @@ export default function PDFToExcelPage() {
 
   const handleUploadFiles = async (e?: React.MouseEvent) => {
     e?.preventDefault();
-    // handleContinueStep2();
-    console.log(files)
-    const response = await uploadFiles(files);
-    console.log("response", response);
+    try {
+      setLoading(true);
+      handleContinueStep2();
+      const response = await uploadFiles(files);
+
+      handleContinueStep3()
+      setLoading(false);
+      console.log("response", response);
+    } catch (error) {
+      setLoading(false);
+      console.log("error", error);
+      showPasswordError(
+        "Ocurrió un error al subir los archivos. Por favor, vuelve a intentarlo."
+      );
+    }
   };
 
-  useEffect(() => {
-    const simulateLoading = async () => {
-      if (steps.step3.isShow && !steps.step3.isCompleted) {
-        setLoading(true);
+  // const handleDonwloadFiles = async () => {
+  //   try {
+  //     setLoading(true);
+  //     // Aquí deberías implementar la lógica para descargar los archivos
+  //     // Por ejemplo, podrías hacer una petición a tu API para obtener los archivos
+  //     // y luego crear un enlace de descarga.
+  //     setLoading(false);
+  //   } catch (error) {
+  //     setLoading(false);
+  //     console.error("Error downloading files:", error);
+  //   }
+  // };
 
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+  const handleCancelUpload = async () => {
+    console.log("Cancel upload");
+    // setLoading(false);
+    // await cancelFetch()
+  }
 
-        setLoading(false);
-        handleContinueStep3();
-      }
-    };
+  // useEffect(() => {
+  //   const simulateLoading = async () => {
+  //     if (steps.step3.isShow && !steps.step3.isCompleted) {
+  //       setLoading(true);
 
-    simulateLoading();
-  }, [steps]);
+  //       await new Promise((resolve) => setTimeout(resolve, 3000));
+
+  //       setLoading(false);
+  //       handleContinueStep3();
+  //     }
+  //   };
+
+  //   simulateLoading();
+  // }, [steps]);
 
   return (
     <main className=" pb-10  md:p-10 flex flex-col ">
@@ -255,7 +286,7 @@ export default function PDFToExcelPage() {
 
         <div className=" my-8 flex gap-6 ">
           <button
-            onClick={handleContinueStep3}
+            onClick={handleCancelUpload}
             className={`bg-[#B32646] text-white py-2 px-6 rounded-md  disabled:opacity-50 cursor-pointer flex-1`}
           >
             Cancel upload

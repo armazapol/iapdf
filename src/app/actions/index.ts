@@ -178,3 +178,25 @@ export const updateUser = async ( idUser: number, data: newUserFormInputs) => {
   console.log("result: ", result)
   return result
 }
+
+export const getIncidents = async () => {
+  const dataVerify = await verifySession();
+  const { access_token, idUser } = dataVerify;
+
+  try {
+    const response = await fetch(`${API_URL_BASE}/indicents/${idUser}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": 'application/json',
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+    // console.log(response);
+    if (!response.ok) throw new Error("Error en la respuesta del servidor");
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error get history:", error);
+    throw error;
+  }
+};
