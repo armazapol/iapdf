@@ -7,15 +7,16 @@ type Props = {
   evento: string;
   show: boolean;
   onClose?: () => void;
+  activity: string
 }
 
-export default function SweetModal({ evento, show = false, onClose }: Props) {
+export default function SweetModal({ evento, show = false, onClose, activity }: Props) {
     useEffect(() => {
       const showModal = async () => {
         if (!show) return;
   
         await Swal.fire({
-          title: `${evento} successfully created!`,
+          title: `${evento} successfully ${activity}!`,
           iconHtml: '<img src="/Suscessfull.png" alt="ok" style="width: 64px;"/>',
           backdrop: '#000000B5',
           showCloseButton: true,

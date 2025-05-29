@@ -7,6 +7,7 @@ import { createSession, deleteSession, verifySession } from "../auth/state-sesio
 import { newUserFormInputs } from '@/schemas/newUserSchema';
 
 import { verifyCaptchaToken } from "@/utils/captcha";
+import { rolInputs } from "@/schemas/rolSchema";
 const API_URL_BASE = process.env.NEXT_PUBLIC_API_URL;
 
 export const handleLogin = async (token: LoginResponse) => {
@@ -20,6 +21,7 @@ export const handleLogout = async () => {
 export const getUser = cache(async () => {
   const dataVerify = await verifySession();
   const { access_token, idUser } = dataVerify;
+  console.log(access_token)
   const response = await fetch(`${API_URL_BASE}/users/${idUser}`, {
     method: "GET",
     headers: {
@@ -80,21 +82,21 @@ export const getHistory = async () => {
   }
 };
 
-// export const getUsers = async () => {
+export const getUsers = async () => {
   
-//   const dataVerify = await verifySession()
-//   const {access_token} = dataVerify
-//   console.log(access_token)
-//   const response = await fetch(`${API_URL_BASE}/users`, {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/x-www-form-urlencoded',
-//       'Authorization': `Bearer ${access_token}`,
-//     },
-//   })
-//   const result = await response.json()
-//   return result
-// }
+  const dataVerify = await verifySession()
+  const {access_token} = dataVerify
+
+  const response = await fetch(`${API_URL_BASE}/users`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Bearer ${access_token}`,
+    },
+  })
+  const result = await response.json()
+  return result
+}
 
 export const getUser2 = async (idUser: number) => {
   const dataVerify = await verifySession()
@@ -187,15 +189,12 @@ export const getRoles = async () => {
       'Authorization': `Bearer ${access_token}`,
     }
   })
-   console.log("Response roles: ", response)
   const result = await response.json()
-   console.log("Result roles: ", result)
   return result
- 
 }
 
 export const createRol = async (rol:string) =>{
-   const dataVerify = await verifySession()
+  const dataVerify = await verifySession()
   const {access_token} = dataVerify
 
   const response = await fetch(`${API_URL_BASE}/roles`, {
@@ -205,6 +204,22 @@ export const createRol = async (rol:string) =>{
       'Authorization': `Bearer ${access_token}`,
     },
     body: JSON.stringify({rol})
+  })
+  const result = await response.json()
+  return result
+}
+
+export const editRol = async (id:number, data:rolInputs) => {
+  const dataVerify = await verifySession()
+  const {access_token} = dataVerify
+
+  const response = await fetch(`${API_URL_BASE}/roles${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`,
+    },
+    body: JSON.stringify(data)
   })
   const result = await response.json()
   return result

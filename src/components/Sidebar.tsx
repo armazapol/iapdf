@@ -16,6 +16,7 @@ interface Route {
   href: string;
   label: string;
   icon: string;
+  icon2: string;
 }
 
 interface RouteOther {
@@ -36,7 +37,7 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
     <aside
       className={`${
         showSidebar ? "flex" : "hidden"
-      } relative top-[70px] lg:top-0 w-[242px] mr-[7px] bg-white p-6 flex flex-col justify-between h-full md:shadow-[7px_0_5px_-5px_rgba(0,0,0,0.3)] pb-24 md:pb-6`}
+      } lg:flex relative top-[70px] lg:top-0 w-[242px] mr-[7px] bg-white p-6 flex flex-col justify-between h-full md:shadow-[7px_0_5px_-5px_rgba(0,0,0,0.3)] pb-24 md:pb-6`}
     >
       <div className="fixed inset-0 z-10 flex bg-black/40 lg:hidden top-[70px] left-[242px] "></div>
       {/* Logo y navegación */}
@@ -55,7 +56,7 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
             MAIN MENU
           </p>
           <ul className="mb-6 space-y-2">
-            {routes.map(({ href, label, icon }) => (
+            {routes.map(({ href, label, icon, icon2 }) => (
               <li
                 key={href}
                 className={`font-medium flex items-center h-[50px] ${
@@ -64,16 +65,16 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
               >
                 <Link
                   href={href}
-                  className={`flex items-center space-x-2 py-1 ${
+                  className={`flex items-center gap-2 space-x-2 py-1 ${
                     pathname === href ? "text-white" : "text-gray-600"
                   }`}
                 >
-                  <img
-                    src={icon}
+                  <Image 
+                    src={pathname === href ? icon2 : icon}
                     alt={label}
-                    className={`w-4 h-4 mr-2 ${
-                      pathname === href ? "invert brightness-200" : ""
-                    }`}
+                    width={24}
+                    height={24}
+                    className="mr-2"
                   />
                   <span>{label}</span>
                 </Link>

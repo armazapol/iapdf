@@ -8,13 +8,15 @@ import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { rolInputs, rolSchema } from "@/schemas/rolSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createRol } from "@/app/actions";
+import { createRol, editRol } from "@/app/actions";
 
 type props = {
   entity: string;
+  id?: number;
+  activity:  string
 };
 
-export default function RolForm({ entity }: props) {
+export default function RolForm({ entity, id, activity }: props) {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [switches, setSwitches] = useState<{ [key: string]: boolean }>({
@@ -49,12 +51,15 @@ export default function RolForm({ entity }: props) {
   });
 
   const onSubmit: SubmitHandler<rolInputs> = async (data) => {
-    // Simular una llamada a la API
-    console.log("Data:", data)
-    const response = await createRol(data.rol)
-    console.log("Response: ", response)
-    //router.push('/home');
+ 
+    if( entity==="Edit" && id ){
+      await editRol(id,data)
+    }else{
+      await createRol(data.rol)
+    }
+    
     setShowModal(true);
+    router.push('/home/usermanagement/roles');
     reset();
   };
 
@@ -168,6 +173,7 @@ export default function RolForm({ entity }: props) {
 
         <SweetModal
           evento="Role"
+          activity={activity}
           show={showModal}
           onClose={() => setShowModal(false)}
         />
