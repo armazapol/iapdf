@@ -12,7 +12,7 @@ const Logout = () => {
   return (
     <>
       <li
-        className={`font-medium flex items-center h-[50px] cursor-pointer hover:bg-[#B32646] hover:text-white rounded-md gap-4`}
+        className={`font-medium flex items-center h-[50px] cursor-pointer hover:bg-[#B32646] hover:text-white rounded-md gap-4 pl-2`}
         onClick={handleSetShowModal}
       >
         <Image src="/svg/icons/logouticon.svg" alt="Logout" width="16" height="16" />

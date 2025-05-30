@@ -158,6 +158,7 @@ export const createUser = async (data: newUserFormInputs) => {
      body: JSON.stringify(data)
   })
   const result = await response.json()
+  // if (!response.ok) throw new Error(result.detail);
   return result
 }
 
@@ -206,6 +207,8 @@ export const createRol = async (rol:string) =>{
     body: JSON.stringify({rol})
   })
   const result = await response.json()
+  if (!response.ok) throw new Error(result.detail);
+
   return result
 }
 

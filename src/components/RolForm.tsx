@@ -9,16 +9,19 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { rolInputs, rolSchema } from "@/schemas/rolSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createRol, editRol } from "@/app/actions";
+import { useLoading } from "./providers/LoadingProvider";
 
 type props = {
   entity: string;
   id?: number;
-  activity:  string
+  activity: string;
 };
 
 export default function RolForm({ entity, id, activity }: props) {
   const router = useRouter();
+  const { loading, setLoading } = useLoading();
   const [showModal, setShowModal] = useState(false);
+  
   const [switches, setSwitches] = useState<{ [key: string]: boolean }>({
     switch1: false,
     switch2: false,
@@ -40,8 +43,7 @@ export default function RolForm({ entity, id, activity }: props) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-    reset,
+    formState: { errors, isSubmitting, isValid }
   } = useForm<rolInputs>({
     resolver: zodResolver(rolSchema),
     mode: "onChange",
@@ -51,16 +53,20 @@ export default function RolForm({ entity, id, activity }: props) {
   });
 
   const onSubmit: SubmitHandler<rolInputs> = async (data) => {
- 
-    if( entity==="Edit" && id ){
-      await editRol(id,data)
-    }else{
-      await createRol(data.rol)
+    setLoading(true);
+
+    try {
+      if (entity === "Edit" && id) {
+        await editRol(id, data);
+      } else {
+        await createRol(data.rol);
+      }
+      setShowModal(true);
+    } catch (error) {
+      alert(error); //Posible Modal
+    } finally {
+      setLoading(false);
     }
-    
-    setShowModal(true);
-    router.push('/home/usermanagement/roles');
-    reset();
   };
 
   return (
@@ -161,7 +167,7 @@ export default function RolForm({ entity, id, activity }: props) {
           <button
             className={`w-full max-w-[1525px] h-[44px] text-[#EDEEEF] border rounded-[8px] font-semibold text-[16px] leading-[24px] px-4 py-2 relative top-4 ${
               isValid
-                ? "bg-[#2E3A59] border-[#B2B2B2]"
+                ? "bg-[#2E3A59] border-[#B2B2B2] cursor-pointer"
                 : "bg-[#B2B2B2] border-[#B2B2B2] cursor-not-allowed"
             }`}
             type="submit"
@@ -176,6 +182,7 @@ export default function RolForm({ entity, id, activity }: props) {
           activity={activity}
           show={showModal}
           onClose={() => setShowModal(false)}
+          onConfirm={goBack}
         />
       </div>
     </div>

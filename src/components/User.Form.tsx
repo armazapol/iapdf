@@ -65,7 +65,8 @@ export default function UserForm({ evento, idUser, activity }: Props) {
   }, [idUser, reset, setLoading]);
 
   const onSubmit: SubmitHandler<newUserFormInputs> = async (formData) => {
-    console.log("FormData: ", formData)
+    
+    setLoading(true)
     const formData2 = {...formData, isActive: false}
 
     if(evento === "Edit" && idUser){
@@ -73,9 +74,8 @@ export default function UserForm({ evento, idUser, activity }: Props) {
     } else {
       await createUser(formData2)
     }
-    router.push("/home/usermanagement/users");
+    setLoading(false)
     setShowModal(true);
-    reset();
   };
 
   const goBack = () => {
@@ -201,6 +201,7 @@ export default function UserForm({ evento, idUser, activity }: Props) {
         activity={activity}
         show={showModal}
         onClose={() => setShowModal(false)}
+        onConfirm={goBack}
       />
     </div>
   );

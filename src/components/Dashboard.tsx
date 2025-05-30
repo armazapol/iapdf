@@ -40,6 +40,7 @@ const Dashboard = ({ children, profile }: Props) => {
       href: "/home/usermanagement/users",
       label: "User management",
       icon: "/svg/icons/configicon.svg",
+      icon2: "/img/ajuste.png",
       children: [
         {
           href: "/home/usermanagement/users",
