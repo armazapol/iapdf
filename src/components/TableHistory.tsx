@@ -9,6 +9,7 @@ import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { responseHistory } from "@/types";
+import { parseFormat } from "@/utils/parseFormat";
 
 type ValuePiece = Date | null;
 
@@ -22,58 +23,23 @@ export default function TableHistory({history}:Props) {
   const router = useRouter();
   const [value, onChange] = useState<Value>(new Date());
 
-  const viewConversions = () => {
-    router.push(`/home/history/files`);
+  const viewConversions = (id:number, fecha:string) => {
+    router.push(`/home/history/files/${id}?fecha=${fecha}`);
   };
 
-  // const history2 = [
-  //   { Nro: 1, DateSubmited: "04/18/2025", TotalFiles: 20, status: "queued" },
-  //   { Nro: 2, DateSubmited: "04/18/2025", TotalFiles: 20, status: "Converted" },
-  //   { Nro: 3, DateSubmited: "04/18/2025", TotalFiles: 20, status: "Converted" },
-  //   { Nro: 4, DateSubmited: "04/18/2025", TotalFiles: 20, status: "Converted" },
-  //   { Nro: 5, DateSubmited: "04/18/2025", TotalFiles: 20, status: "Converted" },
-  //   { Nro: 6, DateSubmited: "04/18/2025", TotalFiles: 20, status: "Converted" },
-  //   { Nro: 7, DateSubmited: "04/18/2025", TotalFiles: 18, status: "Converted" },
-  //   { Nro: 8, DateSubmited: "04/18/2025", TotalFiles: 20, status: "Converted" },
-  //   { Nro: 9, DateSubmited: "04/18/2025", TotalFiles: 20, status: "Converted" },
-  //   {
-  //     Nro: 10,
-  //     DateSubmited: "04/18/2025",
-  //     TotalFiles: 20,
-  //     status: "Converted",
-  //   },
-  //   {
-  //     Nro: 11,
-  //     DateSubmited: "04/18/2025",
-  //     TotalFiles: 20,
-  //     status: "Converted",
-  //   },
-  //   {
-  //     Nro: 12,
-  //     DateSubmited: "04/18/2025",
-  //     TotalFiles: 20,
-  //     status: "Converted",
-  //   },
-  //   {
-  //     Nro: 13,
-  //     DateSubmited: "04/18/2025",
-  //     TotalFiles: 20,
-  //     status: "Converted",
-  //   },
-  //   {
-  //     Nro: 14,
-  //     DateSubmited: "04/18/2025",
-  //     TotalFiles: 20,
-  //     status: "Converted",
-  //   },
-  // ];
+  const historyWithIndex = history.map((item, index) => {
+    return {
+      index: index + 1,
+      ...item,
+    }
+  })
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPage = 6;
 
   const indexOfLastItem = currentPage * itemsPage;
   const indexOfFirstItem = indexOfLastItem - itemsPage;
-  const currentItems = history.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = historyWithIndex.slice(indexOfFirstItem, indexOfLastItem);
 
   const totalPages = Math.ceil(history.length / itemsPage);
 
@@ -112,9 +78,9 @@ export default function TableHistory({history}:Props) {
           <tbody>
             {currentItems.map((item, index) => (
               <tr key={index}>
-                <td>{index+1}</td>
-                <td>Falta campo</td>
-                <td>Falta campo</td>
+                <td>{item.index}</td>
+                <td>{parseFormat(item.fecha) } </td>
+                <td>{item.archivos.length} </td>
                 <td className={style.vectorOn}>
                   <Image
                     src="/img/VectorOn.png"
@@ -122,10 +88,10 @@ export default function TableHistory({history}:Props) {
                     height={4}
                     alt="vectorOn"
                   />
-                  {item.state}
+                  {item.estado}
                 </td>
                 <td className={style.btnContainer}>
-                  <button onClick={viewConversions}>
+                  <button onClick={() => viewConversions(item.idPeticion, item.fecha)}>
                     <Image
                       src="/img/eyeWhite.png"
                       width={18}

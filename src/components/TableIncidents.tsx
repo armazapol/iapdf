@@ -1,82 +1,63 @@
-'use-client'
+"use-client";
 
-import style from '@/styles/TableIncidents.module.css'
-import LoadingButton from '@/components/LoadingButton'
+import style from "@/styles/TableIncidents.module.css";
+import LoadingButton from "@/components/LoadingButton";
 
-export default function TableIncidents() {
+interface Indicent {
+  id: string;
+  nombre: string;
+  timestamp: string;
+  actividad: string;
+}
 
-  const infos = [
-    { 
-        No: 1,
-        Service: "AWS Infrastructure",
-        Title: "[#199999] AWS Heidtui Event Us-east-1EBS:AWS_EBS_VOLUME_LOST",
-        Time: "AT 7:34 pm",
-        Activity: {
-            name: "Jessica Tuter",
-            for: "for",
-            duration: "30 minutes",
-            source: "through the API"
-          }
-    },
-    { 
-        No: 2,
-        Service: "AWS Infrastructure",
-        Title: "[#199999] AWS Heidtui Event Us-east-1EBS:AWS_EBS_VOLUME_LOSsT",
-        Time: "AT 7:34 pm",
-        Activity: {
-            name: "Jessica Tuter",
-            for: "for",
-            duration: "30 minutes",
-            source: "through the API"
-          }
-    },
-    { 
-        No: 3,
-        Service: "AWS Infrastructure",
-        Title: "[#199999] AWS Heidtui Event Us-east-1EBS:AWS_EBS_VOLUME_LOST",
-        Time: "AT 7:34 pm",
-        Activity: {
-            name: "Jessica Tuter",
-            for: "for",
-            duration: "30 minutes",
-            source: "through the API"
-          }
-    }
-  ]
+export default function TableIncidents({
+  incidents,
+}: {
+  incidents: Indicent[];
+}) {
+  console.log("TableIncidents: ", incidents);
 
   return (
     <div className={`${style.container} mt-4 lg:mt-0`}>
-        <table className={style.TableIncidents}>
-            <thead className={style.thead}>
-                <tr>
-                    <th>No.</th>
-                    <th>Service</th>
-                    <th>Title</th>
-                    <th>Time</th>
-                    <th>Activity</th>
-                    <th className={style.action}>Action</th>
-                </tr>
-            </thead>
-            <tbody className={style.tbody}>
-                {infos.map( info => ( 
-                    <tr key={info.No}>
-                        <td>{info.No}</td>
-                        <td className={style.service}>{info.Service}</td>
-                        <td  className={style.titleColumn}>{info.Title}</td>
-                        <td>{info.Time}</td>
-                        <td>
-                            <span className={style.tdName}>{info.Activity.name}</span>
+      <table className={style.TableIncidents}>
+        <thead className={style.thead}>
+          <tr>
+            <th>No.</th>
+            <th>Service</th>
+            <th>Title</th>
+            <th>Time</th>
+            <th>Activity</th>
+            <th className={style.action}>Action</th>
+          </tr>
+        </thead>
+        <tbody className={style.tbody}>
+          {incidents.length === 0 && (
+            <tr>
+              <td colSpan={6} className="text-center">
+                No incidents found
+              </td>
+            </tr>
+          )}
+          {incidents.map((info, index: number) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
+              <td className={style.service}>{info.id}</td>
+              <td className={style.titleColumn}>{info.nombre}</td>
+              <td>{info.timestamp}</td>
+              <td>
+                <span className={style.tdName}>{info.actividad}</span>
+                {/* <span className={style.tdName}>{info.Activity.name}</span>
                             <span> {info.Activity.for} </span>
                             <span className={style.tdDuration}>{info.Activity.duration} </span>
-                            <span>{info.Activity.source}</span>
-                        </td>
-                        <td>
-                            <LoadingButton />
-                        </td>
-                    </tr>)
-                )}
-            </tbody>
-        </table>
+                            <span>{info.Activity.source}</span> */}
+              </td>
+              <td>
+                <LoadingButton />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-  )
+  );
 }

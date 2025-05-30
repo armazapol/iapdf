@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { rolInputs, rolSchema } from "@/schemas/rolSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { createRol } from "@/app/actions";
 
 type props = {
   entity: string;
@@ -47,8 +48,11 @@ export default function RolForm({ entity }: props) {
     },
   });
 
-  const onSubmit: SubmitHandler<rolInputs> = () => {
+  const onSubmit: SubmitHandler<rolInputs> = async (data) => {
     // Simular una llamada a la API
+    console.log("Data:", data)
+    const response = await createRol(data.rol)
+    console.log("Response: ", response)
     //router.push('/home');
     setShowModal(true);
     reset();
@@ -94,7 +98,7 @@ export default function RolForm({ entity }: props) {
             </label>
             <input
               type="text"
-              placeholder="Role name"
+              placeholder="Rol name"
               id="rol"
               {...register("rol")}
               className="border border-[#D9D9D9] w-full max-w-[292px] min-w-[0] h-[40px] rounded-[8px] px-4 py-3 bg-[#FFFFFF] md:bg-none"

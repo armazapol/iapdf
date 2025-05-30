@@ -3,8 +3,12 @@ import { cache } from "react";
 
 import { LoginResponse } from "@/types";
 
-import { createSession, deleteSession, verifySession } from "../auth/state-sesion";
-import { newUserFormInputs } from '@/schemas/newUserSchema';
+import {
+  createSession,
+  deleteSession,
+  verifySession,
+} from "../auth/state-sesion";
+import { newUserFormInputs } from "@/schemas/newUserSchema";
 
 import { verifyCaptchaToken } from "@/utils/captcha";
 const API_URL_BASE = process.env.NEXT_PUBLIC_API_URL;
@@ -31,14 +35,9 @@ export const getUser = cache(async () => {
   return result;
 });
 
-export const uploadFiles = async (files: File[]) => {
+export const uploadFiles = async (formData: FormData) => {
   const dataVerify = await verifySession();
   const { access_token } = dataVerify;
-  const formData = new FormData();
-
-  files.forEach((file) => {
-    formData.append("files", file); // Usa 'files[]' si tu backend espera array
-  });
 
   try {
     const response = await fetch(`${API_URL_BASE}/pdf/upload-pdf-template`, {
@@ -63,7 +62,7 @@ export const getHistory = async () => {
   const { access_token, idUser } = dataVerify;
 
   try {
-    const response = await fetch(`${API_URL_BASE}/records/${idUser}`, {
+    const response = await fetch(`${API_URL_BASE}/history/${idUser}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -80,43 +79,42 @@ export const getHistory = async () => {
   }
 };
 
-// export const getUsers = async () => {
-  
-//   const dataVerify = await verifySession()
-//   const {access_token} = dataVerify
-//   console.log(access_token)
-//   const response = await fetch(`${API_URL_BASE}/users`, {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/x-www-form-urlencoded',
-//       'Authorization': `Bearer ${access_token}`,
-//     },
-//   })
-//   const result = await response.json()
-//   return result
-// }
+export const getUsers = async () => {
+  const dataVerify = await verifySession();
+  const { access_token } = dataVerify;
+  console.log(access_token);
+  const response = await fetch(`${API_URL_BASE}/users`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  const result = await response.json();
+  return result;
+};
 
-export const getUserEdit = async (idUser: number) => {
-  const dataVerify = await verifySession()
-  const {access_token} = dataVerify
+export const getUser2 = async (idUser: number) => {
+  const dataVerify = await verifySession();
+  const { access_token } = dataVerify;
 
   const response = await fetch(`${API_URL_BASE}/users/${idUser}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': `Bearer ${access_token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${access_token}`,
     },
-  })
-  const result = await response.json()
-  return result
-}
+  });
+  const result = await response.json();
+  return result;
+};
 
-export const loginCaptchaAction = async(token: string | null) => {
+export const loginCaptchaAction = async (token: string | null) => {
   if (!token) {
     return {
       success: false,
-      messager: "Token not found"
-    }
+      messager: "Token not found",
+    };
   }
 
   // Verify the token
@@ -138,56 +136,85 @@ export const loginCaptchaAction = async(token: string | null) => {
   }
 
   return {
-    success:true,
+    success: true,
     message: "Message ssent successfully",
-  }
-}
+  };
+};
 
 export const createUser = async (data: newUserFormInputs) => {
-  const dataVerify = await verifySession()
-  const {access_token} = dataVerify
+  const dataVerify = await verifySession();
+  const { access_token } = dataVerify;
 
   const response = await fetch(`${API_URL_BASE}/register`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': `Bearer ${access_token}`,
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
     },
-     body: JSON.stringify(data)
-  })
-  const result = await response.json()
-  return result
-}
+    body: JSON.stringify(data),
+  });
+  const result = await response.json();
+  return result;
+};
 
-export const updateUser = async ( idUser: number, data: newUserFormInputs) => {
-  const dataVerify = await verifySession()
-  const {access_token} = dataVerify
-  console.log("idUser: ", idUser)
-  console.log("data: ", data)
+export const updateUser = async (idUser: number, data: newUserFormInputs) => {
+  const dataVerify = await verifySession();
+  const { access_token } = dataVerify;
 
   const response = await fetch(`${API_URL_BASE}/users/${idUser}`, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${access_token}`,
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
     },
-     body: JSON.stringify(data)
-  })
-  console.log("Response: ", response)
-  const result = await response.json()
-  console.log("result: ", result)
-  return result
-}
+    body: JSON.stringify(data),
+  });
+  const result = await response.json();
+  return result;
+};
+
+export const getRoles = async () => {
+  const dataVerify = await verifySession();
+  const { access_token } = dataVerify;
+
+  const response = await fetch(`${API_URL_BASE}/roles`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  console.log("Response roles: ", response);
+  const result = await response.json();
+  console.log("Result roles: ", result);
+  return result;
+};
+
+export const createRol = async (rol: string) => {
+  const dataVerify = await verifySession();
+  const { access_token } = dataVerify;
+
+  const response = await fetch(`${API_URL_BASE}/roles`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
+    },
+    body: JSON.stringify({ rol }),
+  });
+  const result = await response.json();
+  return result;
+};
 
 export const getIncidents = async () => {
   const dataVerify = await verifySession();
   const { access_token, idUser } = dataVerify;
 
   try {
-    const response = await fetch(`${API_URL_BASE}/indicents/${idUser}`, {
+    const response = await fetch(`${API_URL_BASE}/incidents/${idUser}`, {
       method: "GET",
       headers: {
-        "Content-Type": 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${access_token}`,
       },
     });
@@ -195,6 +222,79 @@ export const getIncidents = async () => {
     if (!response.ok) throw new Error("Error en la respuesta del servidor");
 
     return await response.json();
+  } catch (error) {
+    console.error("Error get history:", error);
+    throw error;
+  }
+};
+
+export const getDownloadZIP = async (idPDF: number) => {
+  const dataVerify = await verifySession();
+  const { access_token } = dataVerify;
+  try {
+    const response = await fetch(
+      `${API_URL_BASE}/bucket/download-zip/${idPDF}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/octet-stream",
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    if (!response.ok) throw new Error("Error en la respuesta del servidor");
+    const nameFile = response.headers.get("content-disposition")?.split("filename=")[1] || "download.zip";
+    const blob = await response.blob();
+    return {blob, nameFile};
+  } catch (error) {
+    console.error("Error get history:", error);
+    throw error;
+  }
+};
+
+export const getFiles = async (idProcess: number) => {
+  const dataVerify = await verifySession();
+  const { access_token } = dataVerify;
+
+  try {
+    const response = await fetch(
+      `${API_URL_BASE}/history/process/files/${idProcess}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token}`,
+        },
+        cache: "no-store",
+      }
+    );
+    if (!response.ok) throw new Error("Error en la respuesta del servidor");
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error get history:", error);
+    throw error;
+  }
+};
+
+export const getDownloadFile = async (namefile: string) => {
+  const dataVerify = await verifySession();
+  const { access_token } = dataVerify;
+  try {
+    const response = await fetch(
+      `${API_URL_BASE}/bucket/download-response/${namefile}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/octet-stream",
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    if (!response.ok) throw new Error("Error en la respuesta del servidor");
+
+    const blob = await response.blob();
+    return blob;
   } catch (error) {
     console.error("Error get history:", error);
     throw error;

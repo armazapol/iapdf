@@ -4,11 +4,12 @@ import TableUsers from "@/components/TableUsers";
 
 export default async function TableUsersAsync() {
   
-  //const users = await getUsers();
+  const users = await getUsers();
+  console.log(users)
 
   return (
     <>
-      <TableUsers entity="user" data={[]} />
+      <TableUsers entity="user" data={users} />
     </>
   );
 }

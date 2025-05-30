@@ -24,8 +24,16 @@ export interface userProfile{
 }
 
 export interface responseHistory{
-    idRecord: number,
+    _id: string,
+    idPeticion: number,
     idUser: number,
+    estado: string,
+    archivos: number[],
+    intentos: number,
+    fecha:string,
+    timestamp: string,
+}
+
+export interface responseFiles{
     namefile: string,
-    state: string
 }
