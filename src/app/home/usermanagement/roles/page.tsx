@@ -1,24 +1,16 @@
 
-
-
 import TableRolesAsync from "@/components/TableRolesAsync";
 import { Suspense } from "react";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
-export default async function Roles() {
-  // const { loading, setLoading } = useLoading();
-  //   useEffect(() => {
-  //     setLoading(true);
-  //       // Simula carga
-  //     setTimeout(() => setLoading(false), 1000);
-  // },[]);
+import Loading from "@/components/Loading";
+
+export default function Roles() {
 
   return (
     <div>
-      <Suspense fallback={<Skeleton height="504px" width="100%" />}>
+      <Suspense fallback={ <Loading /> }>
         <TableRolesAsync />
-      </Suspense>
+      </Suspense> 
     </div>
   );
 }

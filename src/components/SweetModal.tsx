@@ -1,4 +1,4 @@
-'use client'; // Necesario para usar useRouter
+'use client'; 
 
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
@@ -7,15 +7,17 @@ type Props = {
   evento: string;
   show: boolean;
   onClose?: () => void;
+  activity: string
+  onConfirm: () => void;
 }
 
-export default function SweetModal({ evento, show = false, onClose }: Props) {
+export default function SweetModal({ evento, show = false, onClose, activity, onConfirm }: Props) {
     useEffect(() => {
       const showModal = async () => {
         if (!show) return;
   
         await Swal.fire({
-          title: `${evento} successfully created!`,
+          title: `${evento} successfully ${activity}!`,
           iconHtml: '<img src="/Suscessfull.png" alt="ok" style="width: 64px;"/>',
           backdrop: '#000000B5',
           showCloseButton: true,
@@ -25,15 +27,17 @@ export default function SweetModal({ evento, show = false, onClose }: Props) {
             confirmButton: 'custom-ok-button',
             title: 'custom-title',
           },
-          draggable: true,
+          draggable: false,
+          allowOutsideClick: false, // se puede cerrar haciendo clic afuera
+          allowEscapeKey: true,
         });
-  
+        if (onConfirm) onConfirm();
         // Llamamos a onClose cuando el modal se cierre
         if (onClose) onClose();
       };
   
       showModal(); // Ejecutamos la función asíncrona
-    }, [show, evento, onClose]); // Dependencia para que se ejecute correctamente
+    }, [show, evento, onClose, onConfirm, activity]); // Dependencia para que se ejecute correctamente
   
     return null; 
   }

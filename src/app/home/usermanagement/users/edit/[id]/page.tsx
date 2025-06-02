@@ -8,7 +8,7 @@ export default async function editUserPage({ params }: Params) {
   const { id } = await params;
   return (
     <div>
-      <UserForm evento="Edit" idUser={Number(id)}></UserForm>
+      <UserForm evento="Edit" idUser={Number(id)} activity="edit"></UserForm>
     </div>
   );
 }

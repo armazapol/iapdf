@@ -16,12 +16,14 @@ interface Route {
   href: string;
   label: string;
   icon: string;
+  icon2: string;
 }
 
 interface RouteOther {
   href: string;
   label: string;
   icon: string;
+  icon2: string;
   children: {
     href: string;
     label: string;
@@ -36,7 +38,7 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
     <aside
       className={`${
         showSidebar ? "flex" : "hidden"
-      } relative top-[70px] lg:top-0 w-[242px] mr-[7px] bg-white p-6 flex flex-col justify-between h-full md:shadow-[7px_0_5px_-5px_rgba(0,0,0,0.3)] pb-24 md:pb-6`}
+      } lg:flex relative top-[70px] lg:top-0 w-[242px] mr-[7px] bg-white pl-5 pr-6 pt-6  flex flex-col justify-between h-full md:shadow-[7px_0_5px_-5px_rgba(0,0,0,0.3)] pb-24 md:pb-6`}
     >
       <div className="fixed inset-0 z-10 flex bg-black/40 lg:hidden top-[70px] left-[242px] "></div>
       {/* Logo y navegación */}
@@ -51,29 +53,29 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
           />
         </div>
         <nav className="">
-          <p className="text-xs font-semibold text-[#686868] mb-6 text-[14px] lg:mb-2 ">
+          <p className="text-xs font-semibold text-[#686868] mb-6 text-[14px] lg:mb-2 pl-2 ">
             MAIN MENU
           </p>
           <ul className="mb-6 space-y-2">
-            {routes.map(({ href, label, icon }) => (
+            {routes.map(({ href, label, icon, icon2 }) => (
               <li
                 key={href}
-                className={`font-medium flex items-center h-[50px] ${
+                className={`font-medium flex items-center h-[50px] pl-2 ${
                   pathname === href ? "bg-[#B32646] text-white rounded-md" : ""
                 }`}
               >
                 <Link
                   href={href}
-                  className={`flex items-center space-x-2 py-1 ${
+                  className={`flex items-center gap-2 space-x-2 py-1 ${
                     pathname === href ? "text-white" : "text-gray-600"
                   }`}
                 >
-                  <img
-                    src={icon}
+                  <Image 
+                    src={pathname === href ? icon2 : icon}
                     alt={label}
-                    className={`w-4 h-4 mr-2 ${
-                      pathname === href ? "invert brightness-200" : ""
-                    }`}
+                    width={24}
+                    height={24}
+                    className="mr-2"
                   />
                   <span>{label}</span>
                 </Link>
@@ -81,32 +83,35 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
             ))}
           </ul>
 
-          <p className="text-xs font-semibold text-[#686868] mb-2 text-[14px]">
+          <p className="text-xs font-semibold text-[#686868] mb-2 pl-2 text-[14px]">
             OTHER
           </p>
-          <ul className="mb-6 mt-5 space-y-2">
-            {routesother.map(({ href, label, icon, children }) =>
+          <ul className="mb-6 mt-5 space-y-2 w-full ">
+            {routesother.map(({ href, label, icon, icon2, children }) =>
               children ? (
                 <details
                   key={href}
-                  open={children.some((child) => pathname === child.href)}
+                  open={pathname.startsWith("/home/usermanagement/")}
                   className="group flex flex-col gap-4"
                 >
                   <summary
-                    className={`font-medium flex items-center h-[50px] cursor-pointer py-1 rounded-md gap-3 group-open:text-[#B32646] text-[16px] w-[194px] 
+                    className={`font-medium flex items-center h-[50px] cursor-pointer py-1 rounded-md gap-3 group-open:text-[#B32646] text-[16px] w-[194px] pl-2
                       `}
                   >
-                    <img
+                    <Image
                       src={icon}
                       alt={label}
-                      className="w-4 h-4 mr-2 group-open:hidden"
+                      height={24}
+                      width={24}
+                      className="mr-2 group-open:hidden"
                     />
-                    <img
-                      src="/img/ajuste.png"
+                    <Image 
+                      src={icon2}
                       alt={label}
-                      className="w-4 h-4 mr-2 hidden group-open:block"
+                      height={24}
+                      width={24}
+                      className="mr-2 hidden group-open:block"
                     />
-
                     <span className="w-[130px]">{label}</span>
                     <Image
                       src="/img/desplegable.png"
@@ -121,20 +126,22 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
                       <li key={child.href}>
                         <Link
                           href={child.href}
-                          className={`text-sm px-3 py-1 rounded-md flex h-[40px] items-center gap-2 w-[156px] ${
-                            pathname === child.href
+                          className={`text-sm py-1 rounded-md flex h-[40px] items-center gap-2 w-[156px]  pl-2 ${
+                            pathname.startsWith(child.href)
                               ? "bg-[#B32646] text-white"
                               : ""
                           }`}
                         >
-                          <img
+                          <Image
                             src={
-                              pathname === child.href
+                              pathname.startsWith(child.href)
                                 ? child.icon
                                 : "/img/arrow.png"
                             }
                             alt={child.label}
-                            className="w-4 h-4 mr-2"
+                            width={15}
+                            height={15}
+                            className=" mr-2"
                           />
                           {child.label}
                         </Link>
@@ -146,7 +153,7 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
                 <li key={href}>
                   <Link
                     href={href}
-                    className={`font-medium flex items-center h-[50px]  py-1 rounded-md ${
+                    className={`font-medium flex items-center h-[50px]  py-1 rounded-md  ${
                       pathname === href
                         ? "bg-[#B32646] text-white"
                         : "text-gray-600"

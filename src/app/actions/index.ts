@@ -11,6 +11,7 @@ import {
 import { newUserFormInputs } from "@/schemas/newUserSchema";
 
 import { verifyCaptchaToken } from "@/utils/captcha";
+import { rolInputs } from "@/schemas/rolSchema";
 const API_URL_BASE = process.env.NEXT_PUBLIC_API_URL;
 
 export const handleLogin = async (token: LoginResponse) => {
@@ -24,6 +25,7 @@ export const handleLogout = async () => {
 export const getUser = cache(async () => {
   const dataVerify = await verifySession();
   const { access_token, idUser } = dataVerify;
+  console.log(access_token)
   const response = await fetch(`${API_URL_BASE}/users/${idUser}`, {
     method: "GET",
     headers: {
@@ -151,11 +153,12 @@ export const createUser = async (data: newUserFormInputs) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`,
     },
-    body: JSON.stringify(data),
-  });
-  const result = await response.json();
-  return result;
-};
+     body: JSON.stringify(data)
+  })
+  const result = await response.json()
+  // if (!response.ok) throw new Error(result.detail);
+  return result
+}
 
 export const updateUser = async (idUser: number, data: newUserFormInputs) => {
   const dataVerify = await verifySession();
@@ -300,3 +303,20 @@ export const getDownloadFile = async (namefile: string) => {
     throw error;
   }
 };
+
+
+export const editRol = async (id:number, data:rolInputs) => {
+  const dataVerify = await verifySession()
+  const {access_token} = dataVerify
+
+  const response = await fetch(`${API_URL_BASE}/roles${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`,
+    },
+    body: JSON.stringify(data)
+  })
+  const result = await response.json()
+  return result
+}

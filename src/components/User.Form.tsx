@@ -14,9 +14,10 @@ import { useLoading } from "./providers/LoadingProvider";
 type Props = {
   evento: string;
   idUser?: number;
+  activity: string;
 };
 
-export default function UserForm({ evento, idUser }: Props) {
+export default function UserForm({ evento, idUser, activity }: Props) {
   const router = useRouter();
 
   const {
@@ -64,7 +65,8 @@ export default function UserForm({ evento, idUser }: Props) {
   }, [idUser, reset, setLoading]);
 
   const onSubmit: SubmitHandler<newUserFormInputs> = async (formData) => {
-
+    
+    setLoading(true)
     const formData2 = {...formData, isActive: false}
 
     if(evento === "Edit" && idUser){
@@ -72,9 +74,8 @@ export default function UserForm({ evento, idUser }: Props) {
     } else {
       await createUser(formData2)
     }
-    router.push("/home/usermanagement/users");
+    setLoading(false)
     setShowModal(true);
-    reset();
   };
 
   const goBack = () => {
@@ -197,8 +198,10 @@ export default function UserForm({ evento, idUser }: Props) {
       </div>
       <SweetModal
         evento="Employee"
+        activity={activity}
         show={showModal}
         onClose={() => setShowModal(false)}
+        onConfirm={goBack}
       />
     </div>
   );
