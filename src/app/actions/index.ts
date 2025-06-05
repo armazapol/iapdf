@@ -1,7 +1,7 @@
 "use server";
 import { cache } from "react";
 
-import { dataEmail, LoginResponse } from "@/types";
+import { dataEmail, GetRolesResponse, LoginResponse } from "@/types";
 
 import {
   createSession,
@@ -186,7 +186,7 @@ export const updateUser = async (idUser: number, data: newUserFormInputs) => {
   return result;
 };
 
-export const getRoles = async () => {
+export const getRoles = async (): Promise<GetRolesResponse> => {
   const dataVerify = await verifySession();
   const { access_token } = dataVerify;
 
@@ -197,13 +197,12 @@ export const getRoles = async () => {
       Authorization: `Bearer ${access_token}`,
     },
   });
-  console.log("Response roles: ", response);
+
   const result = await response.json();
-  console.log("Result roles: ", result);
   return result;
 };
 
-export const createRol = async (rol: string) => {
+export const createRol = async (data: rolInputs) => {
   const dataVerify = await verifySession();
   const { access_token } = dataVerify;
 
@@ -213,11 +212,46 @@ export const createRol = async (rol: string) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`,
     },
-    body: JSON.stringify({ rol }),
+    body: JSON.stringify(data),
   });
   const result = await response.json();
   return result;
 };
+
+export const editRol = async (id:number, data:rolInputs) => {
+  const dataVerify = await verifySession()
+  const {access_token} = dataVerify
+
+  const response = await fetch(`${API_URL_BASE}/roles/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`,
+    },
+    body: JSON.stringify(data)
+  })
+  const result = await response.json()
+  console.log("Result: ", result)
+  if (!response.ok) throw new Error(result.detail);
+  return result
+}
+
+export const assignUserRole = async(idUser: number, role: string) => {
+   const dataVerify = await verifySession()
+  const {access_token} = dataVerify
+  const response = await fetch(`${API_URL_BASE}/users/${idUser}/assign-role`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`,
+    },
+    body: JSON.stringify({ role })
+  })
+  const result = await response.json()
+  if (!response.ok) throw new Error(result.detail);
+  // console.log("Result: ", result)
+  return result
+}
 
 export const getIncidents = async () => {
   const dataVerify = await verifySession();
@@ -315,21 +349,7 @@ export const getDownloadFile = async (namefile: string) => {
 };
 
 
-export const editRol = async (id:number, data:rolInputs) => {
-  const dataVerify = await verifySession()
-  const {access_token} = dataVerify
 
-  const response = await fetch(`${API_URL_BASE}/roles${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${access_token}`,
-    },
-    body: JSON.stringify(data)
-  })
-  const result = await response.json()
-  return result
-}
 
 export const sendEmail = async (data: dataEmail) => {
   const dataVerify = await verifySession();
