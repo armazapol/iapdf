@@ -20,6 +20,10 @@ interface fileType {
   namefile: string;
 }
 
+type DynamicObject = {
+  [key: string]: boolean; 
+};
+
 const stepsInit = {
   step1: {
     isShow: true,
@@ -47,7 +51,7 @@ export default function PDFToExcelPage() {
   const [showModalSendEmail, setShowModalSendEmail] = useState(false);
   const [fieldsReady, setFieldsReady] = useState("Your files are ready!");
   const [loadingFiles, setLoadingFiles] = useState(false);
-  const [loadingDownloadFiles, setLoadingDownloadFiles] = useState(false);
+  const [loadingDownloadFiles, setLoadingDownloadFiles] = useState<DynamicObject>({});
   const [loadingDownloadZip, setLoadingDownloadZip] = useState(false);
   const [filesReady, setFilesReady] = useState([]);
   const [idPDF, setIdPDF] = useState<number | null>(null);
@@ -191,37 +195,34 @@ export default function PDFToExcelPage() {
   };
 
   const handleDownloadFile = async (namefile: string) => {
-    setLoadingDownloadFiles(true);
+    setLoadingDownloadFiles(stateLoadingFiles => ({
+      ...stateLoadingFiles,
+      [namefile]: true,
+    }));
     try {
       // downloadExcel(`/bucket/download-response/${namefile}`, true);
       const response = await getDownloadFile(namefile);
-      setLoadingDownloadFiles(false);
+      setLoadingDownloadFiles(stateLoadingFiles => ({
+        ...stateLoadingFiles,
+        [namefile]: false,
+      }));
       downloadFile(namefile, response);
     } catch (error) {
-      setLoadingDownloadFiles(false);
+      setLoadingDownloadFiles(stateLoadingFiles => ({
+        ...stateLoadingFiles,
+        [namefile]: false,
+      }));
       showPasswordError("Error downloading file");
       console.error("Error downloading file:", error);
     }
   };
 
-  // const handleDonwloadFiles = async () => {
-  //   try {
-  //     setLoading(true);
-  //     // Aquí deberías implementar la lógica para descargar los archivos
-  //     // Por ejemplo, podrías hacer una petición a tu API para obtener los archivos
-  //     // y luego crear un enlace de descarga.
-  //     setLoading(false);
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.error("Error downloading files:", error);
-  //   }
+  // const handleCancelUpload = async () => {
+  //   console.log("Cancel upload");
+  //   // setLoading(false);
+  //   // await cancelFetch()
   // };
 
-  const handleCancelUpload = async () => {
-    console.log("Cancel upload");
-    // setLoading(false);
-    // await cancelFetch()
-  };
 
   // useEffect(() => {
   //   const simulateLoading = async () => {
@@ -342,14 +343,14 @@ export default function PDFToExcelPage() {
           )}
         </div>
 
-        <div className=" my-8 flex gap-6 ">
+        {/* <div className=" my-8 flex gap-6 ">
           <button
             onClick={handleCancelUpload}
             className={`bg-[#B32646] text-white py-2 px-6 rounded-md  disabled:opacity-50 cursor-pointer flex-1`}
           >
             Cancel upload
           </button>
-        </div>
+        </div> */}
       </Step>
 
       <Step
@@ -399,7 +400,7 @@ export default function PDFToExcelPage() {
                   </div>
                   <button
                     onClick={() => handleDownloadFile(file.namefile)}
-                    disabled={loadingDownloadFiles}
+                    disabled={loadingDownloadFiles[file.namefile]}
                     className="bg-[#F4F4F5] text-[#2E3A59] py-2 px-4 rounded-md flex items-center gap-2 cursor-pointer disabled:opacity-50"
                   >
                     <Image
@@ -411,7 +412,7 @@ export default function PDFToExcelPage() {
                     />
                     <span className="text-sm">
                       {
-                        loadingDownloadFiles
+                        loadingDownloadFiles[file.namefile]
                           ? "Downloading..."
                           : "Download"
                       }

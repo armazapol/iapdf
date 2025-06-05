@@ -6,24 +6,17 @@ import Image from "next/image";
 import ButtonAddUser from "./ButtonAddUser";
 import ButtonSwicth from "@/components/ButtonSwitch ";
 import Skeleton from "react-loading-skeleton";
+import { userProfile } from "@/types";
 
 type prop = {
   entity: string;
-  data: User[];
-};
-
-type User = {
-  idUser: number;
-  email: string;
-  username: string;
-  role: string;
-  isActive: boolean;
+  data: userProfile[];
 };
 
 export default function TableUsers({ entity, data }: prop) {
   const router = useRouter();
 
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<userProfile[]>([]);
 
   // Validar endpoint, no trae campos requeridos
 

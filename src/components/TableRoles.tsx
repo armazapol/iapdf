@@ -23,10 +23,10 @@ export default function TableRoles({ entity, roles }: Props) {
   const [roleList, setRoleList] = useState<Role[]>(roles);
 
   const handleNewRol = () => {
-    router.push("/home/usermanagement/roles/new");
+    router.push("/home/rolesmanagement/roles/new");
   };
   const handleEditRol = (idUser: number) => {
-    router.push(`/home/usermanagement/roles/edit/${idUser}`);
+    router.push(`/home/rolesmanagement/roles/edit/${idUser}`);
   };
 
   const toggleUserActive = (id: number) => {

@@ -1,12 +1,26 @@
+import { getHistory, getUsers } from "@/app/actions";
+import TableHistory from "@/components/TableHistory";
 
-import { getHistory } from "@/app/actions"
-import TableHistory from "@/components/TableHistory"
+export default async function history() {
+  const [history, users] = await Promise.all([getHistory(), getUsers()]);
 
-export default async function history () {
-  const history = await getHistory()
+  if (!history || history.data.length === 0) {
+    return (
+      <div className="text-center text-gray-500">No history available.</div>
+    );
+  }
+
+  if (!users) {
+    return (
+      <div className="text-center text-gray-500">
+        An error occurred while obtaining users
+      </div>
+    );
+  }
+
   return (
     <div>
-      <TableHistory history={history}></TableHistory>
+      <TableHistory history={history.data} users={users}></TableHistory>
     </div>
-  )
+  );
 }

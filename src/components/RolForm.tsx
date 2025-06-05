@@ -21,7 +21,7 @@ export default function RolForm({ entity, id, activity }: props) {
   const router = useRouter();
   const { loading, setLoading } = useLoading();
   const [showModal, setShowModal] = useState(false);
-  
+
   const [switches, setSwitches] = useState<{ [key: string]: boolean }>({
     switch1: false,
     switch2: false,
@@ -37,13 +37,13 @@ export default function RolForm({ entity, id, activity }: props) {
   };
 
   const goBack = () => {
-    router.push("/home/usermanagement/roles");
+    router.push("/home/rolesmanagement/roles");
   };
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid }
+    formState: { errors, isSubmitting, isValid },
   } = useForm<rolInputs>({
     resolver: zodResolver(rolSchema),
     mode: "onChange",

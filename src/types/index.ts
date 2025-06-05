@@ -17,11 +17,16 @@ export interface LoginResponse {
 }
 
 export interface userProfile{
-    idUser:number,
-    email:string,
-    username:string,
-    role:string,
-}
+  idUser: number;
+  email: string;
+  username: string;
+  role: string;
+  isActive: boolean;
+  last_name: string;
+  name:string;
+  creattionDate: string;
+  modificationDate: string;
+};
 
 export interface responseHistory{
     _id: string,
@@ -36,4 +41,14 @@ export interface responseHistory{
 
 export interface responseFiles{
     namefile: string,
+}
+
+export interface dataEmail{
+    to: {
+        email: string;
+        name: string;
+    }[],
+    subject: string;
+    body: string;
+    file_links: any ;
 }

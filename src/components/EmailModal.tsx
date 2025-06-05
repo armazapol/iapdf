@@ -1,11 +1,20 @@
 "use client";
-import React, { useState } from "react";
+import { getUsers, sendEmail } from "@/app/actions";
+import { userProfile } from "@/types";
+import React, { useEffect, useState } from "react";
 import { FiX, FiPaperclip, FiSend } from "react-icons/fi";
 import Modal from "react-modal";
+import Select, { MultiValue } from "react-select";
+import { showPasswordError } from "./alerts";
 
 interface emailProdalProps {
   showModal: boolean;
   onClose: () => void;
+}
+
+interface User {
+  value: string;
+  label: string;
 }
 
 Modal.setAppElement("#main");
@@ -17,20 +26,23 @@ const customStyles = {
     padding: 0,
     backgroundColor: "#fff",
   },
-    overlay: {
+  overlay: {
     zIndex: 1000,
   },
 };
 
 const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
-  const [recipients, setRecipients] = useState([
-    { name: "John Doe", email: "johndoe@email.com" },
-    { name: "John Doe", email: "johndoe@email.com" },
-  ]);
+  const [selectedUsers, setSelectedUsers] = useState<MultiValue<User>>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(false);
+  // const [recipients, setRecipients] = useState([
+  //   { name: "John Doe", email: "johndoe@email.com" },
+  //   { name: "John Doe", email: "johndoe@email.com" },
+  // ]);
 
-  const [subject, setSubject] = useState("Subject example");
+  const [subject, setSubject] = useState("");
   const [message, setMessage] = useState(
-    "Hi, this is an example of the mailing for AI POWERED PDF to EXCEL."
+    ""
   );
 
   const [attachments, setAttachments] = useState([
@@ -39,13 +51,79 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
     { name: "File.pdf" },
   ]);
 
-  const removeRecipient = (index: number) => {
-    setRecipients((prev) => prev.filter((_, i) => i !== index));
-  };
+  // const removeRecipient = (index: number) => {
+  //   setRecipients((prev) => prev.filter((_, i) => i !== index));
+  // };
 
   const removeAttachment = (index: number) => {
     setAttachments((prev) => prev.filter((_, i) => i !== index));
   };
+
+  const handleSendEmail = async () => {
+    if(selectedUsers.length === 0) {
+      return showPasswordError("Please select at least one user to send the email.");
+    }
+
+    if (subject.trim() === "") {
+      return showPasswordError("Subject cannot be empty.");
+    }
+
+    if (message.trim() === "") {
+      return showPasswordError("Message cannot be empty.");
+    }
+
+
+    try {
+      setLoading(true);
+      const usersToPayload = selectedUsers.map((user) => ({
+        email: user.label,
+        name: user.value, // Assuming the name is the part before the '@'
+      }))
+
+      const payload = {
+        to: usersToPayload,
+        subject: subject,
+        body: message,
+        file_links: [], // Assuming you want to send the file names
+      }
+
+      console.log("Sending email with payload:", payload);
+      await sendEmail(payload)
+      console.log("Email sent successfully");
+      setLoading(false);
+    } catch (error) {
+      console.error("Error sending email:", error);
+      setLoading(false);
+      return showPasswordError("An error occurred while sending the email.");
+    }
+  };
+
+  // const users = [
+  //   { value: "pepe", label: "Pepe" },
+  //   { value: "Pol", label: "Pol" },
+  //   { value: "user1", label: "User1" },
+  // ];
+
+  const getApiUsers = async () => {
+    console.log("Fetching users from API...");
+    try {
+      const response = await getUsers();
+      const newUser = response.map((user: userProfile) => ({
+        value:`${user.name} ${user.last_name}`,
+        label: user.email,
+      }));
+      setUsers(newUser);
+    } catch (error) {
+      console.log("Error fetching users:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (users.length === 0) {
+      getApiUsers();
+    }
+  }, [users]);
+
 
   return (
     <Modal
@@ -79,7 +157,17 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
           {/* To */}
           <div className="mb-4">
             <label className="block text-sm text-gray-600 mb-1">To</label>
-            <div className="flex flex-wrap gap-2">
+            <Select
+              // defaultValue={[colourOptions[2], colourOptions[3]]}
+              isMulti
+              name="colors"
+              options={users}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              placeholder="Select users..."
+              onChange={setSelectedUsers}
+            />
+            {/* <div className="flex flex-wrap gap-2">
               {recipients.map((recipient, index) => (
                 <span
                   key={index}
@@ -97,7 +185,7 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
                   </button>
                 </span>
               ))}
-            </div>
+            </div> */}
           </div>
 
           {/* Subject */}
@@ -117,6 +205,7 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
               className="w-full px-3 py-2 text-sm min-h-[140px] focus-visible:outline-none resize-none"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              placeholder="Write your message here..."
             />
           </div>
 
@@ -152,8 +241,9 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
               Attach files
             </button>
             <button
-              onClick={onClose}
-              className="bg-[#1a1a40] text-white px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-[#292964] cursor-pointer"
+              onClick={handleSendEmail}
+              disabled={loading}
+              className="bg-[#1a1a40] text-white px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-[#292964] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FiSend />
               Send Email

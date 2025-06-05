@@ -20,6 +20,7 @@ interface Route {
   href: string;
   label: string;
   icon: string;
+  children?: Route[];
 }
 
 interface RouteOther {
@@ -47,10 +48,30 @@ const Header = ({
     setShowNotifications(!showNotifications);
   };
   const pathname = usePathname();
-  const allRoutes = [...routes, ...routesother];
+  const subRoutePathname = pathname.split("/").slice(0, 3).join("/");
+  const subRoutePathname2 = pathname.split("/").slice(0, 4).join("/");
+
+  const getTitle = () => {
+    if (
+      currentRoute?.label &&
+      Object.hasOwn(currentRoute, "children") === false
+    ) {
+      return currentRoute.label;
+    } else if (currentSubRoute?.label) {
+      return currentSubRoute.label;
+    } else if (currentSubRoute2?.label) {
+      return currentSubRoute2.label;
+    } else {
+      return "Dashboard";
+    }
+  };
+  const allRoutes = [...routes, ...routesother[0].children];
   const currentRoute = allRoutes.find((r) => r.href === pathname);
-  const pageTitle = currentRoute?.label || "Dashboard";
-  const pageDescription = descriptions[pathname] || "";
+  const currentSubRoute = allRoutes.find((r) => r.href === subRoutePathname);
+  const currentSubRoute2 = allRoutes.find((r) => r.href === subRoutePathname2);
+  const pageTitle = getTitle();
+  const pageDescription =
+    descriptions[pathname] || descriptions[subRoutePathname] || "";
   return (
     <>
       <div className="absolute w-full lg:hidden">
@@ -159,9 +180,7 @@ const Header = ({
           <p className="text-gray-500">{pageDescription}</p>
         </div>
         {/* Contenido con scroll interno */}
-        <main
-         className="relative md:flex-1 overflow-y-auto bg-[#F9F6F2] px-5 md:px-10 py-6 h-full"
-         >
+        <main className="relative md:flex-1 overflow-y-auto bg-[#F9F6F2] px-5 md:px-10 py-6 h-full">
           {children}
           {showNotifications && (
             <Notifications onClose={() => setShowNotifications(false)} />

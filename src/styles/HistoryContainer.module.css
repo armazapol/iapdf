@@ -122,7 +122,8 @@
         width: 235px;
         height: 30px;
         display: flex;
-        justify-content: space-between;
+        gap:0.75rem;
+        /* justify-content: space-between; */
         & .activePage {
             width: 30px;
             height: 30px;
