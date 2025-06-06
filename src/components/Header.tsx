@@ -4,14 +4,13 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Notifications from "./Notifications";
 import User from "./User";
-import { userProfile } from "@/types";
 
 interface Props {
   routes: Route[];
   routesother: RouteOther[];
   descriptions: Record<string, string>;
   children: React.ReactNode;
-  profile: userProfile;
+
   showSidebar: boolean;
   setShowSidebar: (show: boolean) => void;
 }
@@ -38,7 +37,6 @@ const Header = ({
   routes,
   routesother,
   descriptions,
-  profile,
   children,
   showSidebar,
   setShowSidebar,
@@ -172,7 +170,7 @@ const Header = ({
                 />
               )}
             </div>
-            <User profile={profile} />
+            <User/>
           </div>
         </header>
         <div className="block md:hidden bg-white mt-[70px] p-5 ">

@@ -4,6 +4,7 @@ import React from "react";
 import { FiX } from "react-icons/fi";
 import Modal from "react-modal";
 import { handleLogout } from "@/app/actions";
+import { useAuth } from "@/context/AuthContext";
 
 interface ModalProps {
   showModal: boolean;
@@ -26,7 +27,9 @@ const customStyles = {
 };
 
 const LogoutModal = ({ showModal, onClose }: ModalProps) => {
+  const {setUser} = useAuth()
   const logout = async () => {
+    setUser(null)
     await handleLogout()
   };
   return (

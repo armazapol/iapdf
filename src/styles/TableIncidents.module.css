@@ -44,15 +44,15 @@
             }
             & .titleColumn{
                 max-width: 208px;
-                color: #0066FF;
+                /* color: #0066FF; */
                 line-height: 100%;
             }
             & .service{
-                color: #0066FF;
+                /* color: #0066FF; */
                 line-height: 20px;
             }
             & .tdName{
-                color: #0066FF;
+                /* color: #0066FF; */
             }
             & .tdDuration{
                 color: #FF0004;

@@ -6,7 +6,7 @@ const incidents = await getIncidents()
 
   return (
     <div>
-      <TableIncidents incidents={incidents?.data} />
+      <TableIncidents incidents={incidents} />
     </div>
   );
 }
