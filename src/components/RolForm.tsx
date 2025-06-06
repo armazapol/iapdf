@@ -1,15 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import ButtonSwitch from "@/components/ButtonSwitch ";
-import { useState } from "react";
+import ButtonSwitch from "@/components/ButtonSwitch";
+import { useEffect, useState } from "react";
 import SweetModal from "./SweetModal";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { rolInputs, rolSchema } from "@/schemas/rolSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createRol, editRol } from "@/app/actions";
+import { createRol, editRol, getRoles } from "@/app/actions";
 import { useLoading } from "./providers/LoadingProvider";
+import ButtonSwicth3 from "@/components/ButtonSwicth3";
+import { showPasswordError } from "./alerts";
 
 type props = {
   entity: string;
@@ -21,21 +23,7 @@ export default function RolForm({ entity, id, activity }: props) {
   const router = useRouter();
   const { loading, setLoading } = useLoading();
   const [showModal, setShowModal] = useState(false);
-
-  const [switches, setSwitches] = useState<{ [key: string]: boolean }>({
-    switch1: false,
-    switch2: false,
-    switch3: false,
-    switch4: false,
-  });
-
-  const handleSwitchChange = (switchName: string) => {
-    setSwitches((prev) => ({
-      ...prev,
-      [switchName]: !prev[switchName], // Cambia el estado solo para el interruptor específico
-    }));
-  };
-
+  
   const goBack = () => {
     router.push("/home/rolesmanagement/roles");
   };
@@ -43,27 +31,69 @@ export default function RolForm({ entity, id, activity }: props) {
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
+    watch,
+    reset,
     formState: { errors, isSubmitting, isValid },
   } = useForm<rolInputs>({
     resolver: zodResolver(rolSchema),
     mode: "onChange",
     defaultValues: {
       rol: "",
+      isActive: false,
+      permissions: {
+        pdf_to_excel: false,
+        history: false,
+        incidents: false,
+        user_management: false,
+      },
     },
   });
+  
+  const watchIsActive = watch("isActive");
+  useEffect(() => {
+    if (id) {
+      const fetchUser = async () => {
+        try {
+          setLoading(true);
+          const rolesList = await getRoles();
+       
+          const selectedRol = rolesList.data.find((rol) => rol.id === id);
+          // console.log("selectedRol: ", selectedRol)
+          reset({
+            rol: selectedRol?.rol,
+            isActive: selectedRol?.isActive,
+            permissions: {
+              pdf_to_excel: selectedRol?.permissions.pdf_to_excel,
+              history: selectedRol?.permissions.history,
+              incidents: selectedRol?.permissions.incidents,
+              user_management: selectedRol?.permissions.user_management,
+            },
+          });
+        } catch (error) {
+          showPasswordError(`${error}`);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchUser();
+    }
+  }, [id, reset, setLoading]);
 
   const onSubmit: SubmitHandler<rolInputs> = async (data) => {
     setLoading(true);
-
+    console.log("POST rol: ", data)
     try {
       if (entity === "Edit" && id) {
+        console.log("POST rol: ", id, data)
         await editRol(id, data);
       } else {
-        await createRol(data.rol);
+        await createRol(data);
       }
       setShowModal(true);
     } catch (error) {
-      alert(error); //Posible Modal
+      showPasswordError(`${error}`);
     } finally {
       setLoading(false);
     }
@@ -89,7 +119,6 @@ export default function RolForm({ entity, id, activity }: props) {
             Back to rol list
           </p>
         </div>
-
         <form
           className="relative top-12 md:top-[51px] px-4 md:px-[53px] w-full md:w-[90%]"
           onSubmit={handleSubmit(onSubmit)}
@@ -97,42 +126,53 @@ export default function RolForm({ entity, id, activity }: props) {
           <h2 className="font-bold text-[24px] leading-[140%] text-[#2E3A59]">
             {entity} Role
           </h2>
-
           <div className="border border-[#D0D5DD] w-full my-2 mb-[25px]"></div>
-
-          <div className="flex flex-col gap-2 mb-[18px]">
-            <label
-              className="font-semibold text-[16px] leading-[140%] text-[#1E1E1E]"
-              htmlFor="rol"
-            >
-              Role name
-            </label>
-            <input
-              type="text"
-              placeholder="Rol name"
-              id="rol"
-              {...register("rol")}
-              className="border border-[#D9D9D9] w-full max-w-[292px] min-w-[0] h-[40px] rounded-[8px] px-4 py-3 bg-[#FFFFFF] md:bg-none"
-            />
-            {errors.rol && (
-              <p className="text-xs pt-1 text-red-500">{errors.rol.message}</p>
-            )}
+          <div className="flex flex-wrap  gap-7 mb-[18px] ">
+            <div className="flex flex-col gap-2">
+              <label
+                className="font-semibold text-[16px] leading-[140%] text-[#1E1E1E]"
+                htmlFor="rol"
+              >
+                Role name
+              </label>
+              <input
+                type="text"
+                placeholder="Rol name"
+                id="rol"
+                {...register("rol")}
+                className="border border-[#D9D9D9] w-full max-w-[292px] min-w-[0] h-[40px] rounded-[8px] px-4 py-3 bg-[#FFFFFF] md:bg-none"
+              />
+              {errors.rol && (
+                <p className="text-xs pt-1 text-red-500">
+                  {errors.rol.message}
+                </p>
+              )}
+            </div>
+            <div className=" h-[40px] mt-[30px] flex gap-2 items-center">
+              <label> Active Role:</label>
+              <ButtonSwicth3
+                checked={watchIsActive}
+                onChange={(value: boolean) => setValue("isActive", value)}
+              />
+            </div>
           </div>
-
           <div className="border border-[#D0D5DD] w-full my-2 mb-[25px]"></div>
-
           <p className="font-medium text-[16px] leading-[100%] tracking-[-0.11px] underline text-[#B32646]">
             Role permissions
           </p>
-
           <div className="mt-4 w-full md:max-w-[292px] max-w-none">
             <div className="flex justify-between border-b border-[#E2E8F0] py-4">
               <span className="font-bold text-[14px] leading-[140%] text-[#2D3748]">
                 PDF to Excel
               </span>
               <ButtonSwitch
-                checked={switches.switch1}
-                onChange={() => handleSwitchChange("switch1")}
+                checked={watch("permissions.pdf_to_excel")}
+                onChange={() =>
+                  setValue(
+                    "permissions.pdf_to_excel",
+                    !getValues("permissions.pdf_to_excel")
+                  )
+                }
               />
             </div>
             <div className="flex justify-between border-b border-[#E2E8F0] py-4">
@@ -140,8 +180,13 @@ export default function RolForm({ entity, id, activity }: props) {
                 History
               </span>
               <ButtonSwitch
-                checked={switches.switch2}
-                onChange={() => handleSwitchChange("switch2")}
+                checked={watch("permissions.history")}
+                onChange={() =>
+                  setValue(
+                    "permissions.history",
+                    !getValues("permissions.history")
+                  )
+                }
               />
             </div>
             <div className="flex justify-between border-b border-[#E2E8F0] py-4">
@@ -149,8 +194,13 @@ export default function RolForm({ entity, id, activity }: props) {
                 Incidents
               </span>
               <ButtonSwitch
-                checked={switches.switch3}
-                onChange={() => handleSwitchChange("switch3")}
+                checked={watch("permissions.incidents")}
+                onChange={() =>
+                  setValue(
+                    "permissions.incidents",
+                    !getValues("permissions.incidents")
+                  )
+                }
               />
             </div>
             <div className="flex justify-between py-4">
@@ -158,12 +208,16 @@ export default function RolForm({ entity, id, activity }: props) {
                 User Management
               </span>
               <ButtonSwitch
-                checked={switches.switch4}
-                onChange={() => handleSwitchChange("switch4")}
+                checked={watch("permissions.user_management")}
+                onChange={() =>
+                  setValue(
+                    "permissions.user_management",
+                    !getValues("permissions.user_management")
+                  )
+                }
               />
             </div>
           </div>
-
           <button
             className={`w-full max-w-[1525px] h-[44px] text-[#EDEEEF] border rounded-[8px] font-semibold text-[16px] leading-[24px] px-4 py-2 relative top-4 ${
               isValid
@@ -176,7 +230,6 @@ export default function RolForm({ entity, id, activity }: props) {
             Save changes
           </button>
         </form>
-
         <SweetModal
           evento="Role"
           activity={activity}

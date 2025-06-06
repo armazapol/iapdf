@@ -52,3 +52,21 @@ export interface dataEmail{
     body: string;
     file_links: any ;
 }
+
+export type Role = {
+  _id: string;
+  id: number;
+  rol: string;
+  creationDate: string; 
+  isActive: boolean;
+  permissions: {
+    pdf_to_excel: boolean;
+    history: boolean;
+    incidents: boolean;
+    user_management: boolean;
+  };
+};
+
+export type GetRolesResponse = {
+  data: Role[];
+};

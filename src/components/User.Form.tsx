@@ -8,8 +8,16 @@ import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newUserFormInputs, newUserSchema } from "@/schemas/newUserSchema";
-import { createUser, getUser2, updateUser } from "@/app/actions";
+import {
+  assignUserRole,
+  createUser,
+  getRoles,
+  getUser2,
+  updateUser,
+} from "@/app/actions";
 import { useLoading } from "./providers/LoadingProvider";
+import { showPasswordError } from "./alerts";
+import ButtonSwicth2 from "@/components/ButtonSwich2"
 
 type Props = {
   evento: string;
@@ -17,14 +25,24 @@ type Props = {
   activity: string;
 };
 
+type Role = {
+  _id: string;
+  id: number;
+  rol: string;
+  creationDate: string;
+  isActive: boolean;
+  permissions: Record<string, boolean>;
+};
+
 export default function UserForm({ evento, idUser, activity }: Props) {
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
     reset,
+    watch,
+    setValue
   } = useForm<newUserFormInputs>({
     resolver: zodResolver(newUserSchema),
     mode: "onChange",
@@ -32,50 +50,88 @@ export default function UserForm({ evento, idUser, activity }: Props) {
       email: "",
       password: "",
       repeatPassword: "",
+      isActive: false,
     },
   });
   const [showModal, setShowModal] = useState(false);
   const { loading, setLoading } = useLoading();
-
+  const [Roles, setRoles] = useState<{ value: string; label: string }[]>([]);
+  const watchIsActive = watch("isActive");
   // Si es vista edit
-
   useEffect(() => {
     if (idUser) {
       const fetchUser = async () => {
         try {
-          setLoading(true)
-          const userData = await getUser2(idUser);
+          setLoading(true);
+          // const userData = await getUser2(idUser);
+          const [userData, roles] = await Promise.all([
+            getUser2(idUser),
+            getRoles(),
+          ]);
+
+          const formattedRoles = roles.data.map((role: Role) => ({
+            value: role.rol,
+            label: role.rol,
+          }));
+
           reset({
             name: userData.name,
             last_name: userData.last_name,
             email: userData.email,
             username: userData.username,
             role: userData.role,
-            password: "", 
+            isActive: userData.isActive,
+            password: "",
             repeatPassword: "",
           });
+          setRoles(formattedRoles);
         } catch (error) {
-          console.error("Error loading user data:", error);
+          showPasswordError(`${error}`);
         } finally {
-          setLoading(false)
+          setLoading(false);
         }
       };
       fetchUser();
     }
   }, [idUser, reset, setLoading]);
 
-  const onSubmit: SubmitHandler<newUserFormInputs> = async (formData) => {
-    
-    setLoading(true)
-    const formData2 = {...formData, isActive: false}
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        setLoading(true);
+        const roles = await getRoles();
+        const formattedRoles = roles.data.map((role: Role) => ({
+          value: role.rol,
+          label: role.rol,
+        }));
+        setRoles(formattedRoles);
+      } catch (error) {
+        showPasswordError(`${error}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRoles();
+  }, [setLoading]);
 
-    if(evento === "Edit" && idUser){
-      await updateUser(idUser, formData2)
-    } else {
-      await createUser(formData2)
+  const onSubmit: SubmitHandler<newUserFormInputs> = async (formData) => {
+    setLoading(true);
+    try {
+      if (evento === "Edit" && idUser) {
+        await updateUser(idUser, formData);
+      } else {
+        const createdUser = await createUser(formData);
+        if (createdUser) {
+          // Asignar rol después de crear usuario
+          await assignUserRole(createdUser.idUser, createdUser.role);
+        }
+      }
+      setShowModal(true);
+    } catch (error) {
+      showPasswordError(`${error}`);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false)
-    setShowModal(true);
   };
 
   const goBack = () => {
@@ -142,12 +198,17 @@ export default function UserForm({ evento, idUser, activity }: Props) {
                   type="select"
                   register={register}
                   error={errors.role?.message}
-                  options={[
-                    { value: "Administrador", label: "Administrador" },
-                    { value: "Worker", label: "Worker" },
-                    { value: "user", label: "user" },
-                  ]}
+                  options={Roles}
                 />
+                  <div className=" w-[192px] h-[40px]  text-center flex gap-2.5 items-center mt-[48px]">
+                  <div className="flex gap-4">
+                    <label className="text-black">Active user:</label>
+                    <ButtonSwicth2
+                      checked={watchIsActive}
+                      onChange={(value: boolean) => setValue("isActive", value)}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 

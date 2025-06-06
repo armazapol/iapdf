@@ -14,6 +14,8 @@ export const newUserSchema = z.object({
   role: z
     .string()
     .min(1, "Rol requerido"),
+  isActive: z
+    .boolean(),  
   username: z
     .string()
     .min(1, "Username requerido"),

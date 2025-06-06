@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import ButtonAddUser from "./ButtonAddUser";
 import { useRouter } from "next/navigation";
-import ButtonSwitch from "./ButtonSwitch ";
+import ButtonSwitch from "./ButtonSwitch";
+import { parseFormat } from "@/utils/parseFormat";
 
 type Props = {
   entity: string;
@@ -16,6 +17,12 @@ type Role = {
   rol: string;
   creationDate: string;
   isActive: boolean;
+  permissions: {
+    pdf_to_excel: boolean;
+    history: boolean;
+    incidents: boolean;
+    user_management: boolean;
+  };
 };
 
 export default function TableRoles({ entity, roles }: Props) {
@@ -29,16 +36,16 @@ export default function TableRoles({ entity, roles }: Props) {
     router.push(`/home/rolesmanagement/roles/edit/${idUser}`);
   };
 
-  const toggleUserActive = (id: number) => {
-    setRoleList((prevRoles) =>
-      prevRoles.map((info) =>
-        info.id === id ? { ...info, isActive: !info.isActive } : info
-      )
-    );
-  };
+  // const toggleUserActive = (id: number) => {
+  //   setRoleList((prevRoles) =>
+  //     prevRoles.map((info) =>
+  //       info.id === id ? { ...info, isActive: !info.isActive } : info
+  //     )
+  //   );
+  // };
 
   return (
-    <div className="pt-5 lg:p-0 px-3 lg:pl-0">
+    <div className="pt-5 lg:p-0 px-3 lg:pl-0 h-full">
       <div className="flex  gap-[75px] mb-[20px] md:hidden">
         <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
           Roles Table
@@ -53,14 +60,14 @@ export default function TableRoles({ entity, roles }: Props) {
           New {entity}
         </ButtonAddUser>
       </div>
-      <div className="relative p-6 bg-white rounded-[15px] shadow-md">
-        <div className="hidden md:flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+      <div className="flex flex-col h-full bg-white rounded-[15px] shadow-[0_4px_8.8px_0_#00000021] p-6 mb-[10px]">
+        <div className="hidden md:flex justify-between items-center gap-4 mb-4">
           <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
             Roles Table
           </p>
           <ButtonAddUser
             onClick={handleNewRol}
-            src={"/user-profile-add.png"}
+            src="/user-profile-add.png"
             alt="Add role"
             iconSize={18}
             className="flex items-center gap-2 rounded px-4 py-2 text-white text-sm font-bold bg-[#2E3A59] hover:opacity-90"
@@ -70,55 +77,52 @@ export default function TableRoles({ entity, roles }: Props) {
         </div>
 
         {/* Contenedor con scroll horizontal en móviles */}
-        <div className="overflow-x-auto br">
-          <table className="min-w-[600px] w-full relative  ">
-            <thead className="text-left font-bold text-[10px] leading-[150%] text-[#2E3A59] mb-2">
-              <tr>
-                <th className="pb-2">ROLE</th>
-                <th className="pb-2">CREATION DATE</th>
-                <th className="pb-2">MODIFICATION DATE</th>
-                <th className="pb-2">ACTIVE ROLE?</th>
-              </tr>
-            </thead>
-            <tbody>
-              {roleList.map((item) => (
-                <tr
-                  key={item.id}
-                  className="font-bold text-[14px] text-[#2D3748] border-t border-[#E2E8F0]"
-                >
-                  <td className="py-5">{item.rol}</td>
-                  <td className="py-5 font-medium">
-                    {new Date(item.creationDate).toLocaleDateString("en-US", {
-                      month: "2-digit",
-                      day: "2-digit",
-                      year: "2-digit",
-                    })}
-                  </td>
-                  <td className="py-5 font-medium">
-                     {/* {new Date().toLocaleDateString("en-US", {
-                      month: "2-digit",
-                      day: "2-digit",
-                      year: "2-digit",
-                    })} */}
-                  </td>
-                  <td className="py-5 pl-2">
-                    <ButtonSwitch
-                      checked={item.isActive}
-                      onChange={() => toggleUserActive(item.id)}
-                    />
-                  </td>
-                  <td className="py-5 text-right text-[#2E3A59] leading-[150%] lg:w-[300px]">
-                    <button
-                      onClick={() => handleEditRol(item.id)}
-                      className="hover:underline cursor-pointer "
-                    >
-                      edit
-                    </button>
-                  </td>
+        <div className="overflow-x-auto h-full">
+          {roleList.length > 0 ? (
+            <table className="w-full text-left h-full">
+              <thead className="font-bold text-[10px] leading-[150%] text-[#2E3A59]">
+                <tr>
+                  <th className="pb-2">ROLE</th>
+                  <th className="pb-2">CREATION DATE</th>
+                  <th className="pb-2">MODIFICATION DATE</th>
+                  <th className="pb-2">ACTIVE ROLE?</th>
+                  <th className="pb-2"></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {roleList.map((item) => (
+                  <tr
+                    key={item.id}
+                    className="font-bold text-[14px] text-[#2D3748] border-t border-[#E2E8F0]"
+                  >
+                    <td className="py-5">{item.rol}</td>
+                    <td className="py-5 font-medium">
+                      {parseFormat(item.creationDate)}
+                    </td>
+                    <td className="py-5 font-medium"></td>
+                    <td className="py-5 pl-2">
+                      <ButtonSwitch
+                        checked={item.isActive}
+                        onChange={() => {}}
+                      />
+                    </td>
+                    <td className="py-5 text-right min-w-[60px] lg:w-[300px]">
+                      <button
+                        onClick={() => handleEditRol(item.id)}
+                        className="hover:underline cursor-pointer mr-2 text-[#2E3A59]"
+                      >
+                        edit
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-center text-gray-400 py-10">
+              No hay roles registrados.
+            </p>
+          )}
         </div>
       </div>
     </div>
