@@ -2,6 +2,7 @@
 
 import style from "@/styles/TableIncidents.module.css";
 import LoadingButton from "@/components/LoadingButton";
+import { parseFormat } from "@/utils/parseFormat";
 
 interface Indicent {
   id: string;
@@ -15,8 +16,6 @@ export default function TableIncidents({
 }: {
   incidents: Indicent[];
 }) {
-  console.log("TableIncidents: ", incidents);
-
   return (
     <div className={`${style.container} mt-4 lg:mt-0`}>
       <table className={style.TableIncidents}>
@@ -43,7 +42,7 @@ export default function TableIncidents({
               <td>{index + 1}</td>
               <td className={style.service}>{info.id}</td>
               <td className={style.titleColumn}>{info.nombre}</td>
-              <td>{info.timestamp}</td>
+              <td>{parseFormat(info.timestamp)}</td>
               <td>
                 <span className={style.tdName}>{info.actividad}</span>
                 {/* <span className={style.tdName}>{info.Activity.name}</span>

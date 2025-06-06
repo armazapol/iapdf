@@ -1,11 +1,8 @@
-
-import { userProfile } from "@/types";
+import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
-interface Props {
-  profile: userProfile
-}
 
-const User = ({profile}:Props) => {
+const User = () => {
+  const { user } = useAuth();
 
   return (
     <>
@@ -13,9 +10,11 @@ const User = ({profile}:Props) => {
         <Image src="/img/userLogo.png" alt="" width={48} height={48} />
       </div>
       <div className="">
-        <strong>{profile.username}</strong>
+        <strong>
+          {user?.name} {user?.last_name}{" "}
+        </strong>
         <br />
-        <span className="text-sm text-gray-500">{profile.role}</span>
+        <span className="text-sm text-gray-500">{user?.role}</span>
       </div>
     </>
   );

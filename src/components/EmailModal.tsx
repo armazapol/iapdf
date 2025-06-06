@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { FiX, FiPaperclip, FiSend } from "react-icons/fi";
 import Modal from "react-modal";
 import Select, { MultiValue } from "react-select";
-import { showPasswordError } from "./alerts";
+import { showPasswordError, showSuccess } from "./alerts";
 
 interface emailProdalProps {
   showModal: boolean;
@@ -89,7 +89,8 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
 
       console.log("Sending email with payload:", payload);
       await sendEmail(payload)
-      console.log("Email sent successfully");
+      showSuccess("Email sent successfully")
+      onClose()
       setLoading(false);
     } catch (error) {
       console.error("Error sending email:", error);

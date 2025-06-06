@@ -8,6 +8,7 @@ import { useState } from "react";
 import { downloadFile } from "@/utils/downloadExcel";
 import { showPasswordError } from "./alerts";
 import { getDownloadFile, getDownloadZIP } from "@/app/actions";
+import EmailModal from "./EmailModal";
 
 type Props = {
   date: string;
@@ -23,6 +24,7 @@ export default function ViewFiles({ date, files, idPDF }: Props) {
   const [loadingDownloadZip, setLoadingDownloadZip] = useState(false);
   const [loadingDownloadFiles, setLoadingDownloadFiles] =
     useState<DynamicObject>({});
+  const [showModalSendEmail, setShowModalSendEmail] = useState(false);
 
   const handleDownloadZipFiles = async (idPDF: number) => {
     setLoadingDownloadZip(true);
@@ -122,7 +124,7 @@ export default function ViewFiles({ date, files, idPDF }: Props) {
           ))}
         </div>
         <div className={style.sendContainer}>
-          <button className={style.btnSend}>
+          <button className={style.btnSend} onClick={() => setShowModalSendEmail(true)}>
             <Image src="/img/send.png" alt="send" width={18} height={18} />
             Send by email
           </button>
@@ -141,6 +143,12 @@ export default function ViewFiles({ date, files, idPDF }: Props) {
           </button>
         </div>
       </div>
+      {
+        <EmailModal
+          showModal={showModalSendEmail}
+          onClose={() => setShowModalSendEmail(false)}
+        />
+      }
     </div>
   );
 }

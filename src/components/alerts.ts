@@ -16,4 +16,19 @@ const showPasswordError = (text: string) => {
   });
 };
 
-export { showPasswordError };
+const showSuccess= (text: string) => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    width:400
+  });
+  Toast.fire({
+    icon: "success",
+    title: text,
+  });
+};
+
+export { showPasswordError, showSuccess };

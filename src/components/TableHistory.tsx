@@ -34,18 +34,18 @@ export default function TableHistory({ history, users }: Props) {
   };
 
   const historyWithIndex = newHistory
-    ? newHistory.map((item, index) => {
+    ? newHistory.toReversed().map((item, index) => {
         return {
           index: index + 1,
           ...item,
         };
       })
-    : history.map((item, index) => {
+    : history.toReversed().map((item, index) => {
         return {
           index: index + 1,
           ...item,
         };
-      });
+      })
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPage = 6;
@@ -55,7 +55,7 @@ export default function TableHistory({ history, users }: Props) {
   const currentItems = historyWithIndex.slice(
     indexOfFirstItem,
     indexOfLastItem
-  );
+  )
 
   const totalPages = Math.ceil(historyWithIndex.length / itemsPage);
 

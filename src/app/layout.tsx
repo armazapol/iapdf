@@ -3,6 +3,7 @@ import { LoadingProvider } from "@/components/providers/LoadingProvider";
 import { Loader } from "@/components/Loader";
 import { TanstackProvider } from "@/components/providers/tanstack-provider";
 import Script from "next/script";
+import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata = {
   title: "Mandy Lí",
@@ -20,8 +21,10 @@ export default function RootLayout({
         <div id="main">
           <TanstackProvider>
             <LoadingProvider>
-              <Loader />
-              {children}
+              <AuthProvider>
+                <Loader />
+                {children}
+              </AuthProvider>
             </LoadingProvider>
           </TanstackProvider>
         </div>

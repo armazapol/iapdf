@@ -6,15 +6,9 @@ import { routes, routesother, descriptions } from "@/utils";
 
 interface Props {
   children: React.ReactNode;
-  profile: {
-    idUser: number;
-    email: string;
-    username: string;
-    role: string;
-  };
 }
 
-const Dashboard = ({ children, profile }: Props) => {
+const Dashboard = ({ children }: Props) => {
   const [showSidebar, setShowSidebar] = useState(true);
 
   return (
@@ -23,7 +17,6 @@ const Dashboard = ({ children, profile }: Props) => {
       <Header
         routes={routes}
         routesother={routesother}
-        profile={profile}
         descriptions={descriptions}
         setShowSidebar={setShowSidebar}
         showSidebar={showSidebar}
