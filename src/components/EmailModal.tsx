@@ -1,4 +1,5 @@
-"use client";
+"use client"
+
 import { getUsers, sendEmail } from "@/app/actions";
 import { userProfile } from "@/types";
 import React, { useEffect, useState } from "react";
@@ -99,14 +100,9 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
     }
   };
 
-  // const users = [
-  //   { value: "pepe", label: "Pepe" },
-  //   { value: "Pol", label: "Pol" },
-  //   { value: "user1", label: "User1" },
-  // ];
+
 
   const getApiUsers = async () => {
-    console.log("Fetching users from API...");
     try {
       const response = await getUsers();
       const newUser = response.map((user: userProfile) => ({
@@ -132,6 +128,7 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
       onRequestClose={() => onClose()}
       contentLabel="Send Email"
       style={customStyles}
+
     >
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4 md:p-0">
         <div className="bg-white rounded-xl w-full max-w-2xl p-6 relative shadow-xl ">
@@ -246,8 +243,19 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
               disabled={loading}
               className="bg-[#1a1a40] text-white px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-[#292964] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <FiSend />
-              Send Email
+             
+              {
+                loading ?
+                <>
+                  <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
+                  Sending...
+                </> :
+                <>
+                  <FiSend />
+                  Send  
+                </>
+              }
+            
             </button>
           </div>
         </div>

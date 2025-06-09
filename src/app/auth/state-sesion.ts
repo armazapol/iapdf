@@ -31,15 +31,16 @@ export async function decrypt(session: string | undefined = "") {
 }
 
 export async function createSession(token: SessionPayload) {
-  const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
-
+  const expiresAtDefault = new Date(Date.now() + 60 * 60 * 1000);
+  // const {exp} = decodeJwt(token.access_token.toString());
+  // const expDate = new Date(exp|| 0 ); // Convert seconds to milliseconds
+  // console.log(exp, "expiresAt")
   const encryptedSession = await encrypt(token);
-
   const cookieStore = await cookies();
   cookieStore.set("session", encryptedSession, {
     httpOnly: true,
     secure: true,
-    expires: expiresAt,
+    expires: expiresAtDefault,
     sameSite: "lax",
     path: "/",
   });
