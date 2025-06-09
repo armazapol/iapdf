@@ -17,7 +17,8 @@ import {
 } from "@/app/actions";
 import { useLoading } from "./providers/LoadingProvider";
 import { showPasswordError } from "./alerts";
-import ButtonSwicth2 from "@/components/ButtonSwich2"
+import ButtonSwicth2 from "@/components/ButtonSwich2";
+import { useAuth } from "@/context/AuthContext";
 
 type Props = {
   evento: string;
@@ -36,13 +37,14 @@ type Role = {
 
 export default function UserForm({ evento, idUser, activity }: Props) {
   const router = useRouter();
+  const { user } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
     reset,
     watch,
-    setValue
+    setValue,
   } = useForm<newUserFormInputs>({
     resolver: zodResolver(newUserSchema),
     mode: "onChange",
@@ -200,7 +202,7 @@ export default function UserForm({ evento, idUser, activity }: Props) {
                   error={errors.role?.message}
                   options={Roles}
                 />
-                  <div className=" w-[192px] h-[40px]  text-center flex gap-2.5 items-center mt-[48px]">
+                <div className=" w-[192px] h-[40px] text-center flex gap-2.5 items-center mt-[48px]">
                   <div className="flex gap-4">
                     <label className="text-black">Active user:</label>
                     <ButtonSwicth2

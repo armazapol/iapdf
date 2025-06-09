@@ -5,7 +5,7 @@ import { getRoles } from "@/app/actions";
 
 export default async function TableRolesAsync() {
   
-  const Roles = await getRoles();
+  const Roles = await getRoles({ only_active: "false" });
 
   return (
     <>
