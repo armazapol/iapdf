@@ -473,12 +473,12 @@ export default function PDFToExcelPage() {
           </div>
         )}
       </Step>
-      {
+       {showModalSendEmail && (
         <EmailModal
           showModal={showModalSendEmail}
           onClose={() => setShowModalSendEmail(false)}
         />
-      }
+      )}
     </main>
   );
 }

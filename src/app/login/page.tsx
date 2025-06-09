@@ -41,7 +41,7 @@ export default function LoginPage() {
     setCaptchaLoading(true);
     const token = await getCaptchaToken();
     const res = await loginCaptchaAction(token);
-
+    console.log("Captcha response:", res);
     if (res.success) {
       try {
         const response = await login.mutateAsync(payload);

@@ -13,6 +13,7 @@ import { parseFormat } from "@/utils/parseFormat";
 import { getHistory } from "@/app/actions";
 import { showPasswordError } from "./alerts";
 import { useForm } from "react-hook-form";
+import { useAuth } from "@/context/AuthContext";
 
 type ValuePiece = Date | null;
 
@@ -20,10 +21,11 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 interface Props {
   history: responseHistory[];
-  users : userProfile[]
+  users: userProfile[];
 }
 
 export default function TableHistory({ history, users }: Props) {
+  const { isAdmin } = useAuth();
   const router = useRouter();
   const [value, onChange] = useState<Value>(null);
   const [newHistory, setNewHistory] = useState<responseHistory[] | null>(null);
@@ -45,7 +47,7 @@ export default function TableHistory({ history, users }: Props) {
           index: index + 1,
           ...item,
         };
-      })
+      });
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPage = 6;
@@ -55,7 +57,7 @@ export default function TableHistory({ history, users }: Props) {
   const currentItems = historyWithIndex.slice(
     indexOfFirstItem,
     indexOfLastItem
-  )
+  );
 
   const totalPages = Math.ceil(historyWithIndex.length / itemsPage);
 
@@ -97,51 +99,39 @@ export default function TableHistory({ history, users }: Props) {
     setCurrentPage(1);
   }, [value, watch("user")]);
 
-  
-
   return (
     <div className={style.historyContainer}>
       <div className={`flex-col md:flex-row ${style.selectDateContainer}`}>
         <div className={`flex-col flex`}>
           <DatePicker onChange={onChange} value={value} locale="en" />
         </div>
-        <div className="flex items-center relative w-full md:w-[200px]">
-          <select
-            {...register("user")}
-            className="w-full rounded-[8px] border border-[#b2b2b2] bg-white px-[16px]  h-[40px] outline-none text-[#B2B2B2] font-normal text-[16px] leading-[100%] appearance-none text-black"
-            defaultValue={""}
-          >
-            <option value="">
-              See as user
-            </option>
-            {users.map((ops) => (
-              <option key={ops.idUser} value={ops.idUser} className="text-black">
-                {ops.name} {ops.last_name} 
-              </option>
-            ))}
-          </select>
-          <Image
-            src="/arrow-bottom.png"
-            alt="arrow down"
-            width={16}
-            height={16}
-            className="absolute right-[15px] pointer-events-none"
-          />
-        </div>
-        {/* <div className={style.filterContainer}>
-          <Image
-            src="/img/userHistory.png"
-            width={16}
-            height={16}
-            alt="eye"
-            className={style.icon}
-          />
-          <input
-            type="text"
-            placeholder="See as user"
-            className={style.inputText}
-          />
-        </div> */}
+        {isAdmin && (
+          <div className="flex items-center relative w-full md:w-[200px]">
+            <select
+              {...register("user")}
+              className="w-full rounded-[8px] border border-[#b2b2b2] bg-white px-[16px]  h-[40px] outline-none text-[#B2B2B2] font-normal text-[16px] leading-[100%] appearance-none text-black"
+              defaultValue={""}
+            >
+              <option value="">See as user</option>
+              {users.map((ops) => (
+                <option
+                  key={ops.idUser}
+                  value={ops.idUser}
+                  className="text-black"
+                >
+                  {ops.name} {ops.last_name}
+                </option>
+              ))}
+            </select>
+            <Image
+              src="/arrow-bottom.png"
+              alt="arrow down"
+              width={16}
+              height={16}
+              className="absolute right-[15px] pointer-events-none"
+            />
+          </div>
+        )}
       </div>
       <div className="overflow-x-auto mb-5">
         <table className={style.TableHistory}>

@@ -124,7 +124,10 @@ export default function ViewFiles({ date, files, idPDF }: Props) {
           ))}
         </div>
         <div className={style.sendContainer}>
-          <button className={style.btnSend} onClick={() => setShowModalSendEmail(true)}>
+          <button
+            className={style.btnSend}
+            onClick={() => setShowModalSendEmail(true)}
+          >
             <Image src="/img/send.png" alt="send" width={18} height={18} />
             Send by email
           </button>
@@ -143,12 +146,12 @@ export default function ViewFiles({ date, files, idPDF }: Props) {
           </button>
         </div>
       </div>
-      {
+      {showModalSendEmail && (
         <EmailModal
           showModal={showModalSendEmail}
           onClose={() => setShowModalSendEmail(false)}
         />
-      }
+      )}
     </div>
   );
 }
