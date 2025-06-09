@@ -6,6 +6,8 @@ import ButtonAddUser from "./ButtonAddUser";
 import ButtonSwicth from "@/components/ButtonSwitch";
 import Skeleton from "react-loading-skeleton";
 import { parseFormat } from "@/utils/parseFormat";
+import { useAuth } from "@/context/AuthContext";
+
 type prop = {
   entity: string;
   data: User[];
@@ -24,6 +26,7 @@ type User = {
 export default function TableUsers({ entity, data }: prop) {
   const router = useRouter();
   const [users, setUsers] = useState<User[]>([]);
+  const { isAdmin } = useAuth();
 
   useEffect(() => {
     setUsers(data);
@@ -57,15 +60,17 @@ export default function TableUsers({ entity, data }: prop) {
           <p className="font-bold text-[24px] leading-[140%] tracking-[0%] text-[#2E3A59]">
             User table
           </p>
-          <ButtonAddUser
-            onClick={handleNewUser}
-            src={"/user-profile-add.png"}
-            alt="Add user"
-            iconSize={18}
-            className="flex items-center gap-[10px] rounded-[5px] px-[16px] py-[8px] text-[#FEFEFE] text-[14px] font-bold leading-[100%] tracking-[0.4px] bg-[#2E3A59] cursor-pointer"
-          >
-            New {entity}
-          </ButtonAddUser>
+          {isAdmin && (
+            <ButtonAddUser
+              onClick={handleNewUser}
+              src={"/user-profile-add.png"}
+              alt="Add user"
+              iconSize={18}
+              className="flex items-center gap-[10px] rounded-[5px] px-[16px] py-[8px] text-[#FEFEFE] text-[14px] font-bold leading-[100%] tracking-[0.4px] bg-[#2E3A59] cursor-pointer"
+            >
+              New {entity}
+            </ButtonAddUser>
+          )}
         </div>
         <div className="overflow-y-auto mt-[20.5px] md:h-[200px]  mb-4 flex-1">
           <table className="w-full relative top-4 h-full">
@@ -117,10 +122,10 @@ export default function TableUsers({ entity, data }: prop) {
                         {user.role}
                       </td>
                       <td className="pt-[10px] pb-[10px] min-w-[100px]">
-                        {parseFormat( user.creationDate)}
+                        {parseFormat(user.creationDate)}
                       </td>
                       <td className="pt-[10px] pb-[10px] min-w-[110px]">
-                        {parseFormat( user.modificationDate)}
+                        {parseFormat(user.modificationDate)}
                       </td>
                       <td className="pl-[8px] pt-[10px] pb-[10px] min-w-[110px]">
                         <ButtonSwicth

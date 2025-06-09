@@ -5,6 +5,7 @@ import ButtonAddUser from "./ButtonAddUser";
 import { useRouter } from "next/navigation";
 import ButtonSwitch from "./ButtonSwitch";
 import { parseFormat } from "@/utils/parseFormat";
+import { useAuth } from "@/context/AuthContext";
 
 type Props = {
   entity: string;
@@ -28,6 +29,7 @@ type Role = {
 export default function TableRoles({ entity, roles }: Props) {
   const router = useRouter();
   const [roleList, setRoleList] = useState<Role[]>(roles);
+  const { isAdmin } = useAuth();
 
   const handleNewRol = () => {
     router.push("/home/rolesmanagement/roles/new");
@@ -50,21 +52,7 @@ export default function TableRoles({ entity, roles }: Props) {
         <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
           Roles Table
         </p>
-        <ButtonAddUser
-          onClick={handleNewRol}
-          src={"/user-profile-add.png"}
-          alt="Add role"
-          iconSize={18}
-          className="flex items-center gap-2 rounded-[5px] px-4 py-2 text-white text-sm font-bold bg-[#2E3A59] hover:opacity-90"
-        >
-          New {entity}
-        </ButtonAddUser>
-      </div>
-      <div className="flex flex-col h-full bg-white rounded-[15px] shadow-[0_4px_8.8px_0_#00000021] p-6 mb-[10px]">
-        <div className="hidden md:flex justify-between items-center gap-4 mb-4">
-          <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
-            Roles Table
-          </p>
+        {isAdmin && (
           <ButtonAddUser
             onClick={handleNewRol}
             src="/user-profile-add.png"
@@ -74,6 +62,24 @@ export default function TableRoles({ entity, roles }: Props) {
           >
             New {entity}
           </ButtonAddUser>
+        )}
+      </div>
+      <div className="flex flex-col h-full bg-white rounded-[15px] shadow-[0_4px_8.8px_0_#00000021] p-6 mb-[10px]">
+        <div className="hidden md:flex justify-between items-center gap-4 mb-4">
+          <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
+            Roles Table
+          </p>
+          {isAdmin && (
+            <ButtonAddUser
+              onClick={handleNewRol}
+              src="/user-profile-add.png"
+              alt="Add role"
+              iconSize={18}
+              className="flex items-center gap-2 rounded px-4 py-2 text-white text-sm font-bold bg-[#2E3A59] hover:opacity-90"
+            >
+              New {entity}
+            </ButtonAddUser>
+          )}
         </div>
 
         {/* Contenedor con scroll horizontal en móviles */}

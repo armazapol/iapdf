@@ -57,18 +57,18 @@ export default function RolForm({ entity, id, activity }: props) {
       const fetchUser = async () => {
         try {
           setLoading(true);
-          const rolesList = await getRoles();
-
+          const rolesList = await getRoles({ only_active: "false" });
           const selectedRol = rolesList.data.find((rol) => rol.id === id);
-          // console.log("selectedRol: ", selectedRol)
+
           reset({
-            rol: selectedRol?.rol,
+            rol: selectedRol?.rol || "",
             isActive: selectedRol?.isActive,
             permissions: {
-              pdf_to_excel: selectedRol?.permissions.pdf_to_excel,
-              history: selectedRol?.permissions.history,
-              incidents: selectedRol?.permissions.incidents,
-              user_management: selectedRol?.permissions.user_management,
+              pdf_to_excel: selectedRol?.permissions?.pdf_to_excel,
+              history: selectedRol?.permissions?.history,
+              incidents: selectedRol?.permissions?.incidents,
+              user_management:
+                selectedRol?.permissions?.user_management,
             },
           });
         } catch (error) {

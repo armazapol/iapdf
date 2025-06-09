@@ -70,7 +70,7 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
                     pathname === href ? "text-white" : "text-gray-600"
                   }`}
                 >
-                  <Image 
+                  <Image
                     src={pathname === href ? icon2 : icon}
                     alt={label}
                     width={24}
@@ -91,7 +91,10 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
               children ? (
                 <details
                   key={href}
-                  open={pathname.startsWith("/home/usermanagement/")}
+                  open={
+                    pathname.startsWith("/home/usermanagement/") ||
+                    pathname.startsWith("/home/rolesmanagement/")
+                  }
                   className="group flex flex-col gap-4"
                 >
                   <summary
@@ -105,7 +108,7 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
                       width={24}
                       className="mr-2 group-open:hidden"
                     />
-                    <Image 
+                    <Image
                       src={icon2}
                       alt={label}
                       height={24}
