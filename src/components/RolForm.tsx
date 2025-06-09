@@ -107,7 +107,7 @@ export default function RolForm({ entity, id, activity }: props) {
                   left-0  max-w-full md:max-w-none
                   overflow-hidden"
       >
-        <div className="flex items-center relative gap-2 md:gap-[5px] top-7 md:top-[27px] left-2.5 md:left-[25px]  cursor-pointer">
+        <div className="flex items-center relative gap-2 md:gap-[5px] top-7 md:top-[27px] left-2.5 md:left-[25px]  cursor-pointer w-fit">
           <Image
             src="/arrow-right.png"
             alt="back arrow"

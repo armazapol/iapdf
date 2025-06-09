@@ -14,6 +14,7 @@ import { getHistory } from "@/app/actions";
 import { showPasswordError } from "./alerts";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/context/AuthContext";
+import LoadingComponent from "./LoadingComponent";
 
 type ValuePiece = Date | null;
 
@@ -103,7 +104,7 @@ export default function TableHistory({ history, users }: Props) {
     <div className={style.historyContainer}>
       <div className={`flex-col md:flex-row ${style.selectDateContainer}`}>
         <div className={`flex-col flex`}>
-          <DatePicker onChange={onChange} value={value} locale="en" />
+          <DatePicker onChange={onChange} value={value} locale="en" className='outline-0' />
         </div>
         {isAdmin && (
           <div className="flex items-center relative w-full md:w-[200px]">
@@ -148,7 +149,7 @@ export default function TableHistory({ history, users }: Props) {
             {loading ? (
               <tr>
                 <td colSpan={6} className="text-center">
-                  Loading...
+                  <LoadingComponent size="sm" />
                 </td>
               </tr>
             ) : (

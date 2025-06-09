@@ -4,39 +4,16 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Notifications from "./Notifications";
 import User from "./User";
+import { routes, routesother, descriptions } from "@/utils";
 
 interface Props {
-  routes: Route[];
-  routesother: RouteOther[];
-  descriptions: Record<string, string>;
   children: React.ReactNode;
 
   showSidebar: boolean;
   setShowSidebar: (show: boolean) => void;
 }
 
-interface Route {
-  href: string;
-  label: string;
-  icon: string;
-  children?: Route[];
-}
-
-interface RouteOther {
-  href: string;
-  label: string;
-  icon: string;
-  children: {
-    href: string;
-    label: string;
-    icon: string;
-  }[];
-}
-
 const Header = ({
-  routes,
-  routesother,
-  descriptions,
   children,
   showSidebar,
   setShowSidebar,

@@ -4,18 +4,21 @@ export const routes = [
     label: "PDF to Excel",
     icon: "/img/ImgPDF.png",
     icon2: "/img/imgPDFinvert.png",
+    id: "pdf_to_excel"
   },
   {
     href: "/home/history",
     label: "History",
     icon: "/svg/icons/historyicon.svg",
     icon2: "/img/imgHistoryInvert.png",
+    id : "history"
   },
   {
     href: "/home/incidents",
     label: "Incidents",
     icon: "/svg/icons/incidentsicon.svg",
     icon2: "/img/imgIncidentsInvert.png",
+    id: "incidents"
   },
 ];
 
@@ -25,6 +28,7 @@ export const routesother = [
     label: "User management",
     icon: "/svg/icons/configicon.svg",
     icon2: "/img/ajuste.png",
+    id:"user_management",
     children: [
       {
         href: "/home/usermanagement/users",

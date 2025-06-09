@@ -313,7 +313,7 @@ export default function PDFToExcelPage() {
           <div className=" my-8 flex gap-6 ">
             <button
               onClick={(e) => handleUploadFiles(e)}
-              className={`bg-[#B32646] btn-primary flex-1`}
+              className={`bg-[#B32646] btn-primary flex-1 hover:bg-pink-700`}
             >
               Skip
             </button>
@@ -466,7 +466,7 @@ export default function PDFToExcelPage() {
           <div className="flex my-4 md:my-8">
             <button
               onClick={handleConvertAnotherFile}
-              className={`bg-[#2E3A59] text-white py-2 px-6 rounded-md  disabled:opacity-50 cursor-pointer flex-1`}
+              className={`bg-[#2E3A59] hover:bg-[#292964] text-white py-2 px-6 rounded-md  disabled:opacity-50 cursor-pointer flex-1`}
             >
               Convert another file
             </button>

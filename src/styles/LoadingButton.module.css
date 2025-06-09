@@ -17,6 +17,9 @@
     position: relative;
     left: 50%;
     transform: translate(-50%);
+    &:hover {
+        background-color: #c6005c;
+    }
   }
   
   .buttonLoading {

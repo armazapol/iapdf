@@ -18,9 +18,5 @@ export default async function history() {
     );
   }
 
-  return (
-    <div>
-      <TableHistory history={history.data} users={users}></TableHistory>
-    </div>
-  );
+  return <TableHistory history={history.data} users={users} />;
 }

@@ -5,34 +5,38 @@ import Link from "next/link";
 import Image from "next/image";
 import Logout from "./Logout";
 import NeedHelp from "./NeedHelp";
+import { routes, routesother } from "@/utils";
+import { useAuth } from "@/context/AuthContext";
 
 interface Props {
-  routes: Route[];
-  routesother: RouteOther[];
   showSidebar: boolean;
 }
 
-interface Route {
-  href: string;
-  label: string;
-  icon: string;
-  icon2: string;
-}
-
-interface RouteOther {
-  href: string;
-  label: string;
-  icon: string;
-  icon2: string;
-  children: {
-    href: string;
-    label: string;
-    icon: string;
-  }[];
-}
-
-const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
+const Sidebar = ({ showSidebar }: Props) => {
   const pathname = usePathname();
+  const { permissions } = useAuth();
+
+  const routesWithPermissions = routes.map((route) => {
+    return {
+      ...route,
+      isVisible:
+        (permissions && permissions[route.id as keyof typeof permissions]) ||
+        false,
+    };
+  });
+
+  const routesOtherWithPermissions = routesother.map((route) => {
+    return {
+      ...route,
+      isVisible:
+        (permissions && permissions[route.id as keyof typeof permissions]) ||
+        false,
+    };
+  });
+  const routesOtherFilter = routesOtherWithPermissions.filter(
+    (route) => route.isVisible
+  );
+  const routesFilter = routesWithPermissions.filter((route) => route.isVisible);
 
   return (
     <aside
@@ -57,7 +61,7 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
             MAIN MENU
           </p>
           <ul className="mb-6 space-y-2">
-            {routes.map(({ href, label, icon, icon2 }) => (
+            {routesFilter.map(({ href, label, icon, icon2 }) => (
               <li
                 key={href}
                 className={`font-medium flex items-center h-[50px] pl-2 ${
@@ -70,7 +74,7 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
                     pathname === href ? "text-white" : "text-gray-600"
                   }`}
                 >
-                  <Image 
+                  <Image
                     src={pathname === href ? icon2 : icon}
                     alt={label}
                     width={24}
@@ -87,11 +91,11 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
             OTHER
           </p>
           <ul className="mb-6 mt-5 space-y-2 w-full ">
-            {routesother.map(({ href, label, icon, icon2, children }) =>
+            {routesOtherFilter.map(({ href, label, icon, icon2, children }) =>
               children ? (
                 <details
                   key={href}
-                  open={pathname.startsWith("/home/usermanagement/")}
+                  // open={pathname.startsWith("/home/usermanagement/")}
                   className="group flex flex-col gap-4"
                 >
                   <summary
@@ -105,7 +109,7 @@ const Sidebar = ({ routes, routesother, showSidebar }: Props) => {
                       width={24}
                       className="mr-2 group-open:hidden"
                     />
-                    <Image 
+                    <Image
                       src={icon2}
                       alt={label}
                       height={24}

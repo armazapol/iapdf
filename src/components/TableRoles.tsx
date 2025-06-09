@@ -27,7 +27,7 @@ type Role = {
 
 export default function TableRoles({ entity, roles }: Props) {
   const router = useRouter();
-  const [roleList, setRoleList] = useState<Role[]>(roles);
+  const [roleList, ] = useState<Role[]>([...roles]); // Duplicating roles for demonstration purposes
 
   const handleNewRol = () => {
     router.push("/home/rolesmanagement/roles/new");
@@ -45,7 +45,7 @@ export default function TableRoles({ entity, roles }: Props) {
   // };
 
   return (
-    <div className="pt-5 lg:p-0 px-3 lg:pl-0 h-full">
+    <div className="pt-5 lg:p-0 px-3 lg:pl-0 max-h-full flex ">
       <div className="flex  gap-[75px] mb-[20px] md:hidden">
         <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
           Roles Table
@@ -60,7 +60,7 @@ export default function TableRoles({ entity, roles }: Props) {
           New {entity}
         </ButtonAddUser>
       </div>
-      <div className="flex flex-col h-full bg-white rounded-[15px] shadow-[0_4px_8.8px_0_#00000021] p-6 mb-[10px]">
+      <div className="flex flex-col bg-white rounded-[15px] shadow-[0_4px_8.8px_0_#00000021] p-6 mb-[10px] w-full">
         <div className="hidden md:flex justify-between items-center gap-4 mb-4">
           <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
             Roles Table
@@ -70,16 +70,16 @@ export default function TableRoles({ entity, roles }: Props) {
             src="/user-profile-add.png"
             alt="Add role"
             iconSize={18}
-            className="flex items-center gap-2 rounded px-4 py-2 text-white text-sm font-bold bg-[#2E3A59] hover:opacity-90"
+            className="flex items-center gap-2 rounded px-4 py-2 text-white text-sm font-bold bg-[#2E3A59] hover:bg-[#292964] cursor-pointer"
           >
             New {entity}
           </ButtonAddUser>
         </div>
 
         {/* Contenedor con scroll horizontal en móviles */}
-        <div className="overflow-x-auto h-full">
+        <div className="overflow-x-auto flex-1">
           {roleList.length > 0 ? (
-            <table className="w-full text-left h-full">
+            <table className="w-full text-left ">
               <thead className="font-bold text-[10px] leading-[150%] text-[#2E3A59]">
                 <tr>
                   <th className="pb-2">ROLE</th>
@@ -111,7 +111,7 @@ export default function TableRoles({ entity, roles }: Props) {
                         onClick={() => handleEditRol(item.id)}
                         className="hover:underline cursor-pointer mr-2 text-[#2E3A59]"
                       >
-                        edit
+                        Edit
                       </button>
                     </td>
                   </tr>

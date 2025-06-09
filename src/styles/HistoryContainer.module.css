@@ -114,6 +114,9 @@
                     justify-content: center;
                     gap: 10px;
                     cursor: pointer;
+                    &:hover{
+                           background-color: #292964;
+                    }
                 }
             }
         }

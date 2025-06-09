@@ -190,7 +190,7 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
           <div className="mb-4">
             <input
               type="text"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus-visible:outline-none"
               placeholder="Subject"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
@@ -234,7 +234,7 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
 
           {/* Footer buttons */}
           <div className="flex justify-between">
-            <button className="border border-[#1a1a40] text-[#1a1a40] px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-50">
+            <button className="border border-[#1a1a40] text-[#1a1a40] px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-50 cursor-pointer">
               <FiPaperclip />
               Attach files
             </button>

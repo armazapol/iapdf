@@ -50,7 +50,7 @@ export interface dataEmail{
     }[],
     subject: string;
     body: string;
-    file_links: any ;
+    file_links: string[] ;
 }
 
 export type Role = {
@@ -70,3 +70,15 @@ export type Role = {
 export type GetRolesResponse = {
   data: Role[];
 };
+
+export type GetPermissionsResponse = {
+  permissions: Permissions
+  rol: string
+}
+
+export interface Permissions {
+  pdf_to_excel: boolean
+  history: boolean
+  incidents: boolean
+  user_management: boolean
+}

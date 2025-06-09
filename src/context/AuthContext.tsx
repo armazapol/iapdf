@@ -1,6 +1,7 @@
 "use client";
-import { getUser } from "@/app/actions";
-import { userProfile } from "@/types";
+import { getPermissions, getUser } from "@/app/actions";
+import LoadingComponent from "@/components/LoadingComponent";
+import { GetPermissionsResponse, userProfile } from "@/types";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 type User = userProfile | null;
@@ -10,6 +11,7 @@ type AuthContextType = {
   setUser: React.Dispatch<React.SetStateAction<User>>;
   isLoading: boolean;
   isAdmin: boolean;
+  permissions: GetPermissionsResponse | null;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -17,14 +19,20 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [permissions, setPermissions] = useState<GetPermissionsResponse | null>(null);
 
   useEffect(() => {
     // Simulate an API call to fetch user profile
     const fetchUserProfile = async () => {
       try {
         // Replace with actual API call
-        const response = await getUser();
-        setUser(response);
+        const [ responseUser, responsePermissions] = await Promise.all([
+          getUser(),
+          getPermissions()
+        ])
+        setUser(responseUser);
+        setPermissions(responsePermissions.permissions);
+        console.log(responsePermissions, "Permissions fetched successfully");
       } catch (error) {
         console.error("Failed to fetch user profile", error);
         setIsLoading(false);
@@ -36,15 +44,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
-      </div>
-    );
+    return <LoadingComponent />;
   }
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, setUser, isAdmin : user?.role === "admin" }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, setUser, isAdmin: user?.role === "admin", permissions }}
+    >
       {children}
     </AuthContext.Provider>
   );

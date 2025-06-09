@@ -143,14 +143,12 @@ export default function UserForm({ evento, idUser, activity }: Props) {
       {loading}
       <div className="w-full  lg:bg-[#FFFFFF] rounded-[15px] lg:shadow-[0px_3.5px_8.8px_0px_rgba(0,0,0,0.13)] ">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
-          <div className="flex items-center relative gap-[5px] top-[27px]  left-[10px] lg:left-[24px] w-fit h-[24px]">
+          <div onClick={goBack} className="flex items-center relative gap-[5px] top-[27px]  left-[10px] lg:left-[24px] w-fit h-[24px] cursor-pointer">
             <Image
               src="/arrow-right.png"
               alt="back arrow"
               width={24}
               height={24}
-              onClick={goBack}
-              className="cursor-pointer"
             />
             <p className="font-medium text-[16px] leading-[100%] tracking-[-0.11px] text-[#2E3A59]">
               Back to user list

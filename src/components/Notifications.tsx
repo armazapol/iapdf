@@ -1,11 +1,13 @@
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type NotificationsProps = {
   onClose: () => void;
 };
 
 export default function Notifications({ onClose }: NotificationsProps) {
+  const router = useRouter();
   const notification = [
     {
       id: "1",
@@ -36,6 +38,11 @@ export default function Notifications({ onClose }: NotificationsProps) {
       description: "You file has been sucessfuly converted",
     },
   ];
+
+  const handleGoToIncidents = () => {
+    router.push("/home/incidents");
+    onClose();
+  };
 
   return (
     <div
@@ -108,7 +115,10 @@ export default function Notifications({ onClose }: NotificationsProps) {
       </div>
 
       <div className="left-[89px]  md:left-[110px] relative mt-[18px] pb-3">
-        <button className="w-[129px] h-[28px] rounded-[6px] bg-[#2E3A59] text-[#FFFFFF] font-medium text-[14px] leading-[20px] tracking-[-0.006em] cursor-pointer">
+        <button
+          onClick={handleGoToIncidents}
+          className="w-[129px] h-[28px] rounded-[6px] bg-[#2E3A59] hover:bg-[#292964] text-[#FFFFFF] font-medium text-[14px] leading-[20px] tracking-[-0.006em] cursor-pointer"
+        >
           Go to incidents
         </button>
       </div>

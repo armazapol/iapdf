@@ -23,6 +23,20 @@ export const handleLogout = async () => {
   await deleteSession();
 };
 
+export const getPermissions = cache(async () => {
+  const dataVerify = await verifySession();
+  const { access_token, idUser } = dataVerify;
+  const response = await fetch(`${API_URL_BASE}/users/${idUser}/permissions`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  const result = await response.json();
+  return result;
+});
+
 export const getUser = cache(async () => {
   const dataVerify = await verifySession();
   const { access_token, idUser } = dataVerify;

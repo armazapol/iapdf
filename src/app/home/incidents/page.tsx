@@ -3,10 +3,9 @@ import TableIncidents from "@/components/TableIncidents";
 
 export  default async function  IncidentsPage() {
 const incidents = await getIncidents()
-
   return (
     <div>
-      <TableIncidents incidents={incidents} />
+      <TableIncidents incidents={incidents.length>0 ? incidents  : incidents.data} />
     </div>
   );
 }

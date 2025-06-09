@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { routes, routesother, descriptions } from "@/utils";
 
 interface Props {
   children: React.ReactNode;
@@ -13,11 +12,8 @@ const Dashboard = ({ children }: Props) => {
 
   return (
     <>
-      <Sidebar routes={routes} routesother={routesother} showSidebar={showSidebar} />
+      <Sidebar showSidebar={showSidebar} />
       <Header
-        routes={routes}
-        routesother={routesother}
-        descriptions={descriptions}
         setShowSidebar={setShowSidebar}
         showSidebar={showSidebar}
       >

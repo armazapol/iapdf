@@ -14,7 +14,7 @@ export async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("1hr")
+    .setExpirationTime("24hr")
     .sign(key);
 }
 
@@ -31,7 +31,7 @@ export async function decrypt(session: string | undefined = "") {
 }
 
 export async function createSession(token: SessionPayload) {
-  const expiresAtDefault = new Date(Date.now() + 60 * 60 * 1000);
+  const expiresAtDefault = new Date(Date.now() + 60 * 60 * 1000 * 24); // 24 hours
   // const {exp} = decodeJwt(token.access_token.toString());
   // const expDate = new Date(exp|| 0 ); // Convert seconds to milliseconds
   // console.log(exp, "expiresAt")
