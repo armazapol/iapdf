@@ -47,7 +47,8 @@ export default function TableRoles({ entity, roles }: Props) {
   // };
 
   return (
-    <div className="pt-5 lg:p-0 px-3 lg:pl-0 max-h-full flex flex-col">
+    <div className="pt-5 lg:p-0 px-3 lg:pl-0 max-h-full flex flex-col h-full">
+      {/* Mobile */}
       <div className="flex  gap-[75px] mb-[20px] md:hidden">
         <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
           Roles Table
@@ -64,7 +65,8 @@ export default function TableRoles({ entity, roles }: Props) {
           </ButtonAddUser>
         )}
       </div>
-      <div className="flex flex-col bg-white rounded-[15px] shadow-[0_4px_8.8px_0_#00000021] p-6 mb-[10px] w-full flex-1">
+      {/*  */}
+      <div className="flex flex-col bg-white rounded-[15px] shadow-[0_4px_8.8px_0_#00000021] p-6 mb-[10px] w-full flex-1 h-full">
         <div className="hidden md:flex justify-between items-center gap-4 mb-4">
           <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
             Roles Table
@@ -83,9 +85,9 @@ export default function TableRoles({ entity, roles }: Props) {
         </div>
 
         {/* Contenedor con scroll horizontal en móviles */}
-        <div className="overflow-x-auto flex-1">
+        <div className="overflow-x-auto flex-1 h-full">
           {roleList.length > 0 ? (
-            <table className="w-full text-left ">
+            <table className="w-full text-left h-full">
               <thead className="font-bold text-[10px] leading-[150%] text-[#2E3A59]">
                 <tr>
                   <th className="pb-2">ROLE</th>

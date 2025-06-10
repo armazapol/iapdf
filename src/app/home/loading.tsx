@@ -1,10 +1,8 @@
-
-import React from 'react'
+import LoadingComponent from "@/components/LoadingComponent";
+import React from "react";
 
 const loading = () => {
-  return (
-    <div>loading</div>
-  )
-}
+  return <LoadingComponent size="sm" />;
+};
 
-export default loading
+export default loading;
