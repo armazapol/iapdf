@@ -95,7 +95,10 @@ const Sidebar = ({ showSidebar }: Props) => {
               children ? (
                 <details
                   key={href}
-                  // open={pathname.startsWith("/home/usermanagement/")}
+                  open={
+                    pathname.startsWith("/home/usermanagement/") ||
+                    pathname.startsWith("/home/rolesmanagement/")
+                  }
                   className="group flex flex-col gap-4"
                 >
                   <summary

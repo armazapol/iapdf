@@ -10,7 +10,7 @@ import { rolInputs, rolSchema } from "@/schemas/rolSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createRol, editRol, getRoles } from "@/app/actions";
 import { useLoading } from "./providers/LoadingProvider";
-import ButtonSwicth3 from "@/components/ButtonSwicth3";
+import ButtonSwicth2 from "@/components/ButtonSwich2";
 import { showPasswordError } from "./alerts";
 
 type props = {
@@ -23,7 +23,7 @@ export default function RolForm({ entity, id, activity }: props) {
   const router = useRouter();
   const { loading, setLoading } = useLoading();
   const [showModal, setShowModal] = useState(false);
-  
+
   const goBack = () => {
     router.push("/home/rolesmanagement/roles");
   };
@@ -50,25 +50,25 @@ export default function RolForm({ entity, id, activity }: props) {
       },
     },
   });
-  
+
   const watchIsActive = watch("isActive");
   useEffect(() => {
     if (id) {
       const fetchUser = async () => {
         try {
           setLoading(true);
-          const rolesList = await getRoles();
-       
+          const rolesList = await getRoles({ only_active: "false" });
           const selectedRol = rolesList.data.find((rol) => rol.id === id);
-          // console.log("selectedRol: ", selectedRol)
+
           reset({
-            rol: selectedRol?.rol,
+            rol: selectedRol?.rol || "",
             isActive: selectedRol?.isActive,
             permissions: {
-              pdf_to_excel: selectedRol?.permissions.pdf_to_excel,
-              history: selectedRol?.permissions.history,
-              incidents: selectedRol?.permissions.incidents,
-              user_management: selectedRol?.permissions.user_management,
+              pdf_to_excel: selectedRol?.permissions?.pdf_to_excel,
+              history: selectedRol?.permissions?.history,
+              incidents: selectedRol?.permissions?.incidents,
+              user_management:
+                selectedRol?.permissions?.user_management,
             },
           });
         } catch (error) {
@@ -83,10 +83,9 @@ export default function RolForm({ entity, id, activity }: props) {
 
   const onSubmit: SubmitHandler<rolInputs> = async (data) => {
     setLoading(true);
-    console.log("POST rol: ", data)
+
     try {
       if (entity === "Edit" && id) {
-        console.log("POST rol: ", id, data)
         await editRol(id, data);
       } else {
         await createRol(data);
@@ -150,7 +149,7 @@ export default function RolForm({ entity, id, activity }: props) {
             </div>
             <div className=" h-[40px] mt-[30px] flex gap-2 items-center">
               <label> Active Role:</label>
-              <ButtonSwicth3
+              <ButtonSwicth2
                 checked={watchIsActive}
                 onChange={(value: boolean) => setValue("isActive", value)}
               />
@@ -161,6 +160,7 @@ export default function RolForm({ entity, id, activity }: props) {
             Role permissions
           </p>
           <div className="mt-4 w-full md:max-w-[292px] max-w-none">
+            {/* Pendiente optimizar */}
             <div className="flex justify-between border-b border-[#E2E8F0] py-4">
               <span className="font-bold text-[14px] leading-[140%] text-[#2D3748]">
                 PDF to Excel

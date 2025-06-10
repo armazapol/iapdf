@@ -200,11 +200,18 @@ export const updateUser = async (idUser: number, data: newUserFormInputs) => {
   return result;
 };
 
-export const getRoles = async (): Promise<GetRolesResponse> => {
+export const getRoles = async ( dateParam?: {only_active:string} ): Promise<GetRolesResponse> => {
+  
   const dataVerify = await verifySession();
   const { access_token } = dataVerify;
 
-  const response = await fetch(`${API_URL_BASE}/roles`, {
+  const url = new URL(`${API_URL_BASE}/roles`);
+  // url.searchParams.append("only_active", "true")
+
+  if(dateParam){
+     url.searchParams.append("only_active", dateParam.only_active)
+  }
+  const response = await fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -229,6 +236,7 @@ export const createRol = async (data: rolInputs) => {
     body: JSON.stringify(data),
   });
   const result = await response.json();
+  if (!response.ok) throw new Error(result.detail);
   return result;
 };
 
@@ -245,7 +253,6 @@ export const editRol = async (id:number, data:rolInputs) => {
     body: JSON.stringify(data)
   })
   const result = await response.json()
-  console.log("Result: ", result)
   if (!response.ok) throw new Error(result.detail);
   return result
 }

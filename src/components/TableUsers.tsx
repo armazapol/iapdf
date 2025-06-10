@@ -6,6 +6,8 @@ import ButtonAddUser from "./ButtonAddUser";
 import ButtonSwicth from "@/components/ButtonSwitch";
 import Skeleton from "react-loading-skeleton";
 import { parseFormat } from "@/utils/parseFormat";
+import { useAuth } from "@/context/AuthContext";
+
 type prop = {
   entity: string;
   data: User[];
@@ -24,6 +26,7 @@ type User = {
 export default function TableUsers({ entity, data }: prop) {
   const router = useRouter();
   const [users, setUsers] = useState<User[]>([]);
+  const { isAdmin } = useAuth();
 
   useEffect(() => {
     setUsers(data);
@@ -36,36 +39,40 @@ export default function TableUsers({ entity, data }: prop) {
     router.push("/home/usermanagement/users/new");
   };
   return (
-    <div className="pl-4 md:pl-0 pt-5 lg:pt-0 max-h-full flex">
+    <div className="pl-4 md:pl-0 pt-5 lg:pt-0 max-h-full flex flex-col">
       {/* Esto es mobile */}
       <div className="flex mb-4 md:hidden items-center gap-15 pb-2">
         <p className="font-bold text-[24px] leading-[140%] tracking-[0%] text-[#2E3A59] w-[120px]">
           User Table
         </p>
-        <ButtonAddUser
-          onClick={handleNewUser}
-          src={"/user-profile-add.png"}
-          alt="Add user"
-          iconSize={18}
-          className="flex items-center justify-center gap-[10px] rounded-[5px] w-[129px] h-[37px] text-[#FEFEFE] text-[14px] font-bold leading-[100%] tracking-[0.4px] bg-[#2E3A59] hover:bg-[#292964] cursor-pointer"
-        >
-          New {entity}
-        </ButtonAddUser>
+        {isAdmin && (
+          <ButtonAddUser
+            onClick={handleNewUser}
+            src={"/user-profile-add.png"}
+            alt="Add user"
+            iconSize={18}
+            className="flex items-center justify-center gap-[10px] rounded-[5px] w-[129px] h-[37px] text-[#FEFEFE] text-[14px] font-bold leading-[100%] tracking-[0.4px] bg-[#2E3A59] hover:bg-[#292964] cursor-pointer"
+          >
+            New {entity}
+          </ButtonAddUser>
+        )}
       </div>
       <div className="px-[25px] w-full rounded-[15px] bg-white shadow-[0_4px_8.8px_0_#00000021] flex flex-col ">
         <div className="hidden md:flex justify-between mt-[20px] min-w-[600px]">
           <p className="font-bold text-[24px] leading-[140%] tracking-[0%] text-[#2E3A59]">
             User table
           </p>
-          <ButtonAddUser
-            onClick={handleNewUser}
-            src={"/user-profile-add.png"}
-            alt="Add user"
-            iconSize={18}
-            className="flex items-center gap-[10px] rounded-[5px] px-[16px] py-[8px] text-[#FEFEFE] text-[14px] font-bold leading-[100%] tracking-[0.4px] bg-[#2E3A59] hover:bg-[#292964] cursor-pointer"
-          >
-            New {entity}
-          </ButtonAddUser>
+          {isAdmin && (
+            <ButtonAddUser
+              onClick={handleNewUser}
+              src={"/user-profile-add.png"}
+              alt="Add user"
+              iconSize={18}
+              className="flex items-center gap-[10px] rounded-[5px] px-[16px] py-[8px] text-[#FEFEFE] text-[14px] font-bold leading-[100%] tracking-[0.4px] bg-[#2E3A59] hover:bg-[#292964] cursor-pointer"
+            >
+              New {entity}
+            </ButtonAddUser>
+          )}
         </div>
         <div className="overflow-y-auto mt-[20.5px] md:h-[200px]  mb-4 flex-1">
           <table className="w-full relative  ">
@@ -117,10 +124,10 @@ export default function TableUsers({ entity, data }: prop) {
                         {user.role}
                       </td>
                       <td className="pt-[10px] pb-[10px] min-w-[100px]">
-                        {parseFormat( user.creationDate)}
+                        {parseFormat(user.creationDate)}
                       </td>
                       <td className="pt-[10px] pb-[10px] min-w-[110px]">
-                        {parseFormat( user.modificationDate)}
+                        {parseFormat(user.modificationDate)}
                       </td>
                       <td className="pl-[8px] pt-[10px] pb-[10px] min-w-[110px]">
                         <ButtonSwicth

@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { newUserFormInputs, newUserSchema } from "@/schemas/newUserSchema";
+import { newUserFormInputs, UserSchema } from "@/schemas/newUserSchema";
 import {
   assignUserRole,
   createUser,
@@ -17,7 +17,8 @@ import {
 } from "@/app/actions";
 import { useLoading } from "./providers/LoadingProvider";
 import { showPasswordError } from "./alerts";
-import ButtonSwicth2 from "@/components/ButtonSwich2"
+import ButtonSwicth2 from "@/components/ButtonSwich2";
+import { useAuth } from "@/context/AuthContext";
 
 type Props = {
   evento: string;
@@ -36,15 +37,16 @@ type Role = {
 
 export default function UserForm({ evento, idUser, activity }: Props) {
   const router = useRouter();
+  const { isAdmin } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
     reset,
     watch,
-    setValue
+    setValue,
   } = useForm<newUserFormInputs>({
-    resolver: zodResolver(newUserSchema),
+    resolver: zodResolver(UserSchema),
     mode: "onChange",
     defaultValues: {
       email: "",
@@ -198,7 +200,7 @@ export default function UserForm({ evento, idUser, activity }: Props) {
                   error={errors.role?.message}
                   options={Roles}
                 />
-                  <div className=" w-[192px] h-[40px]  text-center flex gap-2.5 items-center mt-[48px]">
+                <div className=" w-[192px] h-[40px] text-center flex gap-2.5 items-center mt-[48px]">
                   <div className="flex gap-4">
                     <label className="text-black">Active user:</label>
                     <ButtonSwicth2
@@ -211,34 +213,37 @@ export default function UserForm({ evento, idUser, activity }: Props) {
             </div>
 
             {/* Authentication */}
-            <div className="mb-[20px] w-full sm:pr-[20px]">
-              <p className="text-[16px] font-medium leading-[100%] tracking-[-0.11px] text-[#B32646] underline relative top-[32px]">
-                Authentication
-              </p>
-              <div className="flex flex-wrap gap-y-[5px] gap-x-[20px] relative top-[28px]">
-                <FormField<newUserFormInputs>
-                  label="Username"
-                  name="username"
-                  type="text"
-                  register={register}
-                  error={errors.username?.message}
-                />
-                <FormField<newUserFormInputs>
-                  label="Password"
-                  name="password"
-                  type="password"
-                  register={register}
-                  error={errors.password?.message}
-                />
-                <FormField<newUserFormInputs>
-                  label="Repeat password"
-                  name="repeatPassword"
-                  type="password"
-                  register={register}
-                  error={errors.repeatPassword?.message}
-                />
+            {isAdmin && (
+              <div className="mb-[20px] w-full sm:pr-[20px]">
+                <p className="text-[16px] font-medium leading-[100%] tracking-[-0.11px] text-[#B32646] underline relative top-[32px]">
+                  Authentication
+                </p>
+                <div className="flex flex-wrap gap-y-[5px] gap-x-[20px] relative top-[28px]">
+                  <FormField<newUserFormInputs>
+                    label="Username"
+                    name="username"
+                    type="text"
+                    register={register}
+                    error={errors.username?.message}
+                  />
+                  <FormField<newUserFormInputs>
+                    label="Password"
+                    name="password"
+                    type="password"
+                    register={register}
+                    error={errors.password?.message}
+                  />
+                  <FormField<newUserFormInputs>
+                    label="Repeat password"
+                    name="repeatPassword"
+                    type="password"
+                    register={register}
+                    error={errors.repeatPassword?.message}
+                  />
+                </div>
               </div>
-            </div>
+            )}
+
             <div className="mt-16 mb-7 sm:w-[600px] xl:w-[902px] xl:max-w-[1225px]">
               <button
                 type="submit"
