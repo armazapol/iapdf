@@ -8,18 +8,20 @@ import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { rolInputs, rolSchema } from "@/schemas/rolSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createRol, editRol, getRoles } from "@/app/actions";
+import { createRol, editRol } from "@/app/actions";
 import { useLoading } from "./providers/LoadingProvider";
 import ButtonSwicth2 from "@/components/ButtonSwich2";
 import { showPasswordError } from "./alerts";
+import { GetRolesResponse } from "@/types";
 
 type props = {
   entity: string;
   id?: number;
   activity: string;
+  rolesList?: GetRolesResponse;
 };
 
-export default function RolForm({ entity, id, activity }: props) {
+export default function RolForm({ entity, id, activity, rolesList }: props) {
   const router = useRouter();
   const { loading, setLoading } = useLoading();
   const [showModal, setShowModal] = useState(false);
@@ -54,32 +56,19 @@ export default function RolForm({ entity, id, activity }: props) {
   const watchIsActive = watch("isActive");
   useEffect(() => {
     if (id) {
-      const fetchUser = async () => {
-        try {
-          setLoading(true);
-          const rolesList = await getRoles({ only_active: "false" });
-          const selectedRol = rolesList.data.find((rol) => rol.id === id);
-
-          reset({
-            rol: selectedRol?.rol || "",
-            isActive: selectedRol?.isActive,
-            permissions: {
-              pdf_to_excel: selectedRol?.permissions?.pdf_to_excel,
-              history: selectedRol?.permissions?.history,
-              incidents: selectedRol?.permissions?.incidents,
-              user_management:
-                selectedRol?.permissions?.user_management,
-            },
-          });
-        } catch (error) {
-          showPasswordError(`${error}`);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchUser();
+      const selectedRol = rolesList?.data.find((rol) => rol.id === id);
+      reset({
+        rol: selectedRol?.rol || "",
+        isActive: selectedRol?.isActive,
+        permissions: {
+          pdf_to_excel: selectedRol?.permissions?.pdf_to_excel,
+          history: selectedRol?.permissions?.history,
+          incidents: selectedRol?.permissions?.incidents,
+          user_management: selectedRol?.permissions?.user_management,
+        },
+      });
     }
-  }, [id, reset, setLoading]);
+  }, [id, reset]);
 
   const onSubmit: SubmitHandler<rolInputs> = async (data) => {
     setLoading(true);

@@ -8,36 +8,33 @@ import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newUserFormInputs, UserSchema } from "@/schemas/newUserSchema";
-import {
-  assignUserRole,
-  createUser,
-  getRoles,
-  getUser2,
-  updateUser,
-} from "@/app/actions";
-import { useLoading } from "./providers/LoadingProvider";
+import { assignUserRole, createUser, updateUser } from "@/app/actions";
 import { showPasswordError } from "./alerts";
 import ButtonSwicth2 from "@/components/ButtonSwich2";
 import { useAuth } from "@/context/AuthContext";
+import { userProfile } from "@/types";
+import { useLoading } from "./providers/LoadingProvider";
 
 type Props = {
   evento: string;
   idUser?: number;
   activity: string;
+  roles?: { value: string; label: string }[];
+  userData?: userProfile;
 };
 
-type Role = {
-  _id: string;
-  id: number;
-  rol: string;
-  creationDate: string;
-  isActive: boolean;
-  permissions: Record<string, boolean>;
-};
-
-export default function UserForm({ evento, idUser, activity }: Props) {
+export default function UserForm({
+  evento,
+  idUser,
+  activity,
+  roles,
+  userData,
+}: Props) {
   const router = useRouter();
   const { isAdmin } = useAuth();
+  const [showModal, setShowModal] = useState(false);
+  const { setLoading } = useLoading();
+
   const {
     register,
     handleSubmit,
@@ -55,66 +52,24 @@ export default function UserForm({ evento, idUser, activity }: Props) {
       isActive: false,
     },
   });
-  const [showModal, setShowModal] = useState(false);
-  const { loading, setLoading } = useLoading();
-  const [Roles, setRoles] = useState<{ value: string; label: string }[]>([]);
+
   const watchIsActive = watch("isActive");
-  // Si es vista edit
+
+  // Cargar datos si se pasa userData desde vista edit
   useEffect(() => {
-    if (idUser) {
-      const fetchUser = async () => {
-        try {
-          setLoading(true);
-          // const userData = await getUser2(idUser);
-          const [userData, roles] = await Promise.all([
-            getUser2(idUser),
-            getRoles(),
-          ]);
-
-          const formattedRoles = roles.data.map((role: Role) => ({
-            value: role.rol,
-            label: role.rol,
-          }));
-
-          reset({
-            name: userData.name,
-            last_name: userData.last_name,
-            email: userData.email,
-            username: userData.username,
-            role: userData.role,
-            isActive: userData.isActive,
-            password: "",
-            repeatPassword: "",
-          });
-          setRoles(formattedRoles);
-        } catch (error) {
-          showPasswordError(`${error}`);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchUser();
+    if (userData) {
+      reset({
+        name: userData.name || "",
+        last_name: userData.last_name || "",
+        email: userData.email || "",
+        username: userData.username || "",
+        role: userData.role || "",
+        isActive: userData.isActive || false,
+        password: "",
+        repeatPassword: "",
+      });
     }
-  }, [idUser, reset, setLoading]);
-
-  useEffect(() => {
-    const fetchRoles = async () => {
-      try {
-        setLoading(true);
-        const roles = await getRoles();
-        const formattedRoles = roles.data.map((role: Role) => ({
-          value: role.rol,
-          label: role.rol,
-        }));
-        setRoles(formattedRoles);
-      } catch (error) {
-        showPasswordError(`${error}`);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchRoles();
-  }, [setLoading]);
+  }, [userData, reset]);
 
   const onSubmit: SubmitHandler<newUserFormInputs> = async (formData) => {
     setLoading(true);
@@ -124,7 +79,6 @@ export default function UserForm({ evento, idUser, activity }: Props) {
       } else {
         const createdUser = await createUser(formData);
         if (createdUser) {
-          // Asignar rol después de crear usuario
           await assignUserRole(createdUser.idUser, createdUser.role);
         }
       }
@@ -142,15 +96,16 @@ export default function UserForm({ evento, idUser, activity }: Props) {
 
   return (
     <div className="w-full h-100 ">
-      {loading}
       <div className="w-full  lg:bg-[#FFFFFF] rounded-[15px] lg:shadow-[0px_3.5px_8.8px_0px_rgba(0,0,0,0.13)] ">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
-          <div onClick={goBack} className="flex items-center relative gap-[5px] top-[27px]  left-[10px] lg:left-[24px] w-fit h-[24px] cursor-pointer">
+          <div className="flex items-center relative gap-[5px] top-[27px] left-[10px] lg:left-[24px] w-fit h-[24px]">
             <Image
               src="/arrow-right.png"
               alt="back arrow"
               width={24}
               height={24}
+              onClick={goBack}
+              className="cursor-pointer"
             />
             <p className="font-medium text-[16px] leading-[100%] tracking-[-0.11px] text-[#2E3A59]">
               Back to user list
@@ -161,7 +116,6 @@ export default function UserForm({ evento, idUser, activity }: Props) {
             <h2 className="text-[24px] leading-[140%] font-bold text-[#2E3A59]">
               {evento} User
             </h2>
-
             <div className="w-full  max-w-full sm:max-w-[1225px] relative top-[10px] border-[#ddd0dc]" />
             <div className="border border-[#D0D5DD] w-full lg:w-[85%] relative top-[10px]"></div>
             {/* Personal data */}
@@ -198,9 +152,9 @@ export default function UserForm({ evento, idUser, activity }: Props) {
                   type="select"
                   register={register}
                   error={errors.role?.message}
-                  options={Roles}
+                  options={roles}
                 />
-                <div className=" w-[192px] h-[40px] text-center flex gap-2.5 items-center mt-[48px]">
+                <div className="w-[192px] h-[40px] text-center flex gap-2.5 items-center mt-[48px]">
                   <div className="flex gap-4">
                     <label className="text-black">Active user:</label>
                     <ButtonSwicth2

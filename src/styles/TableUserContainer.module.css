@@ -48,6 +48,7 @@
     bottom: 4px;
     background-color: #FFFFFF;
     transition: 0.4s;
+    cursor: pointer;
   }
   
   /* Estilo cuando el switch está activado */

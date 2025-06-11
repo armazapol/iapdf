@@ -30,6 +30,11 @@ export const UserSchema = z.object({
     // .regex(/[a-zA-Z]/, { message: "La contraseña debe contener al menos una letra." })
     // .regex(/[0-9]/, { message: "La contraseña debe contener al menos un número." })
     // .regex(/[^a-zA-Z0-9]/, { message: "La contraseña debe contener al menos un carácter especial." }),
+  
+  })
+  .refine((data) => data.password === data.repeatPassword, {
+    message: "Las contraseñas no coinciden.",
+    path: ["repeatPassword"],
   });
 
 // export const autenticationSchema =  z.object({

@@ -197,6 +197,7 @@ export const updateUser = async (idUser: number, data: newUserFormInputs) => {
     body: JSON.stringify(data),
   });
   const result = await response.json();
+  if (!response.ok) throw new Error(result.detail);
   return result;
 };
 
@@ -220,6 +221,7 @@ export const getRoles = async ( dateParam?: {only_active:string} ): Promise<GetR
   });
 
   const result = await response.json();
+  if (!response.ok) throw new Error(result.detail);
   return result;
 };
 

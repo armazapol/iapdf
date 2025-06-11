@@ -1,16 +1,12 @@
+import { getRoles } from "@/app/actions";
+import TableRoles from "@/components/TableRoles";
 
-import TableRolesAsync from "@/components/TableRolesAsync";
-import { Suspense } from "react";
-
-import LoadingComponent from "@/components/LoadingComponent";
-
-export default function Roles() {
+export default async function Roles() {
+  const Roles = await getRoles({ only_active: "false" });
 
   return (
     <>
-      <Suspense fallback={ <LoadingComponent size="sm" /> }>
-        <TableRolesAsync />
-      </Suspense> 
+      <TableRoles entity="Role" roles={Roles.data} />
     </>
   );
 }
