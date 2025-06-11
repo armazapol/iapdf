@@ -32,7 +32,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         ])
         setUser(responseUser);
         setPermissions(responsePermissions.permissions);
-        console.log(responsePermissions, "Permissions fetched successfully");
       } catch (error) {
         console.error("Failed to fetch user profile", error);
         setIsLoading(false);

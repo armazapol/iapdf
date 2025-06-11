@@ -39,7 +39,7 @@ export default function TableUsers({ entity, data }: prop) {
     router.push("/home/usermanagement/users/new");
   };
   return (
-    <div className="pl-4 md:pl-0 pt-5 lg:pt-0 max-h-full flex flex-col">
+    <div className="pl-4 md:pl-0 pt-5 lg:pt-0 h-full flex flex-col">
       {/* Esto es mobile */}
       <div className="flex mb-4 md:hidden items-center gap-15 pb-2">
         <p className="font-bold text-[24px] leading-[140%] tracking-[0%] text-[#2E3A59] w-[120px]">
@@ -57,7 +57,7 @@ export default function TableUsers({ entity, data }: prop) {
           </ButtonAddUser>
         )}
       </div>
-      <div className="px-[25px] w-full rounded-[15px] bg-white shadow-[0_4px_8.8px_0_#00000021] flex flex-col ">
+      <div className="px-[25px] w-full rounded-[15px] bg-white shadow-[0_4px_8.8px_0_#00000021] flex flex-col max-h-full">
         <div className="hidden md:flex justify-between mt-[20px] min-w-[600px]">
           <p className="font-bold text-[24px] leading-[140%] tracking-[0%] text-[#2E3A59]">
             User table
@@ -74,7 +74,7 @@ export default function TableUsers({ entity, data }: prop) {
             </ButtonAddUser>
           )}
         </div>
-        <div className="overflow-y-auto mt-[20.5px] md:h-[200px]  mb-4 flex-1">
+        <div className="overflow-y-auto mt-[20.5px]  mb-4 flex-1">
           <table className="w-full relative  ">
             <thead className="text-left font-bold text-[10px] leading-[150%] text-[#2E3A59] mb-[10px]">
               <tr>

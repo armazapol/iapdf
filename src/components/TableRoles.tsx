@@ -28,7 +28,7 @@ type Role = {
 
 export default function TableRoles({ entity, roles }: Props) {
   const router = useRouter();
-  const [roleList, ] = useState<Role[]>(roles);
+  const [roleList] = useState<Role[]>(roles);
   const { isAdmin } = useAuth();
 
   const handleNewRol = () => {
@@ -47,7 +47,7 @@ export default function TableRoles({ entity, roles }: Props) {
   // };
 
   return (
-    <div className="pt-5 lg:p-0 px-3 lg:pl-0 max-h-full flex flex-col">
+    <div className="pt-5 lg:p-0 px-3 lg:pl-0 h-full flex flex-col">
       <div className="flex  gap-[75px] mb-[20px] md:hidden">
         <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
           Roles Table
@@ -64,7 +64,7 @@ export default function TableRoles({ entity, roles }: Props) {
           </ButtonAddUser>
         )}
       </div>
-      <div className="flex flex-col bg-white rounded-[15px] shadow-[0_4px_8.8px_0_#00000021] p-6 mb-[10px] w-full flex-1">
+      <div className="flex flex-col bg-white rounded-[15px] shadow-[0_4px_8.8px_0_#00000021] p-6 mb-[10px] w-full flex-1 max-h-full">
         <div className="hidden md:flex justify-between items-center gap-4 mb-4">
           <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
             Roles Table
@@ -99,20 +99,20 @@ export default function TableRoles({ entity, roles }: Props) {
                 {roleList.map((item) => (
                   <tr
                     key={item.id}
-                    className="font-bold text-[14px] text-[#2D3748] border-t border-[#E2E8F0]"
+                    className="font-bold text-[14px] text-[#2D3748] border-t border-[#E2E8F0] "
                   >
-                    <td className="py-5">{item.rol}</td>
-                    <td className="py-5 font-medium">
+                    <td className="py-4">{item.rol}</td>
+                    <td className=" font-medium">
                       {parseFormat(item.creationDate)}
                     </td>
-                    <td className="py-5 font-medium"></td>
-                    <td className="py-5 pl-2">
+                    <td className=" font-medium"></td>
+                    <td className=" pl-2">
                       <ButtonSwitch
                         checked={item.isActive}
                         onChange={() => {}}
                       />
                     </td>
-                    <td className="py-5 text-right min-w-[60px] lg:w-[300px]">
+                    <td className=" text-right min-w-[60px] lg:w-[300px]">
                       <button
                         onClick={() => handleEditRol(item.id)}
                         className="hover:underline cursor-pointer mr-2 text-[#2E3A59]"
