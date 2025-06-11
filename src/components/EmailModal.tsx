@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import { getUsers, sendEmail } from "@/app/actions";
 import { userProfile } from "@/types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FiX, FiPaperclip, FiSend } from "react-icons/fi";
 import Modal from "react-modal";
 import Select, { MultiValue } from "react-select";
@@ -36,21 +36,16 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
   const [selectedUsers, setSelectedUsers] = useState<MultiValue<User>>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   // const [recipients, setRecipients] = useState([
   //   { name: "John Doe", email: "johndoe@email.com" },
   //   { name: "John Doe", email: "johndoe@email.com" },
   // ]);
 
   const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState(
-    ""
-  );
+  const [message, setMessage] = useState("");
 
-  const [attachments, setAttachments] = useState([
-    { name: "File.pdf" },
-    { name: "File.pdf" },
-    { name: "File.pdf" },
-  ]);
+  const [attachments, setAttachments] = useState<File[]>([]);
 
   // const removeRecipient = (index: number) => {
   //   setRecipients((prev) => prev.filter((_, i) => i !== index));
@@ -61,8 +56,10 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
   };
 
   const handleSendEmail = async () => {
-    if(selectedUsers.length === 0) {
-      return showPasswordError("Please select at least one user to send the email.");
+    if (selectedUsers.length === 0) {
+      return showPasswordError(
+        "Please select at least one user to send the email."
+      );
     }
 
     if (subject.trim() === "") {
@@ -73,25 +70,24 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
       return showPasswordError("Message cannot be empty.");
     }
 
-
     try {
       setLoading(true);
       const usersToPayload = selectedUsers.map((user) => ({
         email: user.label,
         name: user.value, // Assuming the name is the part before the '@'
-      }))
+      }));
 
       const payload = {
         to: usersToPayload,
         subject: subject,
         body: message,
         file_links: [], // Assuming you want to send the file names
-      }
+      };
 
       console.log("Sending email with payload:", payload);
-      await sendEmail(payload)
-      showSuccess("Email sent successfully")
-      onClose()
+      await sendEmail(payload);
+      showSuccess("Email sent successfully");
+      onClose();
       setLoading(false);
     } catch (error) {
       console.error("Error sending email:", error);
@@ -100,13 +96,11 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
     }
   };
 
-
-
   const getApiUsers = async () => {
     try {
       const response = await getUsers();
       const newUser = response.map((user: userProfile) => ({
-        value:`${user.name} ${user.last_name}`,
+        value: `${user.name} ${user.last_name}`,
         label: user.email,
       }));
       setUsers(newUser);
@@ -115,12 +109,20 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
     }
   };
 
+  const handleClick = () => {
+    inputRef.current?.click();
+  };
+
+  const handleFileChange = (newFiles: FileList | null) => {
+    if (!newFiles) return;
+    setAttachments((prev) => [...prev, ...Array.from(newFiles)]);
+  };
+
   useEffect(() => {
     if (users.length === 0) {
       getApiUsers();
     }
   }, [users]);
-
 
   return (
     <Modal
@@ -128,7 +130,6 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
       onRequestClose={() => onClose()}
       contentLabel="Send Email"
       style={customStyles}
-
     >
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4 md:p-0">
         <div className="bg-white rounded-xl w-full max-w-2xl p-6 relative shadow-xl ">
@@ -224,7 +225,7 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
                   <div className="w-8 h-10 bg-indigo-100 text-indigo-700 flex items-center justify-center rounded mb-1">
                     📄
                   </div>
-                  <div className="text-xs text-center break-words">
+                  <div className="text-xs text-center max-w-full w-full overflow-hidden text-ellipsis whitespace-nowrap">
                     {file.name}
                   </div>
                 </div>
@@ -234,28 +235,36 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
 
           {/* Footer buttons */}
           <div className="flex justify-between">
-            <button className="border border-[#1a1a40] text-[#1a1a40] px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-50 cursor-pointer">
+            <button
+              className="border border-[#1a1a40] text-[#1a1a40] px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-50 cursor-pointer"
+              onClick={handleClick}
+            >
               <FiPaperclip />
               Attach files
             </button>
+            <input
+              type="file"
+              ref={inputRef}
+              onChange={(e) => handleFileChange(e.target.files)}
+              className="hidden"
+              multiple
+            />
             <button
               onClick={handleSendEmail}
               disabled={loading}
               className="bg-[#1a1a40] text-white px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-[#292964] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
-             
-              {
-                loading ?
+              {loading ? (
                 <>
                   <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
                   Sending...
-                </> :
+                </>
+              ) : (
                 <>
                   <FiSend />
-                  Send  
+                  Send
                 </>
-              }
-            
+              )}
             </button>
           </div>
         </div>

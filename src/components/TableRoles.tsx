@@ -83,9 +83,9 @@ export default function TableRoles({ entity, roles }: Props) {
         </div>
 
         {/* Contenedor con scroll horizontal en móviles */}
-        <div className="overflow-x-auto flex-1">
+        <div className="overflow-x-auto flex-1 h-full">
           {roleList.length > 0 ? (
-            <table className="w-full text-left ">
+            <table className="w-full text-left h-full">
               <thead className="font-bold text-[10px] leading-[150%] text-[#2E3A59]">
                 <tr>
                   <th className="pb-2">ROLE</th>

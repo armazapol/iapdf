@@ -17,7 +17,7 @@ export default function TableIncidents({
   incidents: Indicent[];
 }) {
   return (
-    <div className={`${style.container} mt-4 lg:mt-0`}>
+    <div className={`${style.container} mt-4 lg:mt-0 h-full`}>
       <table className={style.TableIncidents}>
         <thead className={style.thead}>
           <tr>
