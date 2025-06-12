@@ -23,7 +23,7 @@ type props = {
 
 export default function RolForm({ entity, id, activity, rolesList }: props) {
   const router = useRouter();
-  const { loading, setLoading } = useLoading();
+  const { setLoading } = useLoading();
   const [showModal, setShowModal] = useState(false);
 
   const goBack = () => {
@@ -68,7 +68,7 @@ export default function RolForm({ entity, id, activity, rolesList }: props) {
         },
       });
     }
-  }, [id, reset]);
+  }, [id, reset, rolesList]);
 
   const onSubmit: SubmitHandler<rolInputs> = async (data) => {
     setLoading(true);

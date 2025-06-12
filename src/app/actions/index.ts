@@ -73,20 +73,29 @@ export const uploadFiles = async (formData: FormData) => {
   }
 };
 
-export const getHistory = async (dateParams:{
-  startDate?: string;
-  endDate?: string;
-  idNewUser?: number;
-} ={}) => {
+export const getHistory = async (
+  dateParams: {
+    startDate?: string;
+    endDate?: string;
+    idNewUser?: number;
+  } = {}
+) => {
   const dataVerify = await verifySession();
   const { access_token, idUser } = dataVerify;
-  
+
   const urlIdUser = dateParams.idNewUser || idUser;
   try {
-
     const url = new URL(`${API_URL_BASE}/history/${urlIdUser}`);
-    if (dateParams.startDate) url.searchParams.append("start_date", parseFormatToPayload(dateParams.startDate));
-    if (dateParams.endDate) url.searchParams.append("end_date", parseFormatToPayload(dateParams.endDate));
+    if (dateParams.startDate)
+      url.searchParams.append(
+        "start_date",
+        parseFormatToPayload(dateParams.startDate)
+      );
+    if (dateParams.endDate)
+      url.searchParams.append(
+        "end_date",
+        parseFormatToPayload(dateParams.endDate)
+      );
 
     const response = await fetch(url, {
       method: "GET",
@@ -108,7 +117,7 @@ export const getHistory = async (dateParams:{
 export const getUsers = async () => {
   const dataVerify = await verifySession();
   const { access_token } = dataVerify;
- 
+
   const response = await fetch(`${API_URL_BASE}/users`, {
     method: "GET",
     headers: {
@@ -177,12 +186,12 @@ export const createUser = async (data: newUserFormInputs) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`,
     },
-     body: JSON.stringify(data)
-  })
-  const result = await response.json()
-  // if (!response.ok) throw new Error(result.detail);
-  return result
-}
+    body: JSON.stringify(data),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.detail);
+  return result;
+};
 
 export const updateUser = async (idUser: number, data: newUserFormInputs) => {
   const dataVerify = await verifySession();
@@ -201,28 +210,32 @@ export const updateUser = async (idUser: number, data: newUserFormInputs) => {
   return result;
 };
 
-export const getRoles = async ( dateParam?: {only_active:string} ): Promise<GetRolesResponse> => {
-  
-  const dataVerify = await verifySession();
-  const { access_token } = dataVerify;
+export const getRoles = async (dateParam?: {
+  only_active: string;
+}): Promise<GetRolesResponse> => {
+  try {
+    const dataVerify = await verifySession();
+    const { access_token } = dataVerify;
 
-  const url = new URL(`${API_URL_BASE}/roles`);
-  // url.searchParams.append("only_active", "true")
+    const url = new URL(`${API_URL_BASE}/roles`);
 
-  if(dateParam){
-     url.searchParams.append("only_active", dateParam.only_active)
+    if (dateParam) {
+      url.searchParams.append("only_active", dateParam.only_active);
+    }
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error("Error en la respuesta del servidor");
+    
+    return await response.json();
+  } catch (error) {
+    throw error;
   }
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${access_token}`,
-    },
-  });
-
-  const result = await response.json();
-  if (!response.ok) throw new Error(result.detail);
-  return result;
 };
 
 export const createRol = async (data: rolInputs) => {
@@ -242,39 +255,38 @@ export const createRol = async (data: rolInputs) => {
   return result;
 };
 
-export const editRol = async (id:number, data:rolInputs) => {
-  const dataVerify = await verifySession()
-  const {access_token} = dataVerify
+export const editRol = async (id: number, data: rolInputs) => {
+  const dataVerify = await verifySession();
+  const { access_token } = dataVerify;
 
   const response = await fetch(`${API_URL_BASE}/roles/${id}`, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${access_token}`,
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
     },
-    body: JSON.stringify(data)
-  })
-  const result = await response.json()
+    body: JSON.stringify(data),
+  });
+  const result = await response.json();
   if (!response.ok) throw new Error(result.detail);
-  return result
-}
+  return result;
+};
 
-export const assignUserRole = async(idUser: number, role: string) => {
-   const dataVerify = await verifySession()
-  const {access_token} = dataVerify
+export const assignUserRole = async (idUser: number, role: string) => {
+  const dataVerify = await verifySession();
+  const { access_token } = dataVerify;
   const response = await fetch(`${API_URL_BASE}/users/${idUser}/assign-role`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${access_token}`,
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
     },
-    body: JSON.stringify({ role })
-  })
-  const result = await response.json()
+    body: JSON.stringify({ role }),
+  });
+  const result = await response.json();
   if (!response.ok) throw new Error(result.detail);
-  // console.log("Result: ", result)
-  return result
-}
+  return result;
+};
 
 export const getIncidents = async () => {
   const dataVerify = await verifySession();
@@ -313,9 +325,11 @@ export const getDownloadZIP = async (idPDF: number) => {
       }
     );
     if (!response.ok) throw new Error("Error en la respuesta del servidor");
-    const nameFile = response.headers.get("content-disposition")?.split("filename=")[1] || "download.zip";
+    const nameFile =
+      response.headers.get("content-disposition")?.split("filename=")[1] ||
+      "download.zip";
     const blob = await response.blob();
-    return {blob, nameFile};
+    return { blob, nameFile };
   } catch (error) {
     console.error("Error get history:", error);
     throw error;
@@ -371,9 +385,6 @@ export const getDownloadFile = async (namefile: string) => {
   }
 };
 
-
-
-
 export const sendEmail = async (data: dataEmail) => {
   const dataVerify = await verifySession();
   const { access_token } = dataVerify;
@@ -384,9 +395,9 @@ export const sendEmail = async (data: dataEmail) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`,
     },
-     body: JSON.stringify(data)
-  })
-  const result = await response.json()
+    body: JSON.stringify(data),
+  });
+  const result = await response.json();
   // if (!response.ok) throw new Error(result.detail);
-  return result
-}
+  return result;
+};
