@@ -13,15 +13,9 @@ interface Props {
   setShowSidebar: (show: boolean) => void;
 }
 
-const Header = ({
-  children,
-  showSidebar,
-  setShowSidebar,
-}: Props) => {
+const Header = ({ children, showSidebar, setShowSidebar }: Props) => {
+  const [newNotifications, setNewNotifications] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const toggleNotifications = () => {
-    setShowNotifications(!showNotifications);
-  };
   const pathname = usePathname();
   const subRoutePathname = pathname.split("/").slice(0, 3).join("/");
   const subRoutePathname2 = pathname.split("/").slice(0, 4).join("/");
@@ -47,6 +41,13 @@ const Header = ({
   const pageTitle = getTitle();
   const pageDescription =
     descriptions[pathname] || descriptions[subRoutePathname] || "";
+
+  const toggleNotifications = () => {
+    if (newNotifications && !showNotifications) {
+      setNewNotifications(false);
+    }
+    setShowNotifications(!showNotifications);
+  };
   return (
     <>
       <div className="absolute w-full lg:hidden">
@@ -87,7 +88,17 @@ const Header = ({
           <div>
             <div className="flex gap-3 items-center">
               <div>
-                {showNotifications ? (
+                <Image
+                  src={"/svg/icons/notifications.svg"}
+                  alt=""
+                  width={25}
+                  height={25}
+                  onClick={toggleNotifications}
+                  className={`cursor-pointer invert ${
+                    showNotifications && "brightness-[#2E3A59]"
+                  } `}
+                />
+                {/* {showNotifications ? (
                   <Image
                     src="/img/notification-open.png"
                     alt=""
@@ -105,7 +116,7 @@ const Header = ({
                     width={27}
                     height={27}
                   />
-                )}
+                )} */}
               </div>
               <Image
                 src="/img/logo-user.png"
@@ -126,8 +137,21 @@ const Header = ({
             <p className="text-gray-500">{pageDescription}</p>
           </div>
           <div className="flex items-center space-x-4 pr-[20px] ">
-            <div>
-              {showNotifications ? (
+            <div className="relative">
+              {newNotifications && (
+                <span className="rounded-full w-3 h-3 bg-[#B32646] absolute z-50 right-0" />
+              )}
+              <Image
+                src={"/svg/icons/notifications.svg"}
+                alt=""
+                width={25}
+                height={25}
+                onClick={toggleNotifications}
+                className={`cursor-pointer invert ${
+                  showNotifications && "brightness-[#2E3A59]"
+                } `}
+              />
+              {/* {showNotifications ? (
                 <Image
                   src="/img/notification-open.png"
                   alt=""
@@ -145,9 +169,9 @@ const Header = ({
                   onClick={toggleNotifications}
                   className="cursor-pointer"
                 />
-              )}
+              )} */}
             </div>
-            <User/>
+            <User />
           </div>
         </header>
         <div className="block md:hidden bg-white mt-[70px] p-5 ">
@@ -157,9 +181,13 @@ const Header = ({
         {/* Contenido con scroll interno */}
         <main className="relative md:flex-1 overflow-y-auto bg-[#F9F6F2] px-5 md:px-10 py-6 h-full">
           {children}
-          {showNotifications && (
-            <Notifications onClose={() => setShowNotifications(false)} />
-          )}
+          <Notifications
+            show={showNotifications}
+            setNewNotifications={setNewNotifications}
+            onClose={() => setShowNotifications(false)}
+          />
+
+          {/* <Notifications onClose={() => setShowNotifications(false)} /> */}
         </main>
       </div>
     </>

@@ -176,6 +176,7 @@ export default function PDFToExcelPage() {
       showPasswordError("Error during long polling");
       console.error("Error during long polling:", error);
       setLoadingFiles(false);
+      handleConvertAnotherFile()
       // Optionally implement a backoff strategy before retrying
     }
   }
