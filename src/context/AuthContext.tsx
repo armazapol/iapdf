@@ -12,6 +12,7 @@ type AuthContextType = {
   isLoading: boolean;
   isAdmin: boolean;
   permissions: GetPermissionsResponse | null;
+  idUser: number;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -19,17 +20,19 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [permissions, setPermissions] = useState<GetPermissionsResponse | null>(null);
+  const [permissions, setPermissions] = useState<GetPermissionsResponse | null>(
+    null
+  );
 
   useEffect(() => {
     // Simulate an API call to fetch user profile
     const fetchUserProfile = async () => {
       try {
         // Replace with actual API call
-        const [ responseUser, responsePermissions] = await Promise.all([
+        const [responseUser, responsePermissions] = await Promise.all([
           getUser(),
-          getPermissions()
-        ])
+          getPermissions(),
+        ]);
         setUser(responseUser);
         setPermissions(responsePermissions.permissions);
       } catch (error) {
@@ -48,7 +51,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, isLoading, setUser, isAdmin: user?.role === "admin", permissions }}
+      value={{
+        user,
+        isLoading,
+        setUser,
+        isAdmin: user?.role === "admin",
+        permissions,
+        idUser: user?.idUser || 0,
+      }}
     >
       {children}
     </AuthContext.Provider>

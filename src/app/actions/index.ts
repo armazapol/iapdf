@@ -399,5 +399,47 @@ export const sendEmail = async (data: dataEmail) => {
   });
   const result = await response.json();
   // if (!response.ok) throw new Error(result.detail);
+  return result
+}
+
+export const getNotifications = cache(async () => {
+  const dataVerify = await verifySession();
+  const { access_token, idUser } = dataVerify;
+  const response = await fetch(`${API_URL_BASE}/notifications/${idUser}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  const result = await response.json();
   return result;
-};
+});
+
+export const deleteNotification = async (idNotification:number) => {
+  const dataVerify = await verifySession();
+  const { access_token, idUser } = dataVerify;
+  const response = await fetch(`${API_URL_BASE}/notifications/${idUser}/process/${idNotification}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  const result = await response.json();
+  return result;
+}
+
+export const deleteNotifications = async () => {
+  const dataVerify = await verifySession();
+  const { access_token, idUser } = dataVerify;
+  const response = await fetch(`${API_URL_BASE}/notifications/${idUser}/all`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  const result = await response.json();
+  return result;
+}
