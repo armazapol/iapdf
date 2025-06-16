@@ -27,7 +27,7 @@ export default function Home() {
 
   useEffect(() => {
      router.push('/home');
-  }, [])
+  })
   
 
   return (

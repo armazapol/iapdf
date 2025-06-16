@@ -5,7 +5,7 @@ import { SignJWT, decodeJwt, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-const secretKey = process.env.SECRET;
+const secretKey = process.env.NEXT_PUBLIC_SECRET;
 const key = new TextEncoder().encode(secretKey);
 
 // const cookieStore = await cookies();
