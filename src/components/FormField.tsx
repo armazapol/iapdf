@@ -76,7 +76,7 @@ export default function FormField<T extends FieldValues>({
               required
               placeholder={label}
               {...register(name)}
-              className="w-full rounded-[8px] border border-[#D9D9D9] bg-white px-[16px] h-[40px] outline-none placeholder:text-[#B2B2B2] placeholder:text-[16px]"
+              className="w-full rounded-[8px] border border-[#D9D9D9] bg-white px-[16px] h-[40px] outline-none placeholder:text-[#B2B2B2] placeholder:text-[16px] text-black"
             />
             {type === "password" && (
               <Image

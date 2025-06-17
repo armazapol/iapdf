@@ -104,7 +104,7 @@ export const getHistory = async (
         Authorization: `Bearer ${access_token}`,
       },
     });
-    // console.log(response);
+
     if (!response.ok) throw new Error("Error en la respuesta del servidor");
 
     return await response.json();
@@ -115,18 +115,22 @@ export const getHistory = async (
 };
 
 export const getUsers = async () => {
-  const dataVerify = await verifySession();
-  const { access_token } = dataVerify;
+  try {
+    const dataVerify = await verifySession();
+    const { access_token } = dataVerify;
 
-  const response = await fetch(`${API_URL_BASE}/users`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${access_token}`,
-    },
-  });
-  const result = await response.json();
-  return result;
+    const response = await fetch(`${API_URL_BASE}/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+    if (!response.ok) throw new Error("Error en la respuesta del servidor");
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const getUser2 = async (idUser: number) => {
@@ -231,7 +235,7 @@ export const getRoles = async (dateParam?: {
     });
 
     if (!response.ok) throw new Error("Error en la respuesta del servidor");
-    
+
     return await response.json();
   } catch (error) {
     throw error;
@@ -399,8 +403,8 @@ export const sendEmail = async (data: dataEmail) => {
   });
   const result = await response.json();
   // if (!response.ok) throw new Error(result.detail);
-  return result
-}
+  return result;
+};
 
 export const getNotifications = cache(async () => {
   const dataVerify = await verifySession();
@@ -416,19 +420,22 @@ export const getNotifications = cache(async () => {
   return result;
 });
 
-export const deleteNotification = async (idNotification:number) => {
+export const deleteNotification = async (idNotification: number) => {
   const dataVerify = await verifySession();
   const { access_token, idUser } = dataVerify;
-  const response = await fetch(`${API_URL_BASE}/notifications/${idUser}/process/${idNotification}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${access_token}`,
-    },
-  });
+  const response = await fetch(
+    `${API_URL_BASE}/notifications/${idUser}/process/${idNotification}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${access_token}`,
+      },
+    }
+  );
   const result = await response.json();
   return result;
-}
+};
 
 export const deleteNotifications = async () => {
   const dataVerify = await verifySession();
@@ -442,4 +449,4 @@ export const deleteNotifications = async () => {
   });
   const result = await response.json();
   return result;
-}
+};
