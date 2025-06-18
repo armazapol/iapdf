@@ -2,7 +2,7 @@ export const routes = [
   {
     href: "/home",
     label: "PDF to Excel",
-    icon: "/img/ImgPDF.png",
+    icon: "/img/imgPDF.png",
     icon2: "/img/imgPDFinvert.png",
     id: "pdf_to_excel"
   },
