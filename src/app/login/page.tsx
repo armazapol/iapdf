@@ -5,9 +5,13 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginFormInputs, loginSchema } from "@/schemas/loginSchema";
 import { useLogin } from "@/services/apis";
-import { handleLogin, loginCaptchaAction } from "../actions";
-import { getCaptchaToken } from "@/utils/captcha";
-import { showPasswordError } from "@/components/alerts";
+import { 
+  handleLogin, 
+  // loginCaptchaAction 
+} 
+  from "../actions";
+// import { getCaptchaToken } from "@/utils/captcha";
+// import { showPasswordError } from "@/components/alerts";
 
 export default function LoginPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -39,10 +43,10 @@ export default function LoginPage() {
       password: data.password,
     };
     setCaptchaLoading(true);
-    const token = await getCaptchaToken();
-    const res = await loginCaptchaAction(token);
-    console.log("Captcha response:", res);
-    if (res.success) {
+    // const token = await getCaptchaToken();
+    // const res = await loginCaptchaAction(token);
+    // console.log("Captcha response:", res);
+    // if (res.success) {
       try {
         const response = await login.mutateAsync(payload);
         await handleLogin(response.data);
@@ -50,10 +54,10 @@ export default function LoginPage() {
         console.log(error);
         setCaptchaLoading(false);
       }
-    } else {
-      showPasswordError(res.message || "Captcha verification failed");
-      setCaptchaLoading(false);
-    }
+    // } else {
+    //   showPasswordError(res.message || "Captcha verification failed");
+    //   setCaptchaLoading(false);
+    // }
   };
 
   return (
