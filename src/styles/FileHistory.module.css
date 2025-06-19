@@ -13,9 +13,6 @@
     letter-spacing: -0.11px;
     color: #2E3A59;
     gap: 2px;
-    & .flecha{
-        cursor: pointer;
-    }
 }
 .linea{
     border: 1px solid #CDCDCD;

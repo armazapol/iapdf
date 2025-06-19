@@ -45,9 +45,10 @@ export default function FormField<T extends FieldValues>({
       {type === "select" ? (
         <div className="flex items-center relative w-full">
           <select
-        
             {...register(name)}
-            className="w-full rounded-[8px] border border-[#D9D9D9] bg-white px-[16px]  h-[40px] outline-none text-[#B2B2B2] font-normal text-[16px] leading-[100%] appearance-none"
+            defaultValue=""
+            required
+            className="w-full rounded-[8px] border border-[#D9D9D9] bg-white px-[16px] h-[40px] outline-none font-normal text-[16px] leading-[100%] appearance-none  invalid:text-[#B2B2B2] text-black"
           >
             <option value="" hidden>
               Choose a role
@@ -75,7 +76,7 @@ export default function FormField<T extends FieldValues>({
               required
               placeholder={label}
               {...register(name)}
-              className="w-full rounded-[8px] border border-[#D9D9D9] bg-white px-[16px] h-[40px] outline-none placeholder:text-[#B2B2B2] placeholder:text-[16px]"
+              className="w-full rounded-[8px] border border-[#D9D9D9] bg-white px-[16px] h-[40px] outline-none placeholder:text-[#B2B2B2] placeholder:text-[16px] text-black"
             />
             {type === "password" && (
               <Image

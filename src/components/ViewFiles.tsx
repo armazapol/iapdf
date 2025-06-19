@@ -63,19 +63,19 @@ export default function ViewFiles({ date, files, idPDF }: Props) {
 
   return (
     <div className={`${style.container} mt-5 lg:mt-0`}>
-      <Link href="/home/history" className={style.link}>
-        <div className={style.backArrow}>
+      <div className={style.backArrow}>
+        <Link href="/home/history">
           <Image
             src="/arrow-right.png"
             alt="back arrox"
             width={24}
             height={24}
             //   onClick={goBack}
-            className={style.flecha}
           />
-          <p>Back to history</p>
-        </div>
-      </Link>
+        </Link>
+        <p>Back to history</p>
+      </div>
+
       <div className={style.subContainer}>
         <div className={style.dateSubmitted}>
           <span>
