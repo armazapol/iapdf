@@ -30,23 +30,57 @@ export async function decrypt(session: string | undefined = "") {
   }
 }
 
+// export async function createSession(token: SessionPayload) {
+//   const expiresAtDefault = new Date(Date.now() + 60 * 60 * 1000 * 24); // 24 hours
+//   // const {exp} = decodeJwt(token.access_token.toString());
+//   // const expDate = new Date(exp|| 0 ); // Convert seconds to milliseconds
+//   // console.log(exp, "expiresAt")
+//   const encryptedSession = await encrypt(token);
+//   const cookieStore = await cookies();
+//   cookieStore.set("session", encryptedSession, {
+//     httpOnly: true,
+//     secure: true,
+//     expires: expiresAtDefault,
+//     sameSite: "lax",
+//     path: "/",
+//   });
+
+//   redirect("/home");
+// }
 export async function createSession(token: SessionPayload) {
-  const expiresAtDefault = new Date(Date.now() + 60 * 60 * 1000 * 24); // 24 hours
-  // const {exp} = decodeJwt(token.access_token.toString());
-  // const expDate = new Date(exp|| 0 ); // Convert seconds to milliseconds
-  // console.log(exp, "expiresAt")
+  let expiresAt: Date;
+  try {
+    const { exp } = decodeJwt(token.access_token);
+
+    // Convertir el timestamp 'exp' (en segundos) a un objeto Date (en milisegundos)
+    if (exp) {
+      expiresAt = new Date(exp * 1000);
+      console.log(`La sesión expirará en: ${expiresAt.toLocaleString()}`);
+    } else {
+      console.log("El token no tiene 'exp'. Usando expiración por defecto de 24 horas.");
+      expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    }
+  } catch (error) {
+    console.error("Token inválido, no se pudo decodificar:", error);
+    return; 
+  }
+
   const encryptedSession = await encrypt(token);
+
   const cookieStore = await cookies();
   cookieStore.set("session", encryptedSession, {
     httpOnly: true,
-    secure: true,
-    expires: expiresAtDefault,
+    // secure: process.env.NODE_ENV === 'production', // Es buena práctica usar 'secure' solo en producción
+    secure:true,
+    expires: expiresAt, // ¡Usamos la fecha calculada!
     sameSite: "lax",
     path: "/",
   });
 
+  // 5. Redirigir al usuario
   redirect("/home");
 }
+
 
 export async function verifySession() {
   const cookieStore = await cookies();

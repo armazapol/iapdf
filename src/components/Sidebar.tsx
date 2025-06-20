@@ -10,9 +10,10 @@ import { useAuth } from "@/context/AuthContext";
 
 interface Props {
   showSidebar: boolean;
+ setShowSidebar: (show: boolean) => void;
 }
 
-const Sidebar = ({ showSidebar }: Props) => {
+const Sidebar = ({ showSidebar, setShowSidebar }: Props) => {
   const pathname = usePathname();
   const { permissions } = useAuth();
 
@@ -39,12 +40,17 @@ const Sidebar = ({ showSidebar }: Props) => {
   const routesFilter = routesWithPermissions.filter((route) => route.isVisible);
 
   return (
+    // <aside
+    //   className={`${
+    //     showSidebar ? "flex" : "hidden"
+    //   }  lg:flex relative top-[70px] lg:top-0 w-[242px] mr-[7px] bg-white pl-5 pr-6 pt-6  flex flex-col justify-between h-full md:shadow-[7px_0_5px_-5px_rgba(0,0,0,0.3)] pb-24 md:pb-6 z-20`}
+    // >
     <aside
       className={`${
-        showSidebar ? "flex" : "hidden"
-      }  lg:flex relative top-[70px] lg:top-0 w-[242px] mr-[7px] bg-white pl-5 pr-6 pt-6  flex flex-col justify-between h-full md:shadow-[7px_0_5px_-5px_rgba(0,0,0,0.3)] pb-24 md:pb-6 z-20`}
+        showSidebar ? "flex " : "hidden "
+      } absolute lg:relative h-[calc(100%-70px)] bottom-0 lg:h-full  lg:flex  w-[242px] mr-[7px] bg-white p-6  flex flex-col justify-between  md:shadow-[7px_0_5px_-5px_rgba(0,0,0,0.3)] z-20 `}
     >
-      <div className="fixed inset-0 z-20 flex bg-black/40 lg:hidden top-[70px] left-[242px] "></div>
+      <div className="fixed inset-0 z-20 flex bg-black/40 lg:hidden top-[70px] left-[242px] " onClick={() => setShowSidebar(false)}></div>
       {/* Logo y navegación */}
       <div className="">
         <div className="hidden lg:w-[400px] mb-[30px] lg:block ">

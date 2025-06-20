@@ -5,6 +5,7 @@ import { useState } from "react";
 import Notifications from "./Notifications";
 import User from "./User";
 import { routes, routesother, descriptions } from "@/utils";
+import Link from "next/link";
 
 interface Props {
   children: React.ReactNode;
@@ -77,6 +78,10 @@ const Header = ({ children, showSidebar, setShowSidebar }: Props) => {
                 />
               )}
             </button>
+            <Link 
+              href="/home"
+            >
+        
             <Image
               src="/img/logoLogin.png"
               alt="Portada Login"
@@ -84,10 +89,14 @@ const Header = ({ children, showSidebar, setShowSidebar }: Props) => {
               width={180}
               height={43}
             />
+                </Link>
           </div>
           <div>
             <div className="flex gap-3 items-center">
-              <div>
+              <div className="relative">
+                {newNotifications && (
+                  <span className="rounded-full w-3 h-3 bg-[#B32646] absolute z-50 right-0" />
+                )}
                 <Image
                   src={"/svg/icons/notifications.svg"}
                   alt=""
@@ -98,25 +107,6 @@ const Header = ({ children, showSidebar, setShowSidebar }: Props) => {
                     showNotifications && "brightness-[#2E3A59]"
                   } `}
                 />
-                {/* {showNotifications ? (
-                  <Image
-                    src="/img/notification-open.png"
-                    alt=""
-                    width={30}
-                    height={30}
-                    onClick={toggleNotifications}
-                    className="cursor-pointer"
-                  />
-                ) : (
-                  <Image
-                    src="/img/notification.png"
-                    alt="Notification Mobil"
-                    className="cursor-pointer"
-                    onClick={toggleNotifications}
-                    width={27}
-                    height={27}
-                  />
-                )} */}
               </div>
               <Image
                 src="/img/logo-user.png"

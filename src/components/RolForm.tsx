@@ -13,6 +13,7 @@ import { useLoading } from "./providers/LoadingProvider";
 import ButtonSwicth2 from "@/components/ButtonSwich2";
 import { showPasswordError } from "./alerts";
 import { GetRolesResponse } from "@/types";
+import { useAuth } from "@/context/AuthContext";
 
 type props = {
   entity: string;
@@ -25,10 +26,7 @@ export default function RolForm({ entity, id, activity, rolesList }: props) {
   const router = useRouter();
   const { setLoading } = useLoading();
   const [showModal, setShowModal] = useState(false);
-
-  const goBack = () => {
-    router.push("/home/rolesmanagement/roles");
-  };
+  const { isAdmin } = useAuth();
 
   const {
     register,
@@ -52,6 +50,14 @@ export default function RolForm({ entity, id, activity, rolesList }: props) {
       },
     },
   });
+
+  const goBack = () => {
+    router.push("/home/rolesmanagement/roles");
+  };
+
+  if (!isAdmin) {
+    router.push("/home");
+  }
 
   const watchIsActive = watch("isActive");
   useEffect(() => {

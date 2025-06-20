@@ -39,10 +39,10 @@ export default function TableUsers({ entity, data }: prop) {
     router.push("/home/usermanagement/users/new");
   };
   return (
-    <div className="pl-4 md:pl-0 pt-5 lg:pt-0 h-full flex flex-col">
+    <div className=" h-full flex flex-col">
       {/* Esto es mobile */}
-      <div className="flex mb-4 md:hidden items-center gap-15 pb-2">
-        <p className="font-bold text-[24px] leading-[140%] tracking-[0%] text-[#2E3A59] w-[120px]">
+      <div className="flex mb-4 md:hidden items-center md:gap-15 justify-between">
+        <p className="font-bold text-[24px] leading-[140%] tracking-[0%] text-[#2E3A59] ">
           User Table
         </p>
         {isAdmin && (
@@ -57,7 +57,7 @@ export default function TableUsers({ entity, data }: prop) {
           </ButtonAddUser>
         )}
       </div>
-      <div className="px-[25px] w-full rounded-[15px] bg-white shadow-[0_4px_8.8px_0_#00000021] flex flex-col max-h-full">
+      <div className="px-[25px] w-full rounded-[15px] bg-white shadow-[0_4px_8.8px_0_#00000021] flex flex-col flex-1 max-h-full">
         <div className="hidden md:flex justify-between mt-[20px] min-w-[600px]">
           <p className="font-bold text-[24px] leading-[140%] tracking-[0%] text-[#2E3A59]">
             User table
@@ -74,16 +74,16 @@ export default function TableUsers({ entity, data }: prop) {
             </ButtonAddUser>
           )}
         </div>
-        <div className="overflow-y-auto mt-[20.5px]  mb-4 flex-1">
+        <div className="overflow-y-auto flex-1">
           <table className="w-full relative  ">
             <thead className="text-left font-bold text-[10px] leading-[150%] text-[#2E3A59] mb-[10px]">
               <tr>
-                <th className="pb-[10px]">AUTHOR</th>
-                <th className="pb-[10px]">FUNCTION</th>
-                <th className="pb-[10px]">CREATION DATE</th>
-                <th className="pb-[10px]">MODIFICATION DATE</th>
-                <th className="pb-[10px]">ACTIVE USER?</th>
-                <th className="pb-[10px]"></th>
+                <th className="p-2">AUTHOR</th>
+                <th className="p-2">FUNCTION</th>
+                <th className="p-2">CREATION DATE</th>
+                <th className="p-2">MODIFICATION DATE</th>
+                <th className="p-2">ACTIVE USER?</th>
+                {isAdmin && <th className="p-2"></th>}
               </tr>
             </thead>
             <tbody>
@@ -105,7 +105,7 @@ export default function TableUsers({ entity, data }: prop) {
                       <td className="pt-[10px] pb-[10px] min-w-[240px]">
                         <div className="flex gap-[10px] ">
                           <Image
-                            src={"/image.png"}
+                            src={"/imageUser.png"}
                             alt={`Image user`}
                             width={40}
                             height={40}
@@ -135,14 +135,16 @@ export default function TableUsers({ entity, data }: prop) {
                           onChange={() => {}}
                         />
                       </td>
-                      <td className="text-end text-[#2E3A59] font-bold text-[14px] leading-[150%] pt-[10px] pb-[10px] w-[200px]">
-                        <button
-                          onClick={() => handleEdit(user.idUser)}
-                          className="hover:underline cursor-pointer mr-2 text-[#2E3A59]"
-                        >
-                          Edit
-                        </button>
-                      </td>
+                      {isAdmin && (
+                        <td className="text-end text-[#2E3A59] font-bold text-[14px] leading-[150%] pt-[10px] pb-[10px] w-[200px]">
+                          <button
+                            onClick={() => handleEdit(user.idUser)}
+                            className="hover:underline cursor-pointer mr-2 text-[#2E3A59]"
+                          >
+                            Edit
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   ))}
             </tbody>

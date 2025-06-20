@@ -7,6 +7,7 @@ import { FiX, FiPaperclip, FiSend } from "react-icons/fi";
 import Modal from "react-modal";
 import Select, { MultiValue } from "react-select";
 import { showPasswordError, showSuccess } from "./alerts";
+import { useAuth } from "@/context/AuthContext";
 
 interface emailProdalProps {
   showModal: boolean;
@@ -37,6 +38,9 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const {user } = useAuth()
+  console.log(user)
   // const [recipients, setRecipients] = useState([
   //   { name: "John Doe", email: "johndoe@email.com" },
   //   { name: "John Doe", email: "johndoe@email.com" },
@@ -149,7 +153,7 @@ const EmailModal = ({ showModal, onClose }: emailProdalProps) => {
           <div className="mb-4">
             <label className="block text-sm text-gray-600 mb-1">From</label>
             <div className="text-sm text-gray-800">
-              John Doe &lt;supercoolman@gmail.com&gt;
+             {`${user?.name} ${user?.last_name}`} &lt;{user?.email} &gt;
             </div>
           </div>
 

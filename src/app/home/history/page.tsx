@@ -3,7 +3,6 @@ import TableHistory from "@/components/TableHistory";
 
 export default async function history() {
   const [history, users] = await Promise.all([getHistory(), getUsers()]);
-
   if (!history || history.data.length === 0) {
     return (
       <div className="text-center text-gray-500">No history available.</div>
@@ -18,5 +17,5 @@ export default async function history() {
     );
   }
 
-  return <TableHistory history={history.data} users={users} />;
+  return <TableHistory history={history.data || []} users={users} />;
 }

@@ -146,6 +146,8 @@ export default function PDFToExcelPage() {
       setIdPDF(idPDF);
     } catch (error) {
       setLoading(false);
+      showPasswordError("Ocurred an error while uploading the files. Please try again.");
+      handleConvertAnotherFile()
       // setFieldsReady(
       //   "Ocurred an error while uploading the files. Please try again."
       // );
@@ -241,7 +243,7 @@ export default function PDFToExcelPage() {
   // }, [steps]);
 
   return (
-    <main className=" pb-10  md:p-10 flex flex-col ">
+    <main className=" md:p-10 flex flex-col ">
       <Step
         title="1. Upload your PDF."
         description="Please upload files in PDF, ZIP or RAR format only, as other formats

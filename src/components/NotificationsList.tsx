@@ -185,7 +185,7 @@ export default function NotificationsList({setNewNotifications}:Props) {
               alt="view notification"
               width={20}
               height={20}
-              className="relative cursor-pointer"
+              className="relative"
             />
             <p className="font-medium text-[12px] leading-[100%] text-[#7F7F7F]">
               {noti.relativeTime}

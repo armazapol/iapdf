@@ -39,7 +39,7 @@ const LogoutModal = ({ showModal, onClose }: ModalProps) => {
       contentLabel="Send Email"
       style={customStyles}
     >
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 ">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4 md:p-0">
         <div className="bg-white rounded-xl w-full max-w-2xl p-6 relative shadow-xl">
           <div className="flex items-center justify-center flex-col my-8">
             {/* Close button */}

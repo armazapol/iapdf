@@ -94,6 +94,10 @@ export default function UserForm({
     router.push("/home/usermanagement/users");
   };
 
+  if (!isAdmin) {
+    router.push("/home");
+  }
+
   return (
     <div className="w-full h-100 ">
       <div className="w-full  lg:bg-[#FFFFFF] rounded-[15px] lg:shadow-[0px_3.5px_8.8px_0px_rgba(0,0,0,0.13)] ">

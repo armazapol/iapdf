@@ -47,9 +47,9 @@ export default function TableRoles({ entity, roles }: Props) {
   // };
 
   return (
-    <div className="pt-5 lg:p-0 px-3 lg:pl-0 h-full flex flex-col">
-      <div className="flex  gap-[75px] mb-[20px] md:hidden">
-        <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
+    <div className="h-full flex flex-col">
+      <div className="flex  gap-[75px] mb-[20px] md:hidden justify-between">
+         <p className="font-bold text-[24px] leading-[140%] tracking-[0%] text-[#2E3A59]">
           Roles Table
         </p>
         {isAdmin && (
@@ -66,7 +66,7 @@ export default function TableRoles({ entity, roles }: Props) {
       </div>
       <div className="flex flex-col bg-white rounded-[15px] shadow-[0_4px_8.8px_0_#00000021] p-6 mb-[10px] w-full flex-1 max-h-full">
         <div className="hidden md:flex justify-between items-center gap-4 mb-4">
-          <p className="text-[#2E3A59] font-bold text-xl leading-[140%]">
+           <p className="font-bold text-[24px] leading-[140%] tracking-[0%] text-[#2E3A59]">
             Roles Table
           </p>
           {isAdmin && (
@@ -88,11 +88,11 @@ export default function TableRoles({ entity, roles }: Props) {
             <table className="w-full text-left h-full">
               <thead className="font-bold text-[10px] leading-[150%] text-[#2E3A59]">
                 <tr>
-                  <th className="pb-2">ROLE</th>
-                  <th className="pb-2">CREATION DATE</th>
-                  <th className="pb-2">MODIFICATION DATE</th>
-                  <th className="pb-2">ACTIVE ROLE?</th>
-                  <th className="pb-2"></th>
+                  <th className="p-2">ROLE</th>
+                  <th className="p-2">CREATION DATE</th>
+                  <th className="p-2">MODIFICATION DATE</th>
+                  <th className="p-2">ACTIVE ROLE?</th>
+                  {isAdmin && <th className="p-2"></th>}
                 </tr>
               </thead>
               <tbody>
@@ -101,25 +101,27 @@ export default function TableRoles({ entity, roles }: Props) {
                     key={item.id}
                     className="font-bold text-[14px] text-[#2D3748] border-t border-[#E2E8F0] "
                   >
-                    <td className="py-4">{item.rol}</td>
-                    <td className=" font-medium">
+                    <td className="p-2">{item.rol}</td>
+                    <td className=" font-medium p-2">
                       {parseFormat(item.creationDate)}
                     </td>
-                    <td className=" font-medium"></td>
-                    <td className=" pl-2">
+                    <td className=" font-medium p-2"></td>
+                    <td className=" p-2">
                       <ButtonSwitch
                         checked={item.isActive}
                         onChange={() => {}}
                       />
                     </td>
-                    <td className=" text-right min-w-[60px] lg:w-[300px]">
-                      <button
-                        onClick={() => handleEditRol(item.id)}
-                        className="hover:underline cursor-pointer mr-2 text-[#2E3A59]"
-                      >
-                        Edit
-                      </button>
-                    </td>
+                    {isAdmin && (
+                      <td className=" text-right min-w-[60px] lg:w-[300px] p-2">
+                        <button
+                          onClick={() => handleEditRol(item.id)}
+                          className="hover:underline cursor-pointer mr-2 text-[#2E3A59]"
+                        >
+                          Edit
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
