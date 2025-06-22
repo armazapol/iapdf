@@ -47,6 +47,7 @@ export const getUser = cache(async () => {
       Authorization: `Bearer ${access_token}`,
     },
   });
+  console.log(response)
   const result = await response.json();
   return result;
 });
